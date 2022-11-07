@@ -9,12 +9,11 @@ class InscriptionAction extends Action
 {
     public function execute() : string
     {
-
         if ($this->http_method === 'GET') {
             return <<<END
                     <form method="post" action="?action=add-user">
                         <label>
-                            Email : <input type="email" name="email" placeholder="<email>">
+                            User : <input type="User" name="User" placeholder="<User>">
                         </label>
                         <label>
                             Mots de passe :<input type="password" name="pass" placeholder="<mot de passe>">
@@ -25,7 +24,7 @@ class InscriptionAction extends Action
         } else { // POST
             print "test";
             try {
-                Auth::register($_POST['email'], $_POST['pass']);
+                Auth::register($_POST['User'], $_POST['pass']);
                 Redirection::redirection('AccueilUtilisateur');
             } catch (\iutnc\NetVOD\AuthException\AuthException $e) {
                 $html = "<h4>erreur lors de la création du compte : {$e->getMessage()}";

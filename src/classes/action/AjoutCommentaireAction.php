@@ -8,7 +8,7 @@ class AjoutCommentaireAction extends Action
     public function execute(): string
     {
         $html = '';
-        if(/* A deja mis un commentaire */) {
+ //       if(/* n'a pas deja mis un commentaire */) {
             if ($this->http_method === 'GET') {
                 $html .= <<<END
             <form method="post" action="?action=signin">
@@ -26,9 +26,9 @@ class AjoutCommentaireAction extends Action
                 $insert = $db->exec("INSERT INTO serieComNote");//ajouter un bd pour les com
                 $html = "commentaire ajoutée";
             }
-        }else{
-            $html = "vous aveé deja mis un commentaire";
-        }
+//        }else{
+//            $html = "vous aveé deja mis un commentaire";
+//        }
         return $html;
     }
 }

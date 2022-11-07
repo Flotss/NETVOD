@@ -1,6 +1,7 @@
 <?php
 
 namespace iutnc\NetVOD\dispatch;
+use iutnc\deefy\action;
 
 
 class Dispatcher
@@ -15,8 +16,18 @@ class Dispatcher
 
     public function run(): void
     {
+        $html = '';
         switch ($this->action) {
-
+            case 'inscription':
+                $act = new action\InscriptionAction();
+                $html+= $act->execute();
+                break; //tous les cas d'inscription sont géré dans InscritpionAction
+            case 'connection':
+                $act = new action\ConnectionAction();
+                $html+= $act->execute();
+            break;
+            default:
+                break;
         }
 
         $this->renderPage($html);
@@ -38,4 +49,5 @@ class Dispatcher
             </html>
         END;
     }
+
 }

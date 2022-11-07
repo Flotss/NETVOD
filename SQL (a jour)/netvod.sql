@@ -59,7 +59,7 @@ INSERT INTO serie (id, titre, descriptif, img, annee, date_ajout) VALUES
 (6,	'Une ville la nuit',	'C\'est beau une ville la nuit, avec toutes ces voitures qui passent et qui repassent. La série suit un livreur, un chauffeur de taxi, et un insomniaque. Tous parcourent la grande ville une fois la nuit venue, au volant de leur véhicule.',	'',	2017,	'2022-10-31');
 
 
--- PROJET --
+-- PROJET
 
 
 -- TABLE USER
@@ -74,14 +74,14 @@ CREATE TABLE user (
 
 -- TABLE DES COMMENTAIRES ET DES NOTES
 DROP TABLE IF EXISTS serieComNote;
-CREATE TABLE serieCom (
+CREATE TABLE serieComNote (
   id_user int(11) NOT NULL,
   id_serie int(11) NOT NULL,
-  commentaire varchar2(1000),
+  commentaire varchar(1000),
   note int check ( note < 6 && note >= 0 ),
   PRIMARY KEY (id_user, id_serie),
-    FOREIGN KEY (id_user) REFERENCES user(id),
-    FOREIGN KEY (id_serie) REFERENCES serie(id)
+  CONSTRAINT FOREIGN KEY (id_user) REFERENCES user(id),
+  CONSTRAINT FOREIGN KEY (id_serie) REFERENCES serie(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -91,8 +91,8 @@ CREATE TABLE userPref (
     id_user int(11) NOT NULL,
     id_serie int(11) NOT NULL,
     PRIMARY KEY (id_user, id_serie),
-    FOREIGN KEY (id_user) REFERENCES user(id),
-    FOREIGN KEY (id_serie) REFERENCES serie(id)
+    CONSTRAINT FOREIGN KEY (id_user) REFERENCES user(id),
+    CONSTRAINT FOREIGN KEY (id_serie) REFERENCES serie(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -103,6 +103,6 @@ CREATE TABLE etatSerie (
     id_serie int(11) NOT NULL,
     etat varchar(128) CHECK ( etat like 'en cours' or  etat like 'visionnee') NOT NULL,
     PRIMARY KEY (id_user, id_serie),
-    FOREIGN KEY (id_user) REFERENCES user(id),
-    FOREIGN KEY (id_serie) REFERENCES serie(id)
+    CONSTRAINT FOREIGN KEY (id_user) REFERENCES user(id),
+    CONSTRAINT FOREIGN KEY (id_serie) REFERENCES serie(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

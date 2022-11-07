@@ -3,6 +3,7 @@
 namespace iutnc\NetVOD\action;
 
 use iutnc\NetVOD\auth\Auth;
+use iutnc\NetVOD\Redirect\Redirection;
 
 class InscriptionAction extends Action
 {
@@ -21,10 +22,10 @@ class InscriptionAction extends Action
                         <button type="submit">s'enregistrer</button>
                     </form>
                 END;
-        } else {
+        } else { // POST
             try {
                 Auth::register($_POST['email'], $_POST['pass']);
-                $html = "<h4>compte créé avec succés - vous pouvez vous connecter</h4>>";
+                Redirection::redirection('AccueilUtilisateur');
             } catch (\iutnc\NetVOD\AuthException\AuthException $e) {
                 $html = "<h4>erreur lors de la création du compte : {$e->getMessage()}";
             }

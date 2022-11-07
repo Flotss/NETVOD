@@ -20,23 +20,23 @@ class DispatcherPageSerie
         switch ($this->action) {
             case 'affichage-commentaire':
                 $act = new action\AffichageCommentaireAction();
-                $html+= $act->execute();
+                $html .= $act->execute();
                 break;
             case 'ajout-preference':
                 $act = new action\AjoutPreferenceAction();
-                $html+= $act->execute();
+                $html .= $act->execute();
                 break;
             case 'affichage-episode':
                 $act = new action\AffichageEpisodeAction();
-                $html+= $act->execute();
+                $html .= $act->execute();
                 break;
             case 'deconnexion':
                 $act = new action\DeconnexionAction();
-                $html+= $act->execute();
+                $html.= $act->execute();
             break;
             case 'accueil-utilisateur':
                 $act = new action\AccueilUtilisateurAction();
-                $html+= $act->execute();
+                $html .= $act->execute();
                 break;
             default:
                 break;

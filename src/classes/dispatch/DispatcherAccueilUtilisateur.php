@@ -20,11 +20,11 @@ class DispatcherAccueilUtilisateur
         switch ($this->action) {
             case 'affichage-serie':
                 $act = new action\AffichageSerieAction();
-                $html+= $act->execute();
+                $html .= $act->execute();
                 break;
             case 'deconnexion':
                 $act = new action\DeconnexionAction();
-                $html+= $act->execute();
+                $html .= $act->execute();
             break;
             default:
                 break;

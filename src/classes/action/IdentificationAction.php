@@ -3,6 +3,8 @@
 namespace iutnc\NetVOD\action;
 
 use iutnc\NetVOD\auth\Auth;
+use iutnc\NetVOD\Redirect\Redirection;
+
 
 class IdentificationAction extends Action
 {
@@ -16,11 +18,11 @@ class IdentificationAction extends Action
                     <button type="submit">Connexion</button>
                 </form>
             END;
-        }else{
+        }else{ // POST
             try{
                 Auth::authenticate($_POST['email'], $_POST['pass']);
 
-                $html .= "<h2>: authentification réussie </h2>";
+                Redirection::redirection('AccueilUtilisateur');
             }catch(\iutnc\NetVOD\AuthException\AuthException $e){
                 $html .= "<h4> échec authentification : {$e->getMessage()}</h4>";
             }

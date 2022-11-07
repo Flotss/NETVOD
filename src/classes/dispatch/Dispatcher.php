@@ -20,11 +20,11 @@ class Dispatcher
         switch ($this->action) {
             case 'inscription':
                 $act = new action\InscriptionAction();
-                $html+= $act->execute();
+                $html .= $act->execute();
                 break; //tous les cas d'inscription sont géré dans InscritpionAction
             case 'connexion':
                 $act = new action\ConnexionAction();
-                $html+= $act->execute();
+                $html .= $act->execute();
             break;
             default:
                 break;

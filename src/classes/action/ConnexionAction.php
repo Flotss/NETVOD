@@ -13,14 +13,17 @@ class ConnexionAction extends Action
         $html = '';
         if ($this->http_method === 'GET') {
             $html .= <<<END
+                <div class="enteteAccueil">
+                    <label>Se connecter</label>
+                </div>
                 <form method="post" action="?action=connexion">
                         <label> Email :  <input type="email" name="email" placeholder="<email>"> </label>
                         <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
                         
                         <button type="submit"> Connexion </button>
                 </form>
-                <div class="inscription">
-                <label>Pas de compte ?</label>
+                <div class="AutreChoixAccueil">
+                    <label>Pas de compte ?</label>
                     <a href="?action=inscription">Créer Un Compte</a>
                 </div>
             END;

@@ -20,6 +20,9 @@ class InscriptionAction extends Action
                         </label>
                         <button type="submit">s'enregistrer</button>
                     </form>
+                    <div class="connexion">
+                        <a href="?action=connexion">connexion</a>
+                    </div>
                 END;
         } else { // POST
             print "test";

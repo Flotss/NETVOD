@@ -4,7 +4,7 @@ namespace iutnc\NetVOD\dispatch;
 use iutnc\deefy\action;
 
 
-class DispatcherAccueilUtilisateur
+class DispatcherPageSerie
 {
     protected ?string $action = null;
 
@@ -18,14 +18,26 @@ class DispatcherAccueilUtilisateur
     {
         $html = '';
         switch ($this->action) {
-            case 'affichage-serie':
-                $act = new action\AffichageSerieAction();
+            case 'affichage-commentaire':
+                $act = new action\AffichageCommentaireAction();
+                $html+= $act->execute();
+                break;
+            case 'ajout-preference':
+                $act = new action\AjoutPreferenceAction();
+                $html+= $act->execute();
+                break;
+            case 'affichage-episode':
+                $act = new action\AffichageEpisodeAction();
                 $html+= $act->execute();
                 break;
             case 'deconnexion':
                 $act = new action\DeconnexionAction();
                 $html+= $act->execute();
             break;
+            case 'accueil-utilisateur':
+                $act = new action\AccueilUtilisateurAction();
+                $html+= $act->execute();
+                break;
             default:
                 break;
         }

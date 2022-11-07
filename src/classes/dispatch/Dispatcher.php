@@ -22,8 +22,8 @@ class Dispatcher
                 $act = new action\InscriptionAction();
                 $html+= $act->execute();
                 break; //tous les cas d'inscription sont géré dans InscritpionAction
-            case 'connection':
-                $act = new action\ConnectionAction();
+            case 'connexion':
+                $act = new action\ConnexionAction();
                 $html+= $act->execute();
             break;
             default:

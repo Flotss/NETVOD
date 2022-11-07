@@ -14,7 +14,7 @@ class InscriptionAction extends Action
                     <div class="enteteAccueil">
                         <label>Créer un compte</label>
                     </div>
-                    <form method="post" action="?action=add-user">
+                    <form method="post" action="?action=inscription">
                         <label>
                             Email : <input type="email" name="email" placeholder="<email>">
                         </label>
@@ -29,7 +29,6 @@ class InscriptionAction extends Action
                     </div>
                 END;
         } else { // POST
-            print "test";
             try {
                 Auth::register($_POST['email'], $_POST['pass']);
                 Redirection::redirection('AccueilUtilisateur');

@@ -7,17 +7,18 @@ class headerAction extends Action
 
     public function execute(): string
     {
+        $deconnection = '';
+        if (isset($_SESSION['id'])) {
+            $deconnection = '<a href="index.php?action=connexion" class="deconnection">Connexion</a>';
+        }
+
         $html = <<<END
         <header>
             <div class="logo">
                 <a href="?action=accueil" style="text-decoration: none;
                                     font-size: 5em">NetVOD</a>
             </div>
-            <div class="Deconnection">
-                <ul>
-                    <li><a href="?action=deconnexion">Accueil</a></li>
-                </ul>
-            </div>
+            $deconnection
         </header>
         END;
         return $html;

@@ -8,7 +8,7 @@ class AjoutNoteAction extends Action
     public function execute(): string
     {
         $html = '';
-        if(/* utilisateur n'a pas deja mis de note */) {
+//        if(/* utilisateur n'a pas deja mis de note */) {
             if ($this->http_method === 'GET') {
                 $html .= <<<END
                 <form method="post" action="?action=signin">
@@ -26,9 +26,9 @@ class AjoutNoteAction extends Action
                 $insert = $db->exec("INSERT INTO serieComNote ");//ajouter un bd pour les note
                 $html = "commentaire ajoutée";
             }
-        }else{
-            $html = "vous avez deja noté cette episode";
-        }
+//        }else{
+//            $html = "vous avez deja noté cette episode";
+//        }
         return $html;
     }
 }

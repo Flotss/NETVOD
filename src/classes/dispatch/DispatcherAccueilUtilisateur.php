@@ -23,7 +23,7 @@ class DispatcherAccueilUtilisateur
                 $html+= $act->execute();
                 break; //tous les cas d'inscription sont géré dans InscritpionAction
             case 'deconnection':
-                $act = new action\DeonnectionAction();
+                $act = new action\DeconnectionAction();
                 $html+= $act->execute();
             break;
             default:

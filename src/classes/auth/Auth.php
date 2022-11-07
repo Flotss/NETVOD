@@ -66,7 +66,7 @@ class Auth
             $query = "select id from user where email = ?";
             $stmt = $db->prepare($query);
             $stmt->execute([$email]);
-            $res = $stmt->fetch(PDO::FETCH_ASSOC)['id'];
+            $res = $stmt->fetch(PDO::FETCH_ASSOC);
 
             // La connection est établie et l'id de l'utilisateur est stocké
             $_SESSION['id'] = $res['id'];

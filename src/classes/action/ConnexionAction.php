@@ -6,7 +6,7 @@ use iutnc\NetVOD\auth\Auth;
 use iutnc\NetVOD\Redirect\Redirection;
 
 
-class IdentificationAction extends Action
+class ConnexionAction extends Action
 {
     public function execute(): string{
         $html = '';

@@ -17,17 +17,14 @@ class Dispatcher
     public function run(): void
     {
         $html = '';
-        print $this->action;
         switch ($this->action) {
             case 'inscription':
                 $act = new action\InscriptionAction();
                 $html .= $act->execute();
                 break; //tous les cas d'inscription sont géré dans InscritpionAction
-            case 'connexion':
+            default:
                 $act = new action\ConnexionAction();
                 $html .= $act->execute();
-            break;
-            default:
                 break;
         }
 
@@ -45,16 +42,6 @@ class Dispatcher
                     <title>NetVOD</title>
                 </head>
                 <body>
-                    <form method="post" action="?action=connexion">
-                        <label> User :  <input type="User" name="user" placeholder="user"> </label>
-                        <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
-                        
-                        <button type="submit"> Valider </button>
-                        
-                    </form>
-                    <form method="post" action="?action=inscription">
-                        <button type="submit"> Inscription </button> 
-                    </form>
                     $html
                 </body>
             </html>

@@ -19,7 +19,8 @@ class ConnexionAction extends Action
                         <button type="submit"> Connexion </button>
                 </form>
                 <div class="inscription">
-                    <a href="?action=inscription">inscription</a>
+                <label>Pas de compte ?</label>
+                    <a href="?action=inscription">Créer Un Compte</a>
                 </div>
             END;
         }else{ // POST

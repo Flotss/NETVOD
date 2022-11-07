@@ -13,7 +13,7 @@ class AjoutCommentaireAction extends Action
         } catch (DBExeption $e) {
             throw new AuthException($e->getMessage());
         }
-        $q1 = $db->query("SELECT commentaire from serieComNote where id_user = " . id_user . "AND id_serie = " . id_serie);
+        $q1 = $db->query("SELECT commentaire from serieComNote where id_user = " . $_SESSION['id'] . "AND id_serie = " . id_serie);
         $d1=$q1->fetch();
         if(d1 != null) {
             if ($this->http_method === 'GET') {
@@ -25,11 +25,11 @@ class AjoutCommentaireAction extends Action
         END;
             } else { // POST
                 $com = filter_var($_POST['commentaire'], FILTER_SANITIZE_STRING);
-                $q2 = $db->query("SELECT * from serieComNote where id_user = " . id_user . "AND id_serie = " . id_serie);
+                $q2 = $db->query("SELECT * from serieComNote where id_user = " . $_SESSION['id'] . "AND id_serie = " . id_serie);
                 if($q2['id_user'] == null){
-                    $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,commentaire) VALUES(" . id_user . "," . id_serie . "," . $com );
+                    $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,commentaire) VALUES(" . $_SESSION['id'] . "," . id_serie . "," . $com );
                 }else{
-                    $insert = $db->exec("INSERT INTO serieComNote(commentaire) where id_user =" . id_user . "AND id_serie = " . id_serie . " VALUE(" . $com . ")");
+                    $insert = $db->exec("INSERT INTO serieComNote(commentaire) where id_user =" . $_SESSION['id'] . "AND id_serie = " . id_serie . " VALUE(" . $com . ")");
                 }
                 $html = "commentaire ajoutée";
             }

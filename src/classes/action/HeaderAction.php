@@ -7,9 +7,9 @@ class headerAction extends Action
 
     public function execute(): string
     {
-        $deconnection = '';
+        $deconnexion = '';
         if (isset($_SESSION['id'])) {
-            $deconnection = '<a href="index.php?action=connexion" class="deconnection">Connexion</a>';
+            $deconnexion = '<a href="?action=deconnexion" class="deconnexion">Déconnexion</a>';
         }
 
         $html = <<<END
@@ -18,7 +18,7 @@ class headerAction extends Action
                 <a href="?action=accueil" style="text-decoration: none;
                                     font-size: 5em">NetVOD</a>
             </div>
-            $deconnection
+            $deconnexion
         </header>
         END;
         return $html;

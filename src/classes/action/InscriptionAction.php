@@ -31,7 +31,7 @@ class InscriptionAction extends Action
         } else { // POST
             try {
                 Auth::register($_POST['email'], $_POST['pass']);
-                Redirection::redirection('AccueilUtilisateur');
+                Redirection::redirection('AccueilUtilisateur', $this);
             } catch (\iutnc\NetVOD\AuthException\AuthException $e) {
                 $html = "<h4>erreur lors de la création du compte : {$e->getMessage()}";
             }

@@ -3,6 +3,7 @@
 namespace iutnc\NetVOD\action;
 
 use iutnc\NetVOD\auth\Auth;
+use iutnc\NetVOD\AuthException\AuthException;
 use iutnc\NetVOD\Redirect\Redirection;
 
 
@@ -18,7 +19,7 @@ class ConnexionAction extends Action
                 </div>
                 <form method="post" action="?action=connexion">
                         <label> Email :  <input type="email" name="email" placeholder="<email>"> </label>
-                        <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
+                        <label> Mot de passe :  <input type="password" name="password" placeholder = "<mot de passe>"> </label>
                         
                         <button type="submit"> Connexion </button>
                 </form>
@@ -29,14 +30,42 @@ class ConnexionAction extends Action
             END;
         } else { // POST
             try {
-                Auth::authenticate($_POST['email'], $_POST['passwd']);
+                if (!(isset($_POST['email']) && isset($_POST['password']))) {
+                    throw new AuthException("Erreur : email ou mot de passe non renseigné");
+                }
 
-                Redirection::redirection('AccueilUtilisateur');
+                $res =  Auth::authenticate($_POST['email'], $_POST['password']);
+                echo $res;
+                if ($res) {
+                    Redirection::redirection('AccueilUtilisateur', $this);
+                } else {
+                    throw new AuthException("Erreur : email ou mot de passe incorrect");
+                }
+
             } catch (\iutnc\NetVOD\AuthException\AuthException $e) {
+                $html .= $this->getForm();
                 $html .= "<h4> échec authentification : {$e->getMessage()}</h4>";
             }
-//        }
         }
         return $html;
+    }
+
+    private function getForm(): string
+    {
+        return <<<END
+            <div class="enteteAccueil">
+                <label>Se connecter</label>
+            </div>
+            <form method="post" action="?action=connexion">
+                    <label> Email :  <input type="email" name="email" placeholder="<email>"> </label>
+                    <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
+                    
+                    <button type="submit"> Connexion </button>
+            </form>
+            <div class="AutreChoixAccueil">
+                <label>Pas de compte ?</label>
+                <a href="?action=inscription">Créer Un Compte</a>
+            </div>
+        END;
     }
 }

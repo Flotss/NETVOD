@@ -22,6 +22,10 @@ class Dispatcher
                 $act = new action\InscriptionAction();
                 $html .= $act->execute();
                 break; //tous les cas d'inscription sont géré dans InscritpionAction
+            case 'deconnexion':
+                $act = new action\DeconnexionAction();
+                $html .= $act->execute();
+                break;
             default:
                 $act = new action\ConnexionAction();
                 $html .= $act->execute();

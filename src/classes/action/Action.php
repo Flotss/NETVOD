@@ -17,4 +17,19 @@ abstract class Action
     }
 
     abstract public function execute(): string;
+
+    public function getHttpMethod(): ?string
+    {
+        return $this->http_method;
+    }
+
+    public function getHostname(): ?string
+    {
+        return $this->hostname;
+    }
+
+    public function getScriptName(): ?string
+    {
+        return $this->script_name;
+    }
 }

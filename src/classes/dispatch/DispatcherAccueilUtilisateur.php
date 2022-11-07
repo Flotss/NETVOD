@@ -23,7 +23,7 @@ class DispatcherAccueilUtilisateur
                 $act = new action\AffichageSerieAction();
                 $html .= $act->execute();
                 break;
-            case 'Accueil':
+            case 'accueil':
                 $act = new action\AccueilUtilisateurAction();
                 $html .= $act->execute();
                 break;

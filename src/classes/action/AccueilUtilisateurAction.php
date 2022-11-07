@@ -4,12 +4,12 @@ namespace iutnc\NetVOD\action;
 
 use iutnc\NetVOD\Redirect\Redirection;
 
-class accueilAction extends Action
+class AccueilUtilisateurAction extends Action
 {
 
     public function execute(): string
     {
-        Redirection::redirection('AccueilUtilisateur.php');
+        Redirection::redirection('AccueilUtilisateur', $this);
         return '';
     }
 }

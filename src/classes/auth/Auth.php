@@ -22,15 +22,16 @@ class Auth
 
         try {
             // execute renvoie un booleen si aucune donnee execute, pareil pour fetch
+
             if (!$res) throw new AuthException("auth error : db query failed");
 
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if (!$user) throw new AuthException("auth failed : invalid credentials");
-            if (!password_verify($mdpUser, $user['passwd'])) throw new AuthException("auth failed : invalid credentials");
+            if (!password_verify($mdpUser, $user['password'])) throw new AuthException("auth failed : invalid credentials");
             $_SESSION['id'] = $user['id'];
         } catch (AuthException $e) {
-            echo $e->getMessage();
+            return false;
         }
         return true;
     }
@@ -57,7 +58,7 @@ class Auth
         if ($stmt->fetch()) throw new AuthException("compte deja existant");
 
         try {
-            $query = "insert into user (email, passwd) values (?, ?)";
+            $query = "insert into user (email, password) values (?, ?)";
             $stmt = $db->prepare($query);
             $stmt->execute([$email, $hash]);
 

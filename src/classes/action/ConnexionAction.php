@@ -14,7 +14,7 @@ class ConnexionAction extends Action
         if ($this->http_method === 'GET') {
             $html .= <<<END
                 <form method="post" action="?action=connexion">
-                        <label> User :  <input type="User" name="user" placeholder="user"> </label>
+                        <label> User :  <input type="User" name="user" placeholder="<User>"> </label>
                         <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
                         
                         <button type="submit"> Connexion </button>

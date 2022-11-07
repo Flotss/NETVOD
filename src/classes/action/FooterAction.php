@@ -2,7 +2,7 @@
 
 namespace iutnc\NetVOD\action;
 
-class headerAction extends Action
+class FooterAction extends Action
 {
 
     public function execute(): string
@@ -15,7 +15,7 @@ class headerAction extends Action
                     <li><a href="https://github.com/Flotss">Florian MANGIN</a></li>
                     <li><a href="https://github.com/julienBernard3">Julien Bernard</a></li>
                     <li><a href="https://github.com/DIDIer5454">Didier AKO OBONO</a></li>
-                    <li><a href="https://github.com/Romain0A">Romain ABURTIN</a></li>
+                    <li><a href="https://github.com/Romain0A">Romain AUBURTIN</a></li>
                 </ul>
             </div>
             <div class="projet">

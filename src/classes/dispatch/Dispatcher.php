@@ -34,10 +34,10 @@ class Dispatcher
 
     private function renderPage($html)
     {
-        $act = new action\headerAction();
+        $act = new action\HeaderAction();
         $header = $act->execute();
 
-        $act = new action\footerAction();
+        $act = new action\FooterAction();
         $footer = $act->execute();
         echo <<<END
             <html lang="fr">

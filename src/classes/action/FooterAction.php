@@ -2,7 +2,7 @@
 
 namespace iutnc\NetVOD\action;
 
-class headerAction extends Action
+class FooterAction extends Action
 {
 
     public function execute(): string

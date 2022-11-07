@@ -34,6 +34,11 @@ class Dispatcher
 
     private function renderPage($html)
     {
+        $act = new action\headerAction();
+        $header = $act->execute();
+
+        $act = new action\footerAction();
+        $footer = $act->execute();
         echo <<<END
             <html lang="fr">
                 <head>
@@ -42,7 +47,9 @@ class Dispatcher
                     <title>NetVOD</title>
                 </head>
                 <body>
+                    $header
                     $html
+                    $footer
                 </body>
             </html>
         END;

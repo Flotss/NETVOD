@@ -23,6 +23,10 @@ class DispatcherAccueilUtilisateur
                 $act = new action\AffichageSerieAction();
                 $html .= $act->execute();
                 break;
+            case 'Accueil':
+                $act = new action\AccueilUtilisateurAction();
+                $html .= $act->execute();
+                break;
             case 'deconnexion':
                 $act = new action\DeconnexionAction();
                 $html .= $act->execute();
@@ -37,6 +41,11 @@ class DispatcherAccueilUtilisateur
 
     private function renderPage($html)
     {
+        $act = new action\headerAction();
+        $header = $act->execute();
+
+        $act = new action\footerAction();
+        $footer = $act->execute();
         echo <<<END
             <html lang="fr">
                 <head>
@@ -45,7 +54,9 @@ class DispatcherAccueilUtilisateur
                     <title>NetVOD</title>
                 </head>
                 <body>
-                    
+                    $header
+                    $html
+                    $footer
                 </body>
             </html>
         END;

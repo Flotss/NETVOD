@@ -19,20 +19,20 @@ class DispatcherEpisode
     {
         $html = '';
         switch ($this->action) {
+            case 'accueil':
+                $act = new action\AccueilUtilisateurAction();
+                $html .= $act->execute();
+                break;
+            case 'deconnexion':
+                $act = new action\DeconnexionAction();
+                $html .= $act->execute();
+                break;
             case 'ajout-commentaire':
                 $act = new action\AjoutCommentaireAction();
                 $html .= $act->execute();
                 break;
             case 'ajout-note':
                 $act = new action\AjoutNoteAction();
-                $html .= $act->execute();
-                break;
-            case 'deconnexion':
-                $act = new action\DeconnexionAction();
-                $html .= $act->execute();
-            break;
-            case 'accueil-utilisateur':
-                $act = new action\AccueilUtilisateurAction();
                 $html .= $act->execute();
                 break;
             default:
@@ -45,6 +45,11 @@ class DispatcherEpisode
 
     private function renderPage($html)
     {
+        $act = new action\HeaderAction();
+        $header = $act->execute();
+
+        $act = new action\FooterAction();
+        $footer = $act->execute();
         echo <<<END
             <html lang="fr">
                 <head>
@@ -53,7 +58,9 @@ class DispatcherEpisode
                     <title>NetVOD</title>
                 </head>
                 <body>
-                    
+                   $header
+                   $html
+                   $footer
                 </body>
             </html>
         END;

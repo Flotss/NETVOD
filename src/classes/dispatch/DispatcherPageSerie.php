@@ -17,6 +17,14 @@ class DispatcherPageSerie
     {
         $html = '';
         switch ($this->action) {
+            case 'accueil':
+                $act = new action\AccueilUtilisateurAction();
+                $html .= $act->execute();
+                break;
+            case 'deconnexion':
+                $act = new action\DeconnexionAction();
+                $html .= $act->execute();
+                break;
             case 'affichage-commentaire':
                 $act = new action\AffichageCommentaireAction();
                 $html .= $act->execute();
@@ -29,14 +37,6 @@ class DispatcherPageSerie
                 $act = new action\AffichageEpisodeAction();
                 $html .= $act->execute();
                 break;
-            case 'deconnexion':
-                $act = new action\DeconnexionAction();
-                $html.= $act->execute();
-            break;
-            case 'accueil-utilisateur':
-                $act = new action\AccueilUtilisateurAction();
-                $html .= $act->execute();
-                break;
             default:
                 break;
         }
@@ -47,6 +47,11 @@ class DispatcherPageSerie
 
     private function renderPage($html)
     {
+        $act = new action\headerAction();
+        $header = $act->execute();
+
+        $act = new action\footerAction();
+        $footer = $act->execute();
         echo <<<END
             <html lang="fr">
                 <head>
@@ -55,7 +60,9 @@ class DispatcherPageSerie
                     <title>NetVOD</title>
                 </head>
                 <body>
-                    
+                    $header
+                    $html
+                    $footer
                 </body>
             </html>
         END;

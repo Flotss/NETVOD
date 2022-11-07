@@ -27,7 +27,7 @@ class AjoutCommentaireAction extends Action
                 $html = "commentaire ajoutée";
             }
         }else{
-            $html = "vous aveé deja mis un commentaire"
+            $html = "vous aveé deja mis un commentaire";
         }
         return $html;
     }

@@ -8,7 +8,7 @@ class AjoutCommentaireAction extends Action
     public function execute(): string
     {
         $html = '';
-        if(false /* utilisateur n'a pas deja mis de commentaire */) {
+        if(false /* utilisateur n'a pas lis de commentaire */) {
             if ($this->http_method === 'GET') {
                 $html .= <<<END
                 <form method="post" action="?action=signin">

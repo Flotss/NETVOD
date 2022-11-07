@@ -17,8 +17,10 @@ class ConnexionAction extends Action
                         <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
                         
                         <button type="submit"> Connexion </button>
-                        <a href="?action=inscription">inscription</a>
                 </form>
+                <div class="inscription">
+                    <a href="?action=inscription">inscription</a>
+                </div>
             END;
         }else{ // POST
             try{

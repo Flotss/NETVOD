@@ -28,6 +28,7 @@ class Auth
 
             if (!$user) throw new AuthException("auth failed : invalid credentials");
             if (!password_verify($mdpUser, $user['passwd'])) throw new AuthException("auth failed : invalid credentials");
+            $_SESSION['id'] = $user['id'];
         } catch (AuthException $e) {
             echo $e->getMessage();
         }
@@ -36,7 +37,7 @@ class Auth
 
     public static function register(string $email, string $pass): bool
     {
-        if (!self::checkPasswordStrength($pass, 4))
+        if (!self::checkPasswordStrength($pass, 8))
             throw new AuthException("password trop faible");
         $hash = password_hash($pass, PASSWORD_DEFAULT, ['cost' => 12]);
         try {
@@ -44,6 +45,12 @@ class Auth
         } catch (DBException $e) {
             throw new AuthException($e->getMessage());
         }
+
+        $regex = "/^[-+.\w]{1,64}@[-.\w]{1,64}\.[-.\w]{2,6}$/i";
+        if (! preg_match($regex, $email)) {
+            throw new AuthException("email invalide");
+        }
+
         $query_email = "select * from user where email = ?";
         $stmt = $db->prepare($query_email);
         $res = $stmt->execute([$email]);
@@ -58,7 +65,10 @@ class Auth
             $query = "select id from user where email = ?";
             $stmt = $db->prepare($query);
             $stmt->execute([$email]);
-            $_SESSION['id'] = $stmt->fetch(PDO::FETCH_ASSOC)['id'];
+            $res = $stmt->fetch(PDO::FETCH_ASSOC)['id'];
+
+            // La connection est établie et l'id de l'utilisateur est stocké
+            $_SESSION['id'] = $res['id'];
         } catch (PDOException $e) {
             throw new AuthException("erreur de création de compte : " . $e->getMessage());
         }
@@ -68,12 +78,12 @@ class Auth
 
     public static function checkPasswordStrength(string $pass, int $minimumLength): bool
     {
-        $length = true; //(strlen($pass) < $minimumLength); // longueur minimale
-        $digit = true;//preg_match("#[\d]#", $pass); // au moins un digit
-        $special = true; //preg_match("#[\W]#", $pass); // au moins un car. spécial
-        $lower = true; //preg_match("#[a-z]#", $pass); // au moins une minuscule
-        $upper = true; //preg_match("#[A-Z]#", $pass); // au moins une majuscule
-        if (!$length || !$digit || !$special || !$lower || !$upper) return false;
+        $length = (strlen($pass) < $minimumLength); // longueur minimale
+        $digit = preg_match("#[\d]#", $pass); // au moins un digit
+        $special = preg_match("#[\W]#", $pass); // au moins un car. spécial
+        $lower = preg_match("#[a-z]#", $pass); // au moins une minuscule
+        $upper = preg_match("#[A-Z]#", $pass); // au moins une majuscule
+        if ($length && $digit && $special && $lower && $upper) return false;
         return true;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace iutnc\NetVOD\action;
 
+use iutnc\NetVOD\auth\Auth;
+
 class IdentificationAction
 {
     public function execute(): string{
@@ -16,10 +18,10 @@ class IdentificationAction
             END;
         }else{
             try{
-                iutnc\NetVOD\auth::authenticate($_POST['email'], $_POST['pass']);
+                Auth::authenticate($_POST['email'], $_POST['pass']);
 
                 $html .= "<h2>: authentification réussie </h2>";
-            }catch(\iutnc\deefy\exception\AuthExeption $e){
+            }catch(\iutnc\NetVOD\AuthException\AuthException $e){
                 $html .= "<h4> échec authentification : {$e->getMessage()}</h4>";
             }
         }

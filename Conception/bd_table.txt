@@ -1,0 +1,6 @@
+User(PK(id),mdp);
+Episode(PK(id),duree,file,numero,resume,serie_id,titre);
+Serie(annee,date_ajout,descriptif,PK(id),img,titre,note);
+SerieComNote(PK(serie_id,user_id),commentaire,note);
+UserPref(PK(#user_id,#serie_id);
+EtatSerie(PK(#id_user,#id_serie),etat);

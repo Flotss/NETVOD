@@ -30,7 +30,7 @@ class ConnexionAction extends Action
             }catch(\iutnc\NetVOD\AuthException\AuthException $e){
                 $html .= "<h4> échec authentification : {$e->getMessage()}</h4>";
             }
-//        }
+        }
         return html;
     }
 }

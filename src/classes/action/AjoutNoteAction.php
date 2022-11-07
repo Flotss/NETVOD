@@ -2,32 +2,32 @@
 
 namespace iutnc\NetVOD\action;
 
-class AjoutCommentaireAction extends Action
+class AjoutNoteAction extends Action
 {
 
     public function execute(): string
     {
         $html = '';
-        if(false /* utilisateur n'a pas deja mis de commentaire */) {
+        if(false /* utilisateur n'a pas deja mis de note */) {
             if ($this->http_method === 'GET') {
                 $html .= <<<END
                 <form method="post" action="?action=signin">
-                    <label>Commentaire :<input type="text" name="commentaire" placeholder="<commentaire>"></label>
+                    <label>Note :<input type="number" name="note" placeholder="<note>"></label>
                     <button type="submit">Connexion</button>
                 </form>
             END;
             } else { // POST
-                $com = filter_var($_POST['commentaire'], FILTER_SANITIZE_STRING);
+                $note = filter_var($_POST['note'], FILTER_SANITIZE_NUMBER_INT);
                 try {
                     $db = ConnectionFactory::makeConnection();
                 } catch (DBExeption $e) {
                     throw new AuthException($e->getMessage());
                 }
-                $insert = $db->exec("INSERT INTO ");//ajouter un bd pour les com
+                $insert = $db->exec("INSERT INTO ");//ajouter un bd pour les note
                 $html = "commentaire ajoutée";
             }
         }else{
-            $html = "vous avez deja commentée cette episode";
+            $html = "vous avez deja noté cette episode";
         }
         return $html;
     }

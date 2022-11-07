@@ -23,6 +23,7 @@ class InscriptionAction extends Action
                     </form>
                 END;
         } else { // POST
+            print "test";
             try {
                 Auth::register($_POST['email'], $_POST['pass']);
                 Redirection::redirection('AccueilUtilisateur');

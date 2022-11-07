@@ -17,6 +17,7 @@ class Dispatcher
     public function run(): void
     {
         $html = '';
+        print $this->action;
         switch ($this->action) {
             case 'inscription':
                 $act = new action\InscriptionAction();
@@ -48,9 +49,13 @@ class Dispatcher
                         <label> User :  <input type="User" name="user" placeholder="user"> </label>
                         <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
                         
-                        <button type="submit"> Valider </button> 
-                        <button href="?action=inscription"> Inscription </button> 
+                        <button type="submit"> Valider </button>
+                        
                     </form>
+                    <form method="post" action="?action=inscription">
+                        <button type="submit"> Inscription </button> 
+                    </form>
+                    $html
                 </body>
             </html>
         END;

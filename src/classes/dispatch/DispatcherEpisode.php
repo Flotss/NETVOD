@@ -4,7 +4,7 @@ namespace iutnc\NetVOD\dispatch;
 use iutnc\deefy\action;
 
 
-class Dispatcher
+class DispatcherEpisode
 {
     protected ?string $action = null;
 
@@ -18,14 +18,22 @@ class Dispatcher
     {
         $html = '';
         switch ($this->action) {
-            case 'inscription':
-                $act = new action\InscriptionAction();
+            case 'ajout-commentaire':
+                $act = new action\AjoutCommentaireAction();
                 $html .= $act->execute();
-                break; //tous les cas d'inscription sont géré dans InscritpionAction
-            case 'connexion':
-                $act = new action\ConnexionAction();
+                break;
+            case 'ajout-note':
+                $act = new action\AjoutNoteAction();
+                $html .= $act->execute();
+                break;
+            case 'deconnexion':
+                $act = new action\DeconnexionAction();
                 $html .= $act->execute();
             break;
+            case 'accueil-utilisateur':
+                $act = new action\AccueilUtilisateurAction();
+                $html .= $act->execute();
+                break;
             default:
                 break;
         }
@@ -44,11 +52,7 @@ class Dispatcher
                     <title>NetVOD</title>
                 </head>
                 <body>
-                    <label> User :  <input type="User" name="user" placeholder="user"> </label>
-                    <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
                     
-                    <button type="submit"> Valider </button> 
-                    <button type="inscription"> Inscription </button> 
                 </body>
             </html>
         END;

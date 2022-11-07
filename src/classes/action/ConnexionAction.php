@@ -34,6 +34,6 @@ class ConnexionAction extends Action
             }
 //        }
         }
-        return html;
+        return $html;
     }
 }

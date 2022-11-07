@@ -101,7 +101,7 @@ DROP TABLE IF EXISTS etatSerie;
 CREATE TABLE etatSerie (
     id_user int(11) NOT NULL,
     id_serie int(11) NOT NULL,
-    etat varchar(128) CHECK ( etat like 'en cours' or  etat like 'visionnee') NOT NULL,
+    etat varchar(128) CHECK ( etat like 'en cours' or  etat like 'visionnee'),
     PRIMARY KEY (id_user, id_serie),
     CONSTRAINT FOREIGN KEY (id_user) REFERENCES user(id),
     CONSTRAINT FOREIGN KEY (id_serie) REFERENCES serie(id)

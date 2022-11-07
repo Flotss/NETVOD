@@ -31,6 +31,6 @@ class ConnexionAction extends Action
                 $html .= "<h4> échec authentification : {$e->getMessage()}</h4>";
             }
         }
-        return html;
+        return $html;
     }
 }

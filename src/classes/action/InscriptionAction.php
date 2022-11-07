@@ -11,6 +11,9 @@ class InscriptionAction extends Action
     {
         if ($this->http_method === 'GET') {
             return <<<END
+                    <div class="enteteAccueil">
+                        <label>Créer un compte</label>
+                    </div>
                     <form method="post" action="?action=add-user">
                         <label>
                             Email : <input type="email" name="email" placeholder="<email>">
@@ -20,7 +23,7 @@ class InscriptionAction extends Action
                         </label>
                         <button type="submit">s'enregistrer</button>
                     </form>
-                    <div class="connexion">
+                    <div class="AutreChoixAccueil">
                     <label>Vous avez déjà un compte ?</label>
                         <a href="?action=connexion">Se Connecter</a>
                     </div>

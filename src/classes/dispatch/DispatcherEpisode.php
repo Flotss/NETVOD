@@ -1,7 +1,8 @@
 <?php
 
 namespace iutnc\NetVOD\dispatch;
-use iutnc\deefy\action;
+use iutnc\NetVOD\action;
+
 
 
 class DispatcherEpisode

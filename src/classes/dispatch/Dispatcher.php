@@ -1,8 +1,8 @@
 <?php
 
 namespace iutnc\NetVOD\dispatch;
-use iutnc\deefy\action;
 
+use iutnc\NetVOD\action;
 
 class Dispatcher
 {
@@ -44,11 +44,13 @@ class Dispatcher
                     <title>NetVOD</title>
                 </head>
                 <body>
-                    <label> User :  <input type="User" name="user" placeholder="user"> </label>
-                    <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
-                    
-                    <button type="submit"> Valider </button> 
-                    <button type="inscription"> Inscription </button> 
+                    <form method="post" action="?action=connexion">
+                        <label> User :  <input type="User" name="user" placeholder="user"> </label>
+                        <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
+                        
+                        <button type="submit"> Valider </button> 
+                        <button href="?action=inscription"> Inscription </button> 
+                    </form>
                 </body>
             </html>
         END;

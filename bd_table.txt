@@ -1,4 +1,5 @@
-User(PK(email,id),mdp,role);
+User(PK(id),mdp,userpref_id);
 Episode(PK(id),duree,file,numero,resume,serie_id,titre);
 Serie(annee,date_ajout,descriptif,PK(id),img,titre,note);
 SerieCom(PK(serie_id,user_id),commentaire,note);
+UserPref(PK(id),user_id,serie_id);

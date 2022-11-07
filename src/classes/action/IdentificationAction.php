@@ -4,11 +4,11 @@ namespace iutnc\NetVOD\action;
 
 use iutnc\NetVOD\auth\Auth;
 
-class IdentificationAction
+class IdentificationAction extends Action
 {
     public function execute(): string{
         $html = '';
-        if ($_SERVER['REQUEST_METHOD'] === 'GET'){
+        if ($this->http_method === 'GET'){
             $html .= <<<END
                 <form method="post" action="?action=signin">
                     <label>Email :<input type="email" name="email" placeholder="<email>"></label>

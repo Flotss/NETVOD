@@ -4,7 +4,7 @@ namespace iutnc\NetVOD\action;
 
 use iutnc\NetVOD\auth\Auth;
 
-class InscriptionAction
+class InscriptionAction extends Action
 {
     public function execute() : string
     {

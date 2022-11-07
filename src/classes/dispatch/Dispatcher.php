@@ -44,7 +44,11 @@ class Dispatcher
                     <title>NetVOD</title>
                 </head>
                 <body>
+                    <label> User :  <input type="User" name="user" placeholder="user"> </label>
+                    <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
                     
+                    <button type="submit"> Valider </button> 
+                    <button type="inscription"> Inscription </button> 
                 </body>
             </html>
         END;

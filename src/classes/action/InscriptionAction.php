@@ -13,7 +13,7 @@ class InscriptionAction extends Action
             return <<<END
                     <form method="post" action="?action=add-user">
                         <label>
-                            User : <input type="User" name="User" placeholder="<User>">
+                            Email : <input type="email" name="email" placeholder="<email>">
                         </label>
                         <label>
                             Mots de passe :<input type="password" name="pass" placeholder="<mot de passe>">
@@ -28,7 +28,7 @@ class InscriptionAction extends Action
         } else { // POST
             print "test";
             try {
-                Auth::register($_POST['User'], $_POST['pass']);
+                Auth::register($_POST['email'], $_POST['pass']);
                 Redirection::redirection('AccueilUtilisateur');
             } catch (\iutnc\NetVOD\AuthException\AuthException $e) {
                 $html = "<h4>erreur lors de la création du compte : {$e->getMessage()}";

@@ -14,7 +14,7 @@ class ConnexionAction extends Action
         if ($this->http_method === 'GET') {
             $html .= <<<END
                 <form method="post" action="?action=connexion">
-                        <label> User :  <input type="User" name="user" placeholder="<User>"> </label>
+                        <label> Email :  <input type="email" name="email" placeholder="<email>"> </label>
                         <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
                         
                         <button type="submit"> Connexion </button>
@@ -26,7 +26,7 @@ class ConnexionAction extends Action
             END;
         } else { // POST
             try {
-                Auth::authenticate($_POST['user'], $_POST['passwd']);
+                Auth::authenticate($_POST['email'], $_POST['passwd']);
 
                 Redirection::redirection('AccueilUtilisateur');
             } catch (\iutnc\NetVOD\AuthException\AuthException $e) {

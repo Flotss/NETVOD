@@ -8,7 +8,14 @@ class AjoutNoteAction extends Action
     public function execute(): string
     {
         $html = '';
-//        if(/* utilisateur n'a pas deja mis de note */) {
+        try {
+            $db = ConnectionFactory::makeConnection();
+        } catch (DBExeption $e) {
+            throw new AuthException($e->getMessage());
+        }
+        $q1 = $db->query("SELECT note from serieComNote where id_user = " . id_user . "AND id_serie = " . id_serie);
+        $d1=$q1->fetch();
+        if($d1 != null){
             if ($this->http_method === 'GET') {
                 $html .= <<<END
                 <form method="post" action="?action=signin">
@@ -23,12 +30,17 @@ class AjoutNoteAction extends Action
                 } catch (DBExeption $e) {
                     throw new AuthException($e->getMessage());
                 }
-                $insert = $db->exec("INSERT INTO serieComNote ");//ajouter un bd pour les note
+                $q2 = $db->query("SELECT * from serieComNote where id_user = " . id_user . "AND id_serie = " . id_serie);
+                if($q2['id_user'] == null){
+                    $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,note) VALUES(" . id_user . "," . id_serie . "," . $note );
+                }else{
+                    $insert = $db->exec("INSERT INTO serieComNote(note) where id_user =" . id_user . "AND id_serie = " . id_serie . " VALUE(" . $note . ")");
+                }
                 $html = "commentaire ajoutée";
             }
-//        }else{
-//            $html = "vous avez deja noté cette episode";
-//        }
+        }else{
+            $html = "vous avez deja noté cette episode";
+        }
         return $html;
     }
 }

@@ -8,29 +8,35 @@ use iutnc\NetVOD\Redirect\Redirection;
 
 class ConnexionAction extends Action
 {
-    public function execute(): string{
+    public function execute(): string
+    {
         $html = '';
-        if ($this->http_method === 'GET'){
+        if ($this->http_method === 'GET') {
             $html .= <<<END
+                <div class="enteteAccueil">
+                    <label>Se connecter</label>
+                </div>
                 <form method="post" action="?action=connexion">
-                        <label> User :  <input type="User" name="user" placeholder="user"> </label>
+                        <label> Email :  <input type="email" name="email" placeholder="<email>"> </label>
                         <label> Passwd :  <input type="password" name="passwd" placeholder = "<mot de passe>"> </label>
                         
                         <button type="submit"> Connexion </button>
                 </form>
-                <div class="inscription">
-                    <a href="?action=inscription">inscription</a>
+                <div class="AutreChoixAccueil">
+                    <label>Pas de compte ?</label>
+                    <a href="?action=inscription">Créer Un Compte</a>
                 </div>
             END;
-        }else{ // POST
-            try{
-                Auth::authenticate($_POST['user'], $_POST['passwd']);
+        } else { // POST
+            try {
+                Auth::authenticate($_POST['email'], $_POST['passwd']);
 
                 Redirection::redirection('AccueilUtilisateur');
-            }catch(\iutnc\NetVOD\AuthException\AuthException $e){
+            } catch (\iutnc\NetVOD\AuthException\AuthException $e) {
                 $html .= "<h4> échec authentification : {$e->getMessage()}</h4>";
             }
+//        }
         }
-        return html;
+        return $html;
     }
 }

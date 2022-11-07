@@ -3,6 +3,7 @@
 namespace iutnc\NetVOD\dispatch;
 
 use iutnc\NetVOD\action;
+use iutnc\NetVOD\Redirect\Redirection;
 
 class Dispatcher
 {
@@ -16,6 +17,8 @@ class Dispatcher
 
     public function run(): void
     {
+        if (isset($_SESSION['id'])) Redirection::redirection('AccueilUtilisateur');
+
         $html = '';
         switch ($this->action) {
             case 'inscription':

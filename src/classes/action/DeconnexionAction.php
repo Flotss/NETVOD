@@ -10,8 +10,7 @@ class DeconnexionAction extends Action
     public function execute(): string
     {
         session_destroy();
-        echo $this->hostname."<br>";
-        echo $this->script_name;
+        unset($_SESSION['id']);
         Redirection::redirection('index', $this);
 
         return '';

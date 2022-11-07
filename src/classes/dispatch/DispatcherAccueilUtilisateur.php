@@ -2,7 +2,7 @@
 
 namespace iutnc\NetVOD\dispatch;
 use iutnc\NetVOD\action;
-
+use iutnc\NetVOD\Redirect\Redirection;
 
 
 class DispatcherAccueilUtilisateur
@@ -17,6 +17,9 @@ class DispatcherAccueilUtilisateur
 
     public function run(): void
     {
+        // SECURITE
+        if (! (isset($_SESSION['id']))) Redirection::redirection('index');
+
         $html = '';
         switch ($this->action) {
             case 'affichage-serie':
@@ -41,10 +44,10 @@ class DispatcherAccueilUtilisateur
 
     private function renderPage($html)
     {
-        $act = new action\headerAction();
+        $act = new action\HeaderAction();
         $header = $act->execute();
 
-        $act = new action\footerAction();
+        $act = new action\FooterAction();
         $footer = $act->execute();
         echo <<<END
             <html lang="fr">

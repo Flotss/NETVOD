@@ -1,6 +1,7 @@
 <?php
 
 namespace iutnc\NetVOD\action;
+use iutnc\NetVOD\db\ConnectionFactory;
 use PDO;
 
 class AjoutNoteAction extends Action
@@ -14,9 +15,8 @@ class AjoutNoteAction extends Action
         } catch (DBExeption $e) {
             throw new AuthException($e->getMessage());
         }
-        $q1 = $db->query("SELECT note from serieComNote where id_user = " . $_SESSION['id'] . "AND id_serie = " . id_serie);
-        $d1=$q1->fetch();
-        if($d1 != null){
+        $q1 = $db->query("SELECT note from serieComNote where id_user = " . $_SESSION['id'] . " AND id_serie = 1");
+        if(!$d1=$q1->fetch()){
             if ($this->http_method === 'GET') {
                 $html .= <<<END
                 <form method="post" action="?action=signin">
@@ -31,11 +31,11 @@ class AjoutNoteAction extends Action
                 } catch (DBExeption $e) {
                     throw new AuthException($e->getMessage());
                 }
-                $q2 = $db->query("SELECT * from serieComNote where id_user = " . $_SESSION['id'] . "AND id_serie = " . id_serie);
+                $q2 = $db->query("SELECT * from serieComNote where id_user = " . $_SESSION['id'] . " AND id_serie = 1");
                 if($q2['id_user'] == null){
-                    $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,note) VALUES(" . $_SESSION['id'] . "," . id_serie . "," . $note );
+                    $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,note) VALUES(" . $_SESSION['id'] . ",1," . $note );
                 }else{
-                    $insert = $db->exec("INSERT INTO serieComNote(note) where id_user =" . $_SESSION['id'] . "AND id_serie = " . id_serie . " VALUE(" . $note . ")");
+                    $insert = $db->exec("INSERT INTO serieComNote(note) where id_user =" . $_SESSION['id'] . " AND id_serie = 1" . " VALUE(" . $note . ")");
                 }
                 $html = "commentaire ajoutée";
             }

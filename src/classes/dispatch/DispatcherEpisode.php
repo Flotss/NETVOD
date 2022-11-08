@@ -68,9 +68,11 @@ class DispatcherEpisode
         }catch(\PDOException $e){
             throw new AuthException($e->getMessage());
         }
-        $q1 = $db->query("SELECT * from episode where id = 1");//Ajouter un cookies pour savoir qu'elle episode a etais selectionner
+        $titre = "Le lac" /* GET(titreEpisode) */;
+        $q1 = $db->query("SELECT file,numero,duree,resume,episode.titre,serie.titre AS serieTitre from episode,serie where episode.serie_id = serie.id AND episode.titre = '" . $titre . "'");
         $d1=$q1->fetch();
-        $episode = '<h4>' . $d1['titre'] . " Ep:" . $d1['numero'] . "</h4>" . "<video>" . $d1['file'] . "</video>" . "<p> durée:" . $d1['duree'] . "</p><p>Resume" . $d1['resume'] . "</p>";
+        $episode = '<h4>' . $d1['serieTitre'] . ". Episode " . $d1['numero'] . ": " . $d1['titre'] . "</h4>" . "<video>" . $d1['file'] . "</video>" . "<p> Durée: " . $d1['duree'] . " minute</p><p>Resume: " . $d1['resume'] . "</p>";
+        $comment = "<p>Vous aimez l'épisode " . $_SESSION['user'] . " ? n'ésitait pas a commenter et laisser une note!</p>";
         echo <<<END
             <html lang="fr">
                 <head>
@@ -82,6 +84,9 @@ class DispatcherEpisode
                    $header
                    $episode
                    $html
+                   $comment
+                   <a href="?action=ajout-commentaire&titreEpisode={$titre}" style="color: darkorange; text-decoration: none">-Commenter!</a><br>
+                   <a href="?action=ajout-note&titreEpisode={$titre}" style="color: darkorange; text-decoration: none">-Noter!</a>
                    $footer
                 </body>
             </html>

@@ -20,7 +20,7 @@ class AjoutCommentaireAction extends Action
         } catch (DBExeption $e) {
             throw new AuthException($e->getMessage());
         }
-        $q1 = $db->query("SELECT commentaire from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "'");
+        $q1 = $db->query("SELECT commentaire from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "' AND commentaire IS NOT NULL");
         if(!$d1=$q1->fetch()) {
             if ($this->http_method === 'GET') {
                 $html .= <<<END

@@ -20,7 +20,7 @@ class AjoutNoteAction extends Action
         } catch (DBExeption $e) {
             throw new AuthException($e->getMessage());
         }
-        $q1 = $db->query("SELECT note from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "'");
+        $q1 = $db->query("SELECT note from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "' AND note IS NOT NULL");
         if(!$d1=$q1->fetch()){
             if ($this->http_method === 'GET') {
                 $html .= <<<END
@@ -42,7 +42,7 @@ class AjoutNoteAction extends Action
                 }else{
                     $insert = $db->exec("Update serieComNote SET note = " . $note . " where id_user =" . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
                 }
-                $html = "commentaire ajoutée";
+                $html = "Note ajoutée";
             }
         }else{
             $html = "vous avez deja noté cette episode";

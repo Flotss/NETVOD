@@ -26,7 +26,6 @@ class DispatcherAccueilUtilisateur
             case 'accueil':
                 $act = new action\AccueilUtilisateurAction();
                 $html .= $act->execute();
-                echo 'hi2';
                 break;
             case 'deconnexion':
                 $act = new action\DeconnexionAction();

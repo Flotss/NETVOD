@@ -7,7 +7,7 @@ class AffichageEpisodeAction extends Action
 
     public function execute(): string
     {
-        header(Episode.php);
+        Redirection::redirection('Episode');
         exit;
         $html = ' ';
         return $html;

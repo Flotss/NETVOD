@@ -49,16 +49,18 @@ class DispatcherPageSerie
                 $html .= $act->execute();
                 break;
             default:
-                $act = new action\AffichageDetailleeSerieAction();
-                $html .= $act->execute();
-                break;
-        }
 
-        $this->renderPage($html);
+                break;
+
+        }
+        $act = new action\AffichageDetailleeSerieAction();
+        $htmlBase = $act->execute();
+
+        $this->renderPage($html, $htmlBase);
     }
 
 
-    private function renderPage($html)
+    private function renderPage($html, $htmlBase)
     {
         $act = new html\Header();
         $header = $act->execute();
@@ -74,6 +76,7 @@ class DispatcherPageSerie
                 </head>
                 <body>
                     $header
+                    $htmlBase
                     $html
                     $footer
                 </body>

@@ -1,6 +1,7 @@
 <?php
 
 namespace iutnc\NetVOD\action;
+use PDO;
 
 class AjoutNoteAction extends Action
 {

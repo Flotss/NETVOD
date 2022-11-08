@@ -18,15 +18,19 @@ class AffichageSerieAction extends Action
             throw new AuthException($e->getMessage());
         }
 
-        //On gere l'ensemble des series de la BD
-        $html = $this->generateDiv("SELECT * from serie", $html, 'Catalogue');
+//        On gere l'ensemble des series de la BD
+        $html = $this->generateDiv("SELECT * from serie
+                                            where id not in (SELECT id from serie s inner join userpref u on u.id_serie = s.id  where id_user = {$_SESSION['id']})
+                                            and id not in (select id from serie s1 inner join etatserie e on e.id_serie = s1.id where etat like 'en cours' and id_user = {$_SESSION['id']})",
+                                    $html, 'Catalogue');
 
         //On gere l'ensemble des series en cours de l'utilisateur
-        $html = $this->generateDiv("SELECT * from userpref where id_user like 'user1'", $html, 'Series préférées');
+        $html = $this->generateDiv("SELECT * from serie s inner join userpref u on u.id_serie = s.id  where id_user = {$_SESSION['id']}",
+                                    $html, 'Series préférées');
 
         //On gere les series en cours de l'utilisateur
-        $html = $this->generateDiv("select * from etatserie e inner join serie s on s.id=e.id_serie where etat like 'en cours' and id_user like 'user1'
-", $html, 'Series en cours');
+        $html = $this->generateDiv("select * from serie s inner join etatserie e on e.id_serie = s.id where etat like 'en cours' and id_user = {$_SESSION['id']}",
+                                    $html, 'Series en cours');
         return $html;
     }
 
@@ -36,16 +40,21 @@ class AffichageSerieAction extends Action
      */
     private function generateDiv(string $requete, string $html, string $operation): string
     {
-        $html .= "<div><h3>$operation</h3>";
+        $html .= "<div class='$operation'><h3>$operation</h3>";
         $html .= "<ul =presentation serie>";
         $q3 = $this->db->query($requete);
         while ($d1 = $q3->fetch()) {
-            $html .= '<li>
-                            <h4>' . $d1['titre'] . '</h4>
-                            <img src="' . $d1['img'] . "></br>
-                            <p>".$d1['descriptif']."</p></li>";
+            $html .= <<<END
+                    <li class="decriptif">
+                        <a href="?action=affichage-page-serie&titre-serie={$d1['titre']}" style="color: black; text-decoration: none">
+                            <h4 style="margin: 0; padding: 0"> {$d1['titre']}  </h4>
+                            <img  src="{$d1['img']}"></br>
+                            <p style="margin-top: 0; padding-top: 0">{$d1['descriptif']}</p>
+                        </a>
+                    </li>
+                END;
         }
-        $html .= '</ul></div>';
+        $html .= "</ul></div>";
 
         return $html;
     }

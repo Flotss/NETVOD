@@ -9,7 +9,7 @@ class AccueilUtilisateurAction extends Action
 
     public function execute(): string
     {
-        Redirection::redirection('AccueilUtilisateur', $this);
+        Redirection::redirection('AccueilUtilisateur');
         return '';
     }
 }

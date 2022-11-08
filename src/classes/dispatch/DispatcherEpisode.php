@@ -2,6 +2,8 @@
 
 namespace iutnc\NetVOD\dispatch;
 use iutnc\NetVOD\action;
+use iutnc\NetVOD\Redirect\Redirection;
+use iutnc\NetVOD\html;
 
 
 
@@ -49,10 +51,10 @@ class DispatcherEpisode
 
     private function renderPage($html)
     {
-        $act = new action\HeaderAction();
+        $act = new html\Header();
         $header = $act->execute();
 
-        $act = new action\FooterAction();
+        $act = new html\Footer();
         $footer = $act->execute();
 
         try{

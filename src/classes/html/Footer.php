@@ -1,8 +1,8 @@
 <?php
 
-namespace iutnc\NetVOD\action;
+namespace iutnc\NetVOD\html;
 
-class FooterAction extends Action
+class Footer
 {
 
     public function execute(): string

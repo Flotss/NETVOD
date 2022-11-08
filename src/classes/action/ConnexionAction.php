@@ -23,7 +23,7 @@ class ConnexionAction extends Action
                 $res =  Auth::authenticate($_POST['email'], $_POST['password']);
                 echo $res;
                 if ($res) {
-                    Redirection::redirection('AccueilUtilisateur', $this);
+                    Redirection::redirection('AccueilUtilisateur');
                 } else {
                     throw new AuthException("Erreur : email ou mot de passe incorrect");
                 }

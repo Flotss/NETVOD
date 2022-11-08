@@ -2,7 +2,7 @@
 
 namespace iutnc\NetVOD\action;
 
-class AffichageDetailléeSerieAction extends Action
+class AffichageDetailleeSerieAction extends Action
 {
 
     public function execute(): string

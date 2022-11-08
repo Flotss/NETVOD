@@ -3,6 +3,7 @@
 namespace iutnc\NetVOD\dispatch;
 use iutnc\NetVOD\action;
 use iutnc\NetVOD\Redirect\Redirection;
+use iutnc\NetVOD\html;
 
 
 class DispatcherAccueilUtilisateur
@@ -22,12 +23,6 @@ class DispatcherAccueilUtilisateur
 
         $html = '';
         switch ($this->action) {
-            ///Affichage Serie???
-          /*  case 'affichage-serie':
-                $act = new action\AffichageSerieAction();
-                $html .= $act->execute();
-                echo 'hi';
-                break;*/
             case 'accueil':
                 $act = new action\AccueilUtilisateurAction();
                 $html .= $act->execute();
@@ -37,6 +32,10 @@ class DispatcherAccueilUtilisateur
                 $act = new action\DeconnexionAction();
                 $html .= $act->execute();
             break;
+            case 'affichage-page-serie':
+                $act = new action\AffichageDetailleeSerieAction();
+                $html .= $act->execute();
+                break;
             default:
                 $act = new action\AffichageSerieAction();
                 $html .= $act->execute();
@@ -49,10 +48,10 @@ class DispatcherAccueilUtilisateur
 
     private function renderPage($html)
     {
-        $act = new action\HeaderAction();
+        $act = new html\Header();
         $header = $act->execute();
 
-        $act = new action\FooterAction();
+        $act = new html\Footer();
         $footer = $act->execute();
         echo <<<END
             <html lang="fr">

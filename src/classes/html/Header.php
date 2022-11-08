@@ -1,8 +1,8 @@
 <?php
 
-namespace iutnc\NetVOD\action;
+namespace iutnc\NetVOD\html;
 
-class headerAction extends Action
+class Header
 {
 
     public function execute(): string

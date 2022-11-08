@@ -10,7 +10,11 @@ class AjoutNoteAction extends Action
     public function execute(): string
     {
         $html = '';
-        $titre = "Le lac";
+        if(isset($_COOKIE['nomEpisode'])){
+            $titre = $_COOKIE['nomEpisode'];
+        }else {
+            $titre = "Le lac";
+        }
         try {
             $db = ConnectionFactory::makeConnection();
         } catch (DBExeption $e) {

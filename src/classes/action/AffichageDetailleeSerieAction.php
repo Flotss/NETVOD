@@ -29,12 +29,22 @@ class AffichageDetailleeSerieAction extends Action
                 <p>Date d'ajout : {$infoSerie['date_ajout']}</p>
                 <p>Année de sortie : {$infoSerie['annee']}</p>
                 <p>Nombre d'épisode : {$infoSerie['nbEp']}</p>
+                <p>Note de la série : {$infoSerie['nbEp']}</p>
+                <form method="post" action="?action=ajout-preference">
+                        <button type="submit">Ajouter à mes préférences</button>
+                </form>
+                
                 END;
 
 
         $html .= $this->generateDiv("SELECT * from episode where serie_id = {$infoSerie['id']}",
              'Episodes de la série');
 
+        $html .= <<<END
+                <form method="post" action="?action=affichage-commentaire">
+                        <button type="submit">Voir les commentaires</button>
+                </form>
+                END;
 
         return $html;
     }

@@ -2,6 +2,8 @@
 
 namespace iutnc\NetVOD\action;
 
+use iutnc\NetVOD\Redirect\Redirection;
+
 class AffichageEpisodeAction extends Action
 {
 

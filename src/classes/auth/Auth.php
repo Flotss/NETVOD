@@ -2,7 +2,7 @@
 
 namespace iutnc\NetVOD\auth;
 
-use iutnc\NetVOD\AuthException\AuthException as AuthException;
+use iutnc\NetVOD\AuthException\AuthException;
 use iutnc\NetVOD\db\ConnectionFactory as ConnectionFactory;
 use PDO;
 use PDOException;
@@ -30,20 +30,26 @@ class Auth
             if (!$user) throw new AuthException("auth failed : invalid credentials");
             if (!password_verify($mdpUser, $user['password'])) throw new AuthException("auth failed : invalid credentials");
             $_SESSION['id'] = $user['id'];
+            $_SESSION['user'] = $user['prenom'];
         } catch (AuthException $e) {
             return false;
         }
         return true;
     }
 
-    public static function register(string $email, string $pass): bool
+    public static function register(string $email, string $pass, string $pass2, string $nom, string $prenom): bool
     {
-        if (!self::checkPasswordStrength($pass, 8))
-            throw new AuthException("password trop faible");
+        try{
+            self::checkPasswordStrength($pass, 8);
+        }catch (AuthException $e){
+            throw new AuthException("Erreur de mot de passe : " . $e->getMessage());
+        }
+
+        if ($pass !== $pass2) throw new AuthException("Les mots de passe ne correspondent pas");
         $hash = password_hash($pass, PASSWORD_DEFAULT, ['cost' => 12]);
         try {
             $db = ConnectionFactory::makeConnection();
-        } catch (DBException $e) {
+        } catch (PDOException $e) {
             throw new AuthException($e->getMessage());
         }
 
@@ -58,9 +64,9 @@ class Auth
         if ($stmt->fetch()) throw new AuthException("compte deja existant");
 
         try {
-            $query = "insert into user (email, password) values (?, ?)";
+            $query = "insert into user (email, password, nom, prenom) values (?, ?, ?, ?)";
             $stmt = $db->prepare($query);
-            $stmt->execute([$email, $hash]);
+            $stmt->execute([$email, $hash, $nom, $prenom]);
 
             // On récupère l'id de l'utilisateur pour pouvoir l'utiliser plus tard
             $query = "select id from user where email = ?";
@@ -70,8 +76,9 @@ class Auth
 
             // La connection est établie et l'id de l'utilisateur est stocké
             $_SESSION['id'] = $res['id'];
+            $_SESSION['user'] = $prenom;
         } catch (PDOException $e) {
-            throw new AuthException("erreur de création de compte : " . $e->getMessage());
+            throw new AuthException("Erreur de création de compte : " . $e->getMessage());
         }
 
         return true;
@@ -80,11 +87,20 @@ class Auth
     public static function checkPasswordStrength(string $pass, int $minimumLength): bool
     {
         $length = (strlen($pass) < $minimumLength); // longueur minimale
+        if ($length) throw new AuthException("La taille du mot de passe doit être de minimum {$minimumLength}");
+
         $digit = preg_match("#[\d]#", $pass); // au moins un digit
+        if (!$digit) throw new AuthException("Le mot de passe doit avoir au moins un chiffre");
+
         $special = preg_match("#[\W]#", $pass); // au moins un car. spécial
+        if (!$special) throw new AuthException("Le mot de passe doit avoir au moins un caractère spécial");
+
         $lower = preg_match("#[a-z]#", $pass); // au moins une minuscule
+        if (!$lower) throw new AuthException("Le mot de passe doit avoir au moins une minuscule");
+
         $upper = preg_match("#[A-Z]#", $pass); // au moins une majuscule
-        if ($length && $digit && $special && $lower && $upper) return false;
+        if (!$upper) throw new AuthException("Le mot de passe doit avoir au moins une majuscule");
+
         return true;
     }
 }

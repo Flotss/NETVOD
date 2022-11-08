@@ -36,6 +36,10 @@ class DispatcherAccueilUtilisateur
                 $act = new action\AffichageDetailleeSerieAction();
                 $html .= $act->execute();
                 break;
+            case 'gestionCompte':
+                $act = new action\GestionCompteAction();
+                $html .= $act->execute();
+                break;
             default:
                 $act = new action\AffichageSerieAction();
                 $html .= $act->execute();
@@ -58,6 +62,7 @@ class DispatcherAccueilUtilisateur
                 <head>
                     <meta charset="UTF-8">>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <link href="css/Accueil.css" rel="stylesheet">
                     <title>NetVOD</title>
                 </head>
                 <body>

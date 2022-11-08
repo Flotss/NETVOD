@@ -44,6 +44,10 @@ class DispatcherPageSerie
                 $act = new action\AffichageEpisodeAction();
                 $html .= $act->execute();
                 break;
+            case 'gestionCompte':
+                $act = new action\GestionCompteAction();
+                $html .= $act->execute();
+                break;
             default:
                 break;
         }

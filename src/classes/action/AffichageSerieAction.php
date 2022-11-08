@@ -3,6 +3,8 @@
 namespace iutnc\NetVOD\action;
 
 use iutnc\NetVOD\db\ConnectionFactory;
+use iutnc\NetVOD\AuthException\AuthException;
+use PDOException;
 
 class AffichageSerieAction extends Action
 {
@@ -14,9 +16,14 @@ class AffichageSerieAction extends Action
         $html = '';
         try {
             $this->db = ConnectionFactory::makeConnection();
-        } catch (DBExeption $e) {
+        } catch (PDOException $e) {
             throw new AuthException($e->getMessage());
         }
+
+        // Saluer l'utilisateur
+        $html .= '<h2>Bonjour ' . $_SESSION['user'] . '</h2>';
+
+
 
 //        On gere l'ensemble des series de la BD
         $html = $this->generateDiv("SELECT * from serie
@@ -48,7 +55,7 @@ class AffichageSerieAction extends Action
                     <li class="decriptif">
                         <a href="?action=affichage-page-serie&titre-serie={$d1['titre']}" style="color: black; text-decoration: none">
                             <h4 style="margin: 0; padding: 0"> {$d1['titre']}  </h4>
-                            <img  src="{$d1['img']}"></br>
+                            <img alt="" src="{$d1['img']}"></br>
                             <p style="margin-top: 0; padding-top: 0">{$d1['descriptif']}</p>
                         </a>
                     </li>

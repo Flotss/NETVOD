@@ -13,7 +13,7 @@ class InscriptionAction extends Action
             return $this->getForm();
         } else { // POST
             try {
-                Auth::register($_POST['email'], $_POST['pass']);
+                Auth::register($_POST['email'], $_POST['password'], $_POST['password2'],$_POST['nom'], $_POST['prenom']);
                 Redirection::redirection('AccueilUtilisateur');
             } catch (\iutnc\NetVOD\AuthException\AuthException $e) {
                 $html = $this->getForm();
@@ -30,17 +30,19 @@ class InscriptionAction extends Action
     {
         return <<<END
                 <div class="enteteAccueil">
-                    <label>Se connecter</label>
+                    <label>S'inscrire</label>
                 </div>
-                <form method="post" action="?action=connexion">
+                <form method="post" action="?action=inscription">
                         <label> Email :  <input type="email" name="email" placeholder="<email>"> </label>
                         <label> Mot de passe :  <input type="password" name="password" placeholder = "<mot de passe>"> </label>
-                        
-                        <button type="submit"> Connexion </button>
+                        <label> Confirmer le mot de passe :  <input type="password" name="password2" placeholder = "<mot de passe>"> </label>
+                        <label> Nom : <input type="text" name="nom" placeholder="<nom>"> </label>
+                        <label> Prénom : <input type="text" name="prenom" placeholder="<prenom>"> </label>
+                        <button type="submit"> S'enregistrer </button>
                 </form>
                 <div class="AutreChoixAccueil">
-                    <label>Pas de compte ?</label>
-                    <a href="?action=inscription">Créer Un Compte</a>
+                    <label>Vous avez un compte ?</label>
+                    <a href="?action=connexion">Se connecter</a>
                 </div>
             END;
     }

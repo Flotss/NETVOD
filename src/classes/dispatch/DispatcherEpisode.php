@@ -2,6 +2,8 @@
 
 namespace iutnc\NetVOD\dispatch;
 use iutnc\NetVOD\action;
+use iutnc\NetVOD\AuthException\AuthException;
+use iutnc\NetVOD\db\ConnectionFactory;
 use iutnc\NetVOD\Redirect\Redirection;
 use iutnc\NetVOD\html;
 
@@ -41,6 +43,10 @@ class DispatcherEpisode
                 $act = new action\AjoutNoteAction();
                 $html .= $act->execute();
                 break;
+            case 'gestionCompte':
+                $act = new action\GestionCompteAction();
+                $html .= $act->execute();
+                break;
             default:
                 break;
         }
@@ -59,7 +65,7 @@ class DispatcherEpisode
 
         try{
             $db = ConnectionFactory::makeConnection();
-        }catch(DBExeption $e){
+        }catch(\PDOException $e){
             throw new AuthException($e->getMessage());
         }
         $q1 = $db->query("SELECT * from episode where id = 1");//Ajouter un cookies pour savoir qu'elle episode a etais selectionner

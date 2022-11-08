@@ -2,8 +2,6 @@
 
 namespace iutnc\NetVOD\action;
 
-use iutnc\NetVOD\dispatch\DispatcherEpisode;
-
 class AffichageEpisodeAction extends Action
 {
 

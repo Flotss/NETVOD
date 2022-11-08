@@ -61,6 +61,12 @@ class AffichageSerieAction extends Action
         $idSectionSuivante = $nbrSlide;
 
 
+        $scriptNameExplode = explode('/', $this->getScriptName());
+        $chemin = '';
+        for ($k = 0; $k < count($scriptNameExplode) - 1; $k++) {
+            $chemin .= $scriptNameExplode[$k] . '/';
+        }
+
         $nbrRow = 0;
         for ($i = 1; $i <= $nbrSlide; $i++) {
             $idPrecedent = ($i >1) ? $i-1 : $nbrSlide;
@@ -77,15 +83,17 @@ class AffichageSerieAction extends Action
                 $titre = $data['titre'];
                 $img = $data['img'];
 
+
+
+
                 $html .= <<<END
                     <div class="item">
                          <a href="?action=affichage-page-serie&titre-serie=$titre">
-                            <img alt="descritpion" src="/DevWeb/S3.1-SAE-DEV-WEB/ressource/image/$img"></br>
+                            <img alt="descritpion" src="$chemin/ressource/image/$img"></br>
                             <h1 class="heading">$titre</h1>
                          </a>
                     </div>
                     END;
-
                 $nbrRow++;
             }
             $html .= '<a href="?#section' . $idSuivant .'" class="arrow__btn right-arrow">›</a>';

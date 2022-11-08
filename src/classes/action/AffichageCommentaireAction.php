@@ -24,11 +24,11 @@ class AffichageCommentaireAction extends Action
         $html .= '<h4>Commentaire </h4>';
 
 
-        $q3 = $this->db->query("SELECT commentaire FROM seriecomnote WHERE id_serie = {$_COOKIE['nomSerie']}");
+        $q3 = $this->db->query("SELECT commentaire FROM seriecomnote sc INNER JOIN serie s ON s.id = sc.id_serie WHERE s.titre = '{$_COOKIE['nomSerie']}'");
         while ($d1 = $q3->fetch()) {
             $html .= <<<END
                         <li class="commentaire">
-                                <p style="margin-top: 0; padding-top: 0">Commentaire: {$d1['commentaire']}</p>
+                                Commentaire: {$d1['commentaire']}
                         </li>
                 END;
         }

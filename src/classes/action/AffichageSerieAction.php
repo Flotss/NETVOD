@@ -2,6 +2,8 @@
 
 namespace iutnc\NetVOD\action;
 
+use iutnc\NetVOD\db\ConnectionFactory;
+
 class AffichageSerieAction extends Action
 {
 
@@ -17,26 +19,34 @@ class AffichageSerieAction extends Action
         }
 
         //On gere l'ensemble des series de la BD
-        $this->generateDiv("SELECT * from serie", $html, 'Catalogue');
+        $html = $this->generateDiv("SELECT * from serie", $html, 'Catalogue');
 
         //On gere l'ensemble des series en cours de l'utilisateur
-        $this->generateDiv("SELECT * from userpref where id_user like ?", $html, 'Series préférées');
+        $html = $this->generateDiv("SELECT * from userpref where id_user like 'user1'", $html, 'Series préférées');
 
         //On gere les series en cours de l'utilisateur
-        $this->generateDiv("select * from etatserie where etat like 'en cours' and id_user=? and id_serie=?", $html, 'Series en cours');
+        $html = $this->generateDiv("select * from etatserie e inner join serie s on s.id=e.id_serie where etat like 'en cours' and id_user like 'user1'
+", $html, 'Series en cours');
         return $html;
     }
+
 
     /*
      * fonction generant une partie de html
      */
-    private function generateDiv(string $requete, string $html, string $operation)
+    private function generateDiv(string $requete, string $html, string $operation): string
     {
-        $html .= "<div ><h3>$operation</h3>";
+        $html .= "<div><h3>$operation</h3>";
+        $html .= "<ul =presentation serie>";
         $q3 = $this->db->query($requete);
         while ($d1 = $q3->fetch()) {
-            $html .= ('<p>' . $q3['titre'] . '</p><img src="' . $q3['img'] . "'></br>");
+            $html .= '<li>
+                            <h4>' . $d1['titre'] . '</h4>
+                            <img src="' . $d1['img'] . "></br>
+                            <p>".$d1['descriptif']."</p></li>";
         }
-        $html .= '</div>';
+        $html .= '</ul></div>';
+
+        return $html;
     }
 }

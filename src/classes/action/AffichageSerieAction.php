@@ -52,13 +52,13 @@ class AffichageSerieAction extends Action
         $q3 = $this->db->query($requete);
         while ($d1 = $q3->fetch()) {
             $html .= <<<END
-                    <li class="decriptif">
-                        <a href="?action=affichage-page-serie&titre-serie={$d1['titre']}" style="color: black; text-decoration: none">
-                            <h4 style="margin: 0; padding: 0"> {$d1['titre']}  </h4>
-                            <img alt="" src="{$d1['img']}"></br>
-                            <p style="margin-top: 0; padding-top: 0">{$d1['descriptif']}</p>
-                        </a>
-                    </li>
+                    <a href="?action=affichage-page-serie&titre-serie={$d1['titre']}" style="color: black; text-decoration: none">
+                        <li class="decriptif">
+                                <h4 style="margin: 0; padding: 0"> {$d1['titre']}  </h4>
+                                <img alt="" src="{$d1['img']}"></br>
+                                <p style="margin-top: 0; padding-top: 0">{$d1['descriptif']}</p>
+                        </li>
+                    </a>
                 END;
         }
         $html .= "</ul></div>";

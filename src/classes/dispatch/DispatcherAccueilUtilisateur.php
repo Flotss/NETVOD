@@ -31,13 +31,13 @@ class DispatcherAccueilUtilisateur
                 $act = new action\DeconnexionAction();
                 $html .= $act->execute();
             break;
-            case 'affichage-page-serie':
-                $act = new action\AffichageDetailleeSerieAction();
-                $html .= $act->execute();
-                break;
             case 'gestionCompte':
                 $act = new action\GestionCompteAction();
                 $html .= $act->execute();
+                break;
+            case 'affichage-page-serie':
+                setcookie('nomSerie', $_GET['titre-serie'], time() + 3600, '/');
+                Redirection::redirection('PageSerie');
                 break;
             default:
                 $act = new action\AffichageSerieAction();

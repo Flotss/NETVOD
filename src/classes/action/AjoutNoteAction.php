@@ -20,7 +20,7 @@ class AjoutNoteAction extends Action
         if(!$d1=$q1->fetch()){
             if ($this->http_method === 'GET') {
                 $html .= <<<END
-                <form method="post" action="?action=signin">
+                <form method="post" action="?action=ajout-note">
                     <label>Note :<input type="number" name="note" placeholder="<note>"></label>
                     <button type="submit">Noter</button>
                 </form>
@@ -32,11 +32,11 @@ class AjoutNoteAction extends Action
                 } catch (DBExeption $e) {
                     throw new AuthException($e->getMessage());
                 }
-                $q2 = $db->query("SELECT * from serieComNote, episode where serieComNote.serie_id = episode.serie_id AND id_user = " . $_SESSION['id'] . " titre = '" . $titre . "'");
-                if($q2['id_user'] == null){
-                    $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,note) VALUES(" . $_SESSION['id'] . ",1," . $note );
+                $q2 = $db->query("SELECT * from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "'");
+                if(!$d2 = $q2->fetch()){
+                    $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,note) VALUES(" . $_SESSION['id'] . ", (SELECT serie_id from episode where titre = '" . $titre . "') ," . $note . ")" );
                 }else{
-                    $insert = $db->exec("INSERT INTO serieComNote(note) where id_user =" . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')" . " VALUE(" . $note . ")");
+                    $insert = $db->exec("Update serieComNote SET note = " . $note . " where id_user =" . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
                 }
                 $html = "commentaire ajoutée";
             }

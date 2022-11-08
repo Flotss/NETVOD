@@ -85,8 +85,8 @@ class DispatcherEpisode
                    $episode
                    $html
                    $comment
-                   <a href="?action=ajout-commentaire&titreEpisode={$titre}" style="color: darkorange; text-decoration: none">-Commenter!</a><br>
-                   <a href="?action=ajout-note&titreEpisode={$titre}" style="color: darkorange; text-decoration: none">-Noter!</a>
+                   <a href="?action=ajout-commentaire&titre={$titre}" style="color: darkorange; text-decoration: none">-Commenter!</a><br>
+                   <a href="?action=ajout-note&titre={$titre}" style="color: darkorange; text-decoration: none">-Noter!</a>
                    $footer
                 </body>
             </html>

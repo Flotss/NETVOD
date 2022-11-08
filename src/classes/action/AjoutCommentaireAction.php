@@ -20,18 +20,18 @@ class AjoutCommentaireAction extends Action
         if(!$d1=$q1->fetch()) {
             if ($this->http_method === 'GET') {
                 $html .= <<<END
-            <form method="post" action="?action=signin">
+            <form method="post" action="?action=ajout-commentaire">
                 <label>Commentaire :<input type="text" name="commentaire" placeholder="<commentaire>"></label>
                 <button type="submit">Commenter</button>
             </form>
         END;
             } else { // POST
                 $com = filter_var($_POST['commentaire'], FILTER_SANITIZE_STRING);
-                $q2 = $db->query("SELECT * from serieComNote, episode where serieComNote.serie_id = episode.serie_id AND id_user = " . $_SESSION['id'] . " titre = '" . $titre . "'");
-                if($q2['id_user'] == null){
-                    $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,commentaire) VALUES(" . $_SESSION['id'] . ",1," . $com );
+                $q2 = $db->query("SELECT * from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "'");
+                if(!$d2 = $q2->fetch()){
+                    $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,commentaire) VALUES(" . $_SESSION['id'] . ", (SELECT serie_id from episode where titre = '" . $titre . "') ,'" . $com . "')");
                 }else{
-                    $insert = $db->exec("INSERT INTO serieComNote(commentaire) where id_user =" . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')" . " VALUE(" . $com . ")");
+                    $insert = $db->exec("UPDATE serieComNote SET commentaire = " . $com . " where id_user =" . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
                 }
                 $html = "commentaire ajoutée";
             }

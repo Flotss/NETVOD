@@ -3,6 +3,7 @@ DROP TABLE etatserie;
 DROP TABLE serie;
 DROP TABLE seriecomnote;
 DROP TABLE userpref;
+DROP TABLE user;
 
 SET NAMES utf8;
 SET time_zone = '+00:00';

@@ -22,19 +22,24 @@ class DispatcherAccueilUtilisateur
 
         $html = '';
         switch ($this->action) {
-            case 'affichage-serie':
+            ///Affichage Serie???
+          /*  case 'affichage-serie':
                 $act = new action\AffichageSerieAction();
                 $html .= $act->execute();
-                break;
+                echo 'hi';
+                break;*/
             case 'accueil':
                 $act = new action\AccueilUtilisateurAction();
                 $html .= $act->execute();
+                echo 'hi2';
                 break;
             case 'deconnexion':
                 $act = new action\DeconnexionAction();
                 $html .= $act->execute();
             break;
             default:
+                $act = new action\AffichageSerieAction();
+                $html .= $act->execute();
                 break;
         }
 

@@ -2,6 +2,8 @@
 
 namespace iutnc\NetVOD\action;
 
+use iutnc\NetVOD\db\ConnectionFactory;
+
 class AffichageDetailleeSerieAction extends Action
 {
 
@@ -15,7 +17,7 @@ class AffichageDetailleeSerieAction extends Action
         }
         $q1 = $db->query("SELECT * from serie");
         while($d1=$q1->fetch()){
-            $html .= ('<h4>' . $q1['titre'] . '</h4><img src="' . $q1['img'] . "'><p>" . $q1['descriptif'] . "</p><p>année:" . $q1['annee']);
+            $html .= ('<h4>' . $d1['titre'] . '</h4><img src="' . $d1['img'] . "'><p>" . $d1['descriptif'] . "</p><p>année:" . $d1['annee']);
         }
         return $html;
     }

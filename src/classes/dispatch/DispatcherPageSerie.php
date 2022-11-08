@@ -45,6 +45,7 @@ class DispatcherPageSerie
                 $html .= $act->execute();
                 break;
             case 'affichage-episode':
+                setcookie('nomEpisode', $_GET['titre-episode'], time() + 3600, '/');
                 $act = new action\AffichageEpisodeAction();
                 $html .= $act->execute();
                 break;

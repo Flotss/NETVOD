@@ -27,9 +27,7 @@ class AffichageSerieAction extends Action
 
 
 //        On gere l'ensemble des series de la BD
-        $html = $this->generateDiv("SELECT * from serie
-                                            where id not in (SELECT id from serie s inner join userpref u on u.id_serie = s.id  where id_user = {$_SESSION['id']})
-                                            and id not in (select id from serie s1 inner join etatserie e on e.id_serie = s1.id where etat like 'en cours' and id_user = {$_SESSION['id']})",
+        $html = $this->generateDiv("SELECT * from serie",
                                     $html, 'Catalogue');
 
         //On gere l'ensemble des series en cours de l'utilisateur
@@ -48,13 +46,20 @@ class AffichageSerieAction extends Action
      */
     private function generateDiv(string $requete, string $html, string $operation): string
     {
-        $html .= "<h3>$operation</h3>";
-        $html .= '<div class="wrapper">';
-
         $statement = $this->db->prepare($requete);
         $statement->execute();
 
-        $nbrSlide = $statement->rowCount()/5;
+
+        $html .= "<h3>$operation</h3>";
+
+        if ($statement->rowCount() == 0) {
+            $html .= "<p>Aucune série</p>";
+            return $html;
+        }
+
+
+
+        $nbrSlide = $statement->rowCount()/3;
         $nbrSlide = ceil($nbrSlide);
 
         $numeroSection = 1;
@@ -68,13 +73,16 @@ class AffichageSerieAction extends Action
         }
 
         $nbrRow = 0;
+
+
+        $html .= '<div class="wrapper">';
         for ($i = 1; $i <= $nbrSlide; $i++) {
             $idPrecedent = ($i >1) ? $i-1 : $nbrSlide;
             $idSuivant = ($i < $nbrSlide) ? $i+1 : 1;
 
             $html .= '<section id="section' . $numeroSection . '">';
             $html .= '<a href="?#section' . $idPrecedent .'" class="arrow__btn left-arrow">‹</a>';
-            for ($j = 0; $j < 5; $j++) {
+            for ($j = 0; $j < 3; $j++) {
                 if ($nbrRow === $statement->rowCount()) {
                     break;
                 }

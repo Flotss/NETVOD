@@ -91,6 +91,7 @@ class DispatcherEpisode
                 </head>
                 <body>
                    $header
+                   <a href="PageSerie.php">Retour</a>
                    $episode
                    $html
                    $comment

@@ -17,15 +17,16 @@ class AffichageDetailleeSerieAction extends Action
         }catch(DBExeption $e){
             throw new AuthException($e->getMessage());
         }
-        $_COOKIE['nomSerie'] = str_replace("'","\'",$_COOKIE['nomSerie']);
-        $infoSerie = $this->db->query("SELECT s.titre as titre, s.descriptif, date_ajout, annee, img, s.id as id, COUNT(e.numero) as nbEp from serie s INNER JOIN episode e ON s.id = e.serie_id where s.titre = '{$_COOKIE['nomSerie']}' GROUP BY (s.titre)  ");
+        $temp = str_replace("'","\'",$_COOKIE['nomSerie']);
+        $infoSerie = $this->db->query("SELECT s.titre as titre, s.descriptif, date_ajout, annee, img, s.id as id, COUNT(e.numero) as nbEp from serie s INNER JOIN episode e ON s.id = e.serie_id where s.titre = '$temp' GROUP BY (s.titre)  ");
         $infoSerie = $infoSerie->fetch();
         $requete ="SELECT ROUND(AVG(note),1) as moyenne FROM seriecomnote WHERE id_serie = {$infoSerie['id']} GROUP BY id_serie";
         $statement = $this->db->prepare($requete);
         $statement->execute();
         if ($statement->rowCount() == 0) {
-            $note="La série n'a pas encore reçut de note";
+            $note="La série n'a pas encore reçu de note";
         }else{
+            $statement = $statement->fetch();
             $note="{$statement['moyenne']}";
         }
         $html .= <<<END

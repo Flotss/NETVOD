@@ -68,7 +68,7 @@ class AffichageDetailleeSerieAction extends Action
                     <a href="?action=affichage-episode&titre-episode={$d1['titre']}">
                         <li class="decriptif">
                                 <h2>Episode {$d1['numero']}</h2>
-                                <p>Titre {$d1['titre']}</p>
+                                <p>Titre: {$d1['titre']}</p>
                                 <p>Durée:  {$d1['duree']}</p>
                         </li>
                     </a>

@@ -114,7 +114,7 @@ class DispatcherEpisode
                     <div class="container">
                         <div class="content">
                             $header
-                           <a href="PageSerie.php">Retour</a>
+                           <a href="PageSerie.php">Retour au série</a>
                            $episode
                            $html
                            $comment

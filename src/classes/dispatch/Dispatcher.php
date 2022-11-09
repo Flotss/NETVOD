@@ -18,7 +18,7 @@ class Dispatcher
 
     public function run(): void
     {
-        if (isset($_SESSION['id'])) Redirection::redirection('AccueilUtilisateur');
+        if (isset($_SESSION['id'])) Redirection::redirection('AccueilUtilisateur.php');
 
         $html = '';
         switch ($this->action) {

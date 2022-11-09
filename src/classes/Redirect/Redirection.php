@@ -6,7 +6,7 @@ class Redirection
 {
     public static function redirection(string $url): void
     {
-        header("Location: $url".'.php');
+        header("Location: $url");
         die();
     }
 }

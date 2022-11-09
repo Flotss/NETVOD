@@ -75,8 +75,8 @@ class DispatcherEpisode
             Redirection::redirection('PageSerie');
         }
 
-        $q1 = $db->query("SELECT file,numero,duree,resume,episode.titre,serie.titre AS serieTitre from episode,serie where episode.serie_id = serie.id AND episode.titre = '" . $titre . "'");
-        $d1=$q1->fetch();
+        $statementEpisode = $db->query("SELECT file,numero,duree,resume,episode.titre,serie.titre AS serieTitre from episode,serie where episode.serie_id = serie.id AND episode.titre = '" . $titre . "'");
+        $resEpisode = $statementEpisode->fetch();
 
         // Chemin pour trouver le fichier
         $scriptNameExplode = explode('/', $_SERVER['SCRIPT_NAME']);
@@ -85,17 +85,18 @@ class DispatcherEpisode
             $chemin .= $scriptNameExplode[$k] . '/';
         }
         $episode = <<<END
-            <h4> {$d1['serieTitre']} - Episode {$d1['numero']} </h4>
+            <h4> {$resEpisode['serieTitre']} - Episode {$resEpisode['numero']} </h4>
             <video controls width="1080">
-                    <source src="{$chemin}/ressource/video/{$d1['file']}" type="video/mp4">
+                    <source src="{$chemin}/ressource/video/{$resEpisode['file']}" type="video/mp4">
             </video>
-            <p> Durée : {$d1['duree']} secondes </p>  
-            <p> Résumé : {$d1['resume']} </p>
+            <p> Durée : {$resEpisode['duree']} secondes </p>  
+            <p> Résumé : {$resEpisode['resume']} </p>
         END;
 
         $q2 = $db->query("SELECT etat from etatserie where id_user = " . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
         if(!$d2=$q2->fetch()){
-            $db->exec("INSERT INTO etatserie(id_user,id_serie,etat) VALUES(" . $_SESSION['id'] . ",(SELECT serie_id from episode where titre = '" . $titre . "'),'en cours')");
+            $db->exec("INSERT INTO etatserie(id_user,id_serie,etat) VALUES(" . $_SESSION['id'] . ",
+                                    (SELECT serie_id from episode where titre = '" . $titre . "'),'en cours')");
         }
 
 

@@ -4,6 +4,8 @@ DROP TABLE serie;
 DROP TABLE seriecomnote;
 DROP TABLE userpref;
 DROP TABLE user;
+DROP TABLE genre;
+DROP TABLE public;
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -45,6 +47,34 @@ INSERT INTO episode (id, numero, titre, resume, duree, file, serie_id) VALUES
 (20,	1,	'Ça roule, ça roule',	'Ça roule, ça roule toute la nuit. Jack fonce dans sa camionnette pour rejoindre le spot de surf.',	27,	'cars-by-night.mp4',	6),
 (21,	2,	'Ça roule, ça roule toujours',	'Ça roule la nuit, comme chaque nuit. Jim fonce avec son taxi, pour rejoindre Jack à la plage. De l\'eau a coulé sous les ponts. Le mystère du Lac trouve sa solution alors que les chevaux sont de retour après une virée sur l\'Etoile Noire.',	27,	'cars-by-night.mp4',	6);
 
+DROP TABLE IF EXISTS genre;
+CREATE TABLE genre (
+                       libele varchar(128) NOT NULL,
+                       PRIMARY KEY (libele)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO genre (libele) VALUES
+                               ('nature'),
+                               ('eau'),
+                               ('animaux'),
+                               ('plage'),
+                               ('sport'),
+                               ('ville'),
+                               ('voiture');
+
+DROP TABLE IF EXISTS public;
+CREATE TABLE public (
+                        libele varchar(128) NOT NULL,
+                        PRIMARY KEY (libele)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO public (libele) VALUES
+                                ('amoureux de paysage'),
+                                ('amoureux d\'animaux'),
+                                ('surfeur'),
+                                ('paysage urbain');
+
+
 DROP TABLE IF EXISTS serie;
 CREATE TABLE serie (
   id int(11) NOT NULL AUTO_INCREMENT,
@@ -53,7 +83,11 @@ CREATE TABLE serie (
   img varchar(256) NOT NULL,
   annee int(11) NOT NULL,
   date_ajout date NOT NULL,
-  PRIMARY KEY (id)
+  genre varchar(256),
+  public varchar(256),
+  PRIMARY KEY (id),
+  constraint FOREIGN KEY (genre) references genre(libele),
+  constraint FOREIGN KEY (public) references public(libele)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO serie (id, titre, descriptif, img, annee, date_ajout) VALUES
@@ -64,12 +98,14 @@ INSERT INTO serie (id, titre, descriptif, img, annee, date_ajout) VALUES
 (5,	'Champion',	'La vie trépidante de deux champions de surf, passionnés dès leur plus jeune age. Ils consacrent leur vie à ce sport. ',	'',	2022,	'2022-11-03'),
 (6,	'Une ville la nuit',	'C\'est beau une ville la nuit, avec toutes ces voitures qui passent et qui repassent. La série suit un livreur, un chauffeur de taxi, et un insomniaque. Tous parcourent la grande ville une fois la nuit venue, au volant de leur véhicule.',	'',	2017,	'2022-10-31');
 
-update serie set img = 'lake.png' where id = 1;
-update serie set img = 'water.png' where id = 2;
-update serie set img = 'horses.png' where id = 3;
-update serie set img = 'beach.png' where id = 4;
-update serie set img = 'surf.png' where id = 5;
-update serie set img = 'cars-by-night.png' where id = 6;
+update serie set img = 'lake.png', genre = 'nature-eau', public = 'amoureux de paysage' where id = 1;
+update serie set img = 'water.png', genre = 'nature-eau', public = 'amoureux de paysage' where id = 2;
+update serie set img = 'horses.png', genre = 'nature-animaux', public = 'amoureux d\'animaux' where id = 3;
+update serie set img = 'beach.png', genre = 'plage-eau', public = 'amoureux de paysage' where id = 4;
+update serie set img = 'surf.png', genre = 'sport-eau-plage', public = 'surfeur'  where id = 5;
+update serie set img = 'cars-by-night.png', genre = 'ville-voiture', public = 'paysage urbain' where id = 6;
+
+
 
 -- PROJET
 
@@ -120,3 +156,5 @@ CREATE TABLE etatSerie (
     CONSTRAINT FOREIGN KEY (id_user) REFERENCES user(id),
     CONSTRAINT FOREIGN KEY (id_serie) REFERENCES serie(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+

@@ -87,17 +87,24 @@ class DispatcherEpisode
                 <head>
                     <meta charset="UTF-8">>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <link rel=stylesheet href="src/CSS/cssDefault.css">
+                    <link rel=stylesheet href="src/CSS/affichageSerie.css">
                     <title>NetVOD</title>
                 </head>
                 <body>
-                   $header
-                   <a href="PageSerie.php">Retour</a>
-                   $episode
-                   $html
-                   $comment
-                   <a href="?action=ajout-commentaire&titre={$titre}" style="color: darkorange; text-decoration: none">-Commenter!</a><br>
-                   <a href="?action=ajout-note&titre={$titre}" style="color: darkorange; text-decoration: none">-Noter!</a>
-                   $footer
+                    <div class="container">
+                        <div class="content">
+                            $header
+                           <a href="PageSerie.php">Retour</a>
+                           $episode
+                           $html
+                           $comment
+                           <a href="?action=ajout-commentaire&titre={$titre}" style="color: darkorange; text-decoration: none">-Commenter!</a><br>
+                           <a href="?action=ajout-note&titre={$titre}" style="color: darkorange; text-decoration: none">-Noter!</a>
+                           $footer
+                        </div>
+                     </div>
+                   
                 </body>
             </html>
         END;

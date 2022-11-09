@@ -44,6 +44,7 @@ class ConnexionAction extends Action
     {
         return <<<END
                 <div class="enteteAccueil">
+                <label>Se connecter</label>
                 <form method="post" action="?action=connexion">
                         <label> Email :  <input type="email" name="email" placeholder="<email>"> </label>
                         <label> Mot de passe :  <input type="password" name="password" placeholder = "<mot de passe>"> </label>

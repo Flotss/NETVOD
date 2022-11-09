@@ -75,3 +75,7 @@ h1 {
 .aucuneSerie p{
     margin-bottom: 3em;
 }
+
+footer{
+    position: relative;
+}

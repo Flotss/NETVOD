@@ -28,15 +28,15 @@ class AffichageSerieAction extends Action
 
 //        On gere l'ensemble des series de la BD
         $html = $this->generateDiv("SELECT * from serie",
-                                    $html, 'Catalogue');
+                                    $html, 'Catalogue', 1);
 
         //On gere l'ensemble des series en cours de l'utilisateur
         $html = $this->generateDiv("SELECT * from serie s inner join userpref u on u.id_serie = s.id  where id_user = {$_SESSION['id']}",
-                                    $html, 'Series préférées');
+                                    $html, 'Series préférées', 2);
 
         //On gere les series en cours de l'utilisateur
         $html = $this->generateDiv("select * from serie s inner join etatserie e on e.id_serie = s.id where etat like 'en cours' and id_user = {$_SESSION['id']}",
-                                    $html, 'Series en cours');
+                                    $html, 'Series en cours', 3);
         return $html;
     }
 
@@ -44,7 +44,7 @@ class AffichageSerieAction extends Action
     /*
      * fonction generant une partie de html
      */
-    private function generateDiv(string $requete, string $html, string $operation): string
+    private function generateDiv(string $requete, string $html, string $operation, $numero): string
     {
         $statement = $this->db->prepare($requete);
         $statement->execute();
@@ -54,9 +54,11 @@ class AffichageSerieAction extends Action
 
         if ($statement->rowCount() == 0) {
 
-            $html .= '<div class="aucuneSerie">
-                         <p>Vous n avez pas de serie dans cette categorie</p>
-                     </div>';
+            $html .= <<<END
+                    <div class="aucuneSerie$numero">
+                         <p>Vous n'avez pas de serie dans cette categorie</p>
+                     </div>
+            END;
             return $html;
         }
 
@@ -80,11 +82,18 @@ class AffichageSerieAction extends Action
 
         $html .= '<div class="wrapper">';
         for ($i = 1; $i <= $nbrSlide; $i++) {
-            $idPrecedent = ($i >1) ? $i-1 : $nbrSlide;
-            $idSuivant = ($i < $nbrSlide) ? $i+1 : 1;
+            if ($nbrSlide == 2){
+                $idPrecedent = 1;
+                $idSuivant = 2;
+            }else{
+                $idPrecedent = ($i > 1) ? $i-1 : $nbrSlide;
+                $idSuivant = ($i == $nbrSlide) ? $i+1 : 1;
+            }
 
-            $html .= '<section id="section' . $numeroSection . '">';
-            $html .= '<a href="?#section' . $idPrecedent .'" class="arrow__btn left-arrow">‹</a>';
+
+
+            $html .= '<section id="'. 'section' . $operation . $numeroSection . '">';
+            $html .= '<a href="#'.'section' . $operation . $idPrecedent .'" class="arrow__btn left-arrow">‹</a>';
             for ($j = 0; $j < 3; $j++) {
                 if ($nbrRow === $statement->rowCount()) {
                     break;
@@ -107,7 +116,7 @@ class AffichageSerieAction extends Action
                     END;
                 $nbrRow++;
             }
-            $html .= '<a href="?#section' . $idSuivant .'" class="arrow__btn right-arrow">›</a>';
+            $html .= '<a href="#'.'section' . $operation . $idSuivant .'" class="arrow__btn right-arrow">›</a>';
             $html .=  '</section>';
             $idSectionSuivante++;
             $numeroSection++;

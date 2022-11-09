@@ -1,7 +1,13 @@
 html{
     background-color: #1f1f1f;
+    height: 100%;
     color: white;
+    font-family: "Source code pro", Verdana, sans-serif;
+    overflow-x: hidden;
 }
+
+
+
 form{
     text-align: right;
     display: grid;
@@ -9,6 +15,7 @@ form{
     padding: 20px;
     border: solid;
 }
+
 .enteteAccueil{
     display: grid;
     justify-content: center;
@@ -24,18 +31,7 @@ button{
 header{
     text-align: center;
 }
-footer{
-    bottom: 0;
-    position:absolute;
-    width:100%;
-    background-color: rgba(56, 49, 49, 0.24);
-}
 
-/* box inline*/
-footer div {
-    margin: 2em;
-    display: inline-block;
-}
 
 a{
     text-decoration: none; ;
@@ -53,7 +49,49 @@ h3{
     text-decoration: underline;
 }
 
-.nous{
-    margin-top: 3em;
+.container > * {
+    margin-left: 2em;
+    margin-right: 2em;
 }
 
+.container header {
+    margin-top: 2em;
+}
+
+.container footer {
+    margin-bottom: 2em;
+}
+
+.action{
+    text-align: left;
+    display: block;
+    padding: 20px;
+    border: white;
+    box-sizing: content-box;
+    width: 100%;
+
+}
+
+
+
+.episodeSerie a{
+    color: white;
+    display: inline-flex;
+    margin-left: 30px;
+}
+
+/*
+footer {
+    position: absolute;
+    width: 100%;
+    background-color: #2d2d2d;
+    margin: 0;
+    padding: 0;
+    bottom: 0;
+}
+
+footer div {
+    margin: 2em;
+    display: inline-block;
+}
+*/

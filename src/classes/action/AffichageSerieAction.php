@@ -53,7 +53,10 @@ class AffichageSerieAction extends Action
         $html .= "<h3>$operation</h3>";
 
         if ($statement->rowCount() == 0) {
-            $html .= "<p>Aucune série</p>";
+
+            $html .= '<div class="aucuneSerie">
+                         <p>Vous n avez pas de serie dans cette categorie</p>
+                     </div>';
             return $html;
         }
 

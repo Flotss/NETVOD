@@ -52,7 +52,7 @@ class Dispatcher
             <html lang="fr">
                 <head>
                     <meta charset="UTF-8">
-                    <link rel=stylesheet href=src/classes/CSS/inscription.css>
+                    <link rel=stylesheet href="src/CSS/cssDefault.css">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>NetVOD</title>
                 </head>

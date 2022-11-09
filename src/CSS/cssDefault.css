@@ -1,4 +1,7 @@
-
+html{
+    background-color: #1f1f1f;
+    color: white;
+}
 form{
     text-align: right;
     display: grid;
@@ -23,17 +26,34 @@ header{
 }
 footer{
     bottom: 0;
-    background: black;
-    color: white;
-    position: relative;
+    position:absolute;
+    width:100%;
+    background-color: rgba(56, 49, 49, 0.24);
+}
+
+/* box inline*/
+footer div {
+    margin: 2em;
+    display: inline-block;
 }
 
 a{
-    text-decoration: none ;
+    text-decoration: none; ;
     font-style:normal;
+    color: white;
+
+}
+a:focus,
+a:hover{
+    text-decoration: underline;
+    color: #b0f1ff;
 }
 
 h3{
     text-decoration: underline;
+}
+
+.nous{
+    margin-top: 3em;
 }
 

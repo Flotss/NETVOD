@@ -31,18 +31,22 @@ class AjoutNoteAction extends Action
             END;
         } else { // POST
             $note = filter_var($_POST['note'], FILTER_SANITIZE_NUMBER_INT);
-            try {
-                $db = ConnectionFactory::makeConnection();
-            } catch (DBExeption $e) {
-                throw new AuthException($e->getMessage());
-            }
-            $q2 = $db->query("SELECT * from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "'");
-            if(!$d2 = $q2->fetch()){
-                $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,note) VALUES(" . $_SESSION['id'] . ", (SELECT serie_id from episode where titre = '" . $titre . "') ," . $note . ")" );
+            if($note <= 5 && $note >= 0) {
+                try {
+                    $db = ConnectionFactory::makeConnection();
+                } catch (DBExeption $e) {
+                    throw new AuthException($e->getMessage());
+                }
+                $q2 = $db->query("SELECT * from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "'");
+                if (!$d2 = $q2->fetch()) {
+                    $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,note) VALUES(" . $_SESSION['id'] . ", (SELECT serie_id from episode where titre = '" . $titre . "') ," . $note . ")");
+                } else {
+                    $insert = $db->exec("Update serieComNote SET note = " . $note . " where id_user =" . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
+                }
+                $html = "Note ajoutée";
             }else{
-                $insert = $db->exec("Update serieComNote SET note = " . $note . " where id_user =" . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
+                $html = "La note doit etre entre 0 et 5";
             }
-            $html = "Note ajoutée";
         }
         return $html;
     }

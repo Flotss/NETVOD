@@ -14,7 +14,7 @@ class AjoutNoteAction extends Action
             $titre = $_COOKIE['nomEpisode'];
             $titre = str_replace("'","\'",$titre);
         }else {
-            $titre = "Le lac";
+            Redirection::redirection('PageSerie');
         }
         try {
             $db = ConnectionFactory::makeConnection();
@@ -22,31 +22,27 @@ class AjoutNoteAction extends Action
             throw new AuthException($e->getMessage());
         }
         $q1 = $db->query("SELECT note from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "' AND note IS NOT NULL");
-        if(!$d1=$q1->fetch()){
-            if ($this->http_method === 'GET') {
-                $html .= <<<END
+        if ($this->http_method === 'GET') {
+            $html .= <<<END
                 <form method="post" action="?action=ajout-note">
                     <label>Note :<input type="number" name="note" placeholder="<note>"></label>
                     <button type="submit">Noter</button>
                 </form>
             END;
-            } else { // POST
-                $note = filter_var($_POST['note'], FILTER_SANITIZE_NUMBER_INT);
-                try {
-                    $db = ConnectionFactory::makeConnection();
-                } catch (DBExeption $e) {
-                    throw new AuthException($e->getMessage());
-                }
-                $q2 = $db->query("SELECT * from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "'");
-                if(!$d2 = $q2->fetch()){
-                    $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,note) VALUES(" . $_SESSION['id'] . ", (SELECT serie_id from episode where titre = '" . $titre . "') ," . $note . ")" );
-                }else{
-                    $insert = $db->exec("Update serieComNote SET note = " . $note . " where id_user =" . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
-                }
-                $html = "Note ajoutée";
+        } else { // POST
+            $note = filter_var($_POST['note'], FILTER_SANITIZE_NUMBER_INT);
+            try {
+                $db = ConnectionFactory::makeConnection();
+            } catch (DBExeption $e) {
+                throw new AuthException($e->getMessage());
             }
-        }else{
-            $html = "vous avez deja noté cette serie";
+            $q2 = $db->query("SELECT * from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "'");
+            if(!$d2 = $q2->fetch()){
+                $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,note) VALUES(" . $_SESSION['id'] . ", (SELECT serie_id from episode where titre = '" . $titre . "') ," . $note . ")" );
+            }else{
+                $insert = $db->exec("Update serieComNote SET note = " . $note . " where id_user =" . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
+            }
+            $html = "Note ajoutée";
         }
         return $html;
     }

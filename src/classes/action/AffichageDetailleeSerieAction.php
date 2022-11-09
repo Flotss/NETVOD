@@ -20,8 +20,14 @@ class AffichageDetailleeSerieAction extends Action
         $_COOKIE['nomSerie'] = str_replace("'","\'",$_COOKIE['nomSerie']);
         $infoSerie = $this->db->query("SELECT s.titre as titre, s.descriptif, date_ajout, annee, img, s.id as id, COUNT(e.numero) as nbEp from serie s INNER JOIN episode e ON s.id = e.serie_id where s.titre = '{$_COOKIE['nomSerie']}' GROUP BY (s.titre)  ");
         $infoSerie = $infoSerie->fetch();
-        $note = $this->db->query("SELECT ROUND(AVG(note),1) as moyenne FROM seriecomnote WHERE id_serie = {$infoSerie['id']} GROUP BY id_serie");
-        $note = $note->fetch();
+        $requete ="SELECT ROUND(AVG(note),1) as moyenne FROM seriecomnote WHERE id_serie = {$infoSerie['id']} GROUP BY id_serie";
+        $statement = $this->db->prepare($requete);
+        $statement->execute();
+        if ($statement->rowCount() == 0) {
+            $note="La série n'a pas encore reçut de note";
+        }else{
+            $note="{$statement['moyenne']}";
+        }
         $html .= <<<END
                 <h2>  {$infoSerie['titre']}  </h2>
                 <img alt="" src="{$infoSerie['img']}">
@@ -31,7 +37,7 @@ class AffichageDetailleeSerieAction extends Action
                 <p>Date d'ajout : {$infoSerie['date_ajout']}</p>
                 <p>Année de sortie : {$infoSerie['annee']}</p>
                 <p>Nombre d'épisode : {$infoSerie['nbEp']}</p>
-                <p>Note de la série : {$note['moyenne']}</p>
+                <p>Note de la série : $note</p>
                 <form method="post" action="?action=ajout-preference">
                         <button type="submit">Ajouter à mes préférences</button>
                 </form>

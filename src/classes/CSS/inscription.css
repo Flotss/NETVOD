@@ -1,0 +1,39 @@
+
+form{
+    text-align: right;
+    display: grid;
+    grid-row-gap: 20px;
+    padding: 20px;
+    border: solid;
+}
+.enteteAccueil{
+    display: grid;
+    justify-content: center;
+    align-items: start;
+    max-block-size: 300px;
+    min-block-size: 200px;
+}
+
+button{
+    inline-size: fit-content;
+    justify-self: center;
+}
+header{
+    text-align: center;
+}
+footer{
+    bottom: 0;
+    background: black;
+    color: white;
+    position: relative;
+}
+
+a{
+    text-decoration: none ;
+    font-style:normal;
+}
+
+h3{
+    text-decoration: underline;
+}
+

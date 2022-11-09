@@ -3,8 +3,8 @@
 namespace iutnc\NetVOD\dispatch;
 
 use iutnc\NetVOD\action;
-use iutnc\NetVOD\Redirect\Redirection;
 use iutnc\NetVOD\html;
+use iutnc\NetVOD\Redirect\Redirection;
 
 class Dispatcher
 {
@@ -48,9 +48,11 @@ class Dispatcher
         $act = new html\Footer();
         $footer = $act->execute();
         echo <<<END
+        <!DOCTYPE html>
             <html lang="fr">
                 <head>
-                    <meta charset="UTF-8">>
+                    <meta charset="UTF-8">
+                    <link rel=stylesheet href=src/classes/CSS/inscription.css>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>NetVOD</title>
                 </head>

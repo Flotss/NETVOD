@@ -14,7 +14,7 @@ class AjoutNoteAction extends Action
             $titre = $_COOKIE['nomEpisode'];
             $titre = str_replace("'","\'",$titre);
         }else {
-            Redirection::redirection('PageSerie');
+            Redirection::redirection('PageSerie.php');
         }
         try {
             $db = ConnectionFactory::makeConnection();

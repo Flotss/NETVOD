@@ -13,6 +13,7 @@ class Header
             $acueil = '<a href="?action=accueil" class="accueil">Retour à l’accueil</a>';
             $deconnexion = '<a href="?action=deconnexion" class="deconnexion">Déconnexion</a>';
             $gestion = '<a class="gestionCompte" href="?action=gestionCompte">Gestion du compte</a></li>';
+            $research = '<a class="research" href="?action=research">Recherche</a></li>';
         }
 
         $html = <<<END
@@ -24,6 +25,7 @@ class Header
             $acueil
             $gestion   
             $deconnexion
+            $research
         </header>
         END;
         return $html;

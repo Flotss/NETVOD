@@ -22,7 +22,7 @@ class DispatcherEpisode
     public function run(): void
     {
         // SECURITE
-        if (! (isset($_SESSION['id']))) Redirection::redirection('index');
+        if (! (isset($_SESSION['id']))) Redirection::redirection('index.php');
 
 
         $html = '';
@@ -46,6 +46,9 @@ class DispatcherEpisode
             case 'gestionCompte':
                 $act = new action\GestionCompteAction();
                 $html .= $act->execute();
+                break;
+            case 'research':
+                Redirection::redirection('AccueilUtilisateur.php?action=research');
                 break;
             default:
                 break;
@@ -72,7 +75,7 @@ class DispatcherEpisode
             $titre = $_COOKIE['nomEpisode'];
             $titre = str_replace("'","\'",$titre);
         }else {
-            Redirection::redirection('PageSerie');
+            Redirection::redirection('PageSerie.php');
         }
 
         $statementEpisode = $db->query("SELECT file,numero,duree,resume,episode.titre,serie.titre AS serieTitre from episode,serie where episode.serie_id = serie.id AND episode.titre = '" . $titre . "'");

@@ -19,7 +19,7 @@ class DispatcherAccueilUtilisateur
     public function run(): void
     {
         // SECURITE
-        if (! (isset($_SESSION['id']))) Redirection::redirection('index');
+        if (! (isset($_SESSION['id']))) Redirection::redirection('index.php');
 
         $html = '';
         switch ($this->action) {
@@ -37,7 +37,11 @@ class DispatcherAccueilUtilisateur
                 break;
             case 'affichage-page-serie':
                 setcookie('nomSerie', $_GET['titre-serie'], time() + 3600, '/');
-                Redirection::redirection('PageSerie');
+                Redirection::redirection('PageSerie.php');
+                break;
+            case 'research':
+                $act = new action\ResearchAction();
+                $html .= $act->execute();
                 break;
             default:
                 $act = new action\AffichageSerieAction();

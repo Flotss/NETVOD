@@ -67,7 +67,9 @@ class DispatcherAccueilUtilisateur
                 <head>
                     <meta charset="UTF-8">>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <link href="$chemin/css/affichageSerie.css" rel="stylesheet">
+                    <link href="src/CSS/affichageSerie.css" rel="stylesheet">
+                    <link href="src/CSS/cssDefault.css" rel="stylesheet">
+
                     <title>NetVOD</title>
                 </head>
                 <body>

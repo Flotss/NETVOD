@@ -71,3 +71,7 @@ h1 {
     right: 0;
     background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, black 100%);
 }
+
+.aucuneSerie p{
+    margin-bottom: 3em;
+}

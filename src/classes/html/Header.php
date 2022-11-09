@@ -9,6 +9,7 @@ class Header
     {
         $deconnexion = '';
         $gestion = '';
+        $acueil ='';
         if (isset($_SESSION['id'])) {
             $acueil = '<a href="?action=accueil" class="accueil">Retour à l’accueil</a>';
             $deconnexion = '<a href="?action=deconnexion" class="deconnexion">Déconnexion</a>';

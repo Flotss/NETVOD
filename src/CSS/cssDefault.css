@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 html{
     background-color: #1f1f1f;
     height: 100%;
     color: white;
-    font-family: "Source code pro", Verdana, sans-serif;
+    font-family: 'Roboto', sans-serif;
     overflow-x: hidden;
 }
 

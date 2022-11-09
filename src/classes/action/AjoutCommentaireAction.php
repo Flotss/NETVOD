@@ -14,7 +14,7 @@ class AjoutCommentaireAction extends Action
             $titre = $_COOKIE['nomEpisode'];
             $titre = str_replace("'","\'",$titre);
         }else {
-            $titre = "Le lac";
+            Redirection::redirection('PageSerie');
         }
         try {
             $db = ConnectionFactory::makeConnection();

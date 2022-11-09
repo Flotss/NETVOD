@@ -42,6 +42,9 @@ class AffichageDetailleeSerieAction extends Action
                 <form method="post" action="?action=ajout-preference" class="action">
                         <button type="submit">Ajouter à mes préférences</button>
                 </form>
+                <form method="post" action="?action=supr-preference" class="action">
+                        <button type="submit">Supprimer de mes préférences</button>
+                </form>
                 
                 END;
 

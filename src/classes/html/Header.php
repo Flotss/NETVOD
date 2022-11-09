@@ -9,9 +9,10 @@ class Header
     {
         $deconnexion = '';
         $gestion = '';
-        $acueil ='';
+        $accueil ='';
+        $research = '';
         if (isset($_SESSION['id'])) {
-            $acueil = '<a href="?action=accueil" class="accueil">Retour à l’accueil</a>';
+            $accueil = '<a href="?action=accueil" class="accueil">Retour à l’accueil</a>';
             $deconnexion = '<a href="?action=deconnexion" class="deconnexion">Déconnexion</a>';
             $gestion = '<a class="gestionCompte" href="?action=gestionCompte">Gestion du compte</a></li>';
             $research = '<a class="research" href="?action=research">Recherche</a></li>';
@@ -23,7 +24,7 @@ class Header
                 <a href="?action=accueil" style="text-decoration: none;
                                     font-size: 5em">NetVOD</a>
             </div>
-            $acueil
+            $accueil
             $gestion   
             $deconnexion
             $research

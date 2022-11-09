@@ -45,7 +45,7 @@ class AjoutNoteAction extends Action
                 }
                 $html = "Note ajoutée";
             }else{
-                $html = "La note doit ne peut pas etre au dessus de 5";
+                $html = "La note doit etre entre 0 et 5";
             }
         }
         return $html;

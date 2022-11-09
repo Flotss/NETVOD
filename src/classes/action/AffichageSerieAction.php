@@ -5,6 +5,7 @@ namespace iutnc\NetVOD\action;
 use iutnc\NetVOD\db\ConnectionFactory;
 use iutnc\NetVOD\AuthException\AuthException;
 use PDOException;
+use PDO;
 
 class AffichageSerieAction extends Action
 {
@@ -47,22 +48,60 @@ class AffichageSerieAction extends Action
      */
     private function generateDiv(string $requete, string $html, string $operation): string
     {
-        $html .= "<div class='$operation'><h3>$operation</h3>";
-        $html .= "<ul =presentation serie>";
-        $q3 = $this->db->query($requete);
-        while ($d1 = $q3->fetch()) {
-            $html .= <<<END
-                    <a href="?action=affichage-page-serie&titre-serie={$d1['titre']}" style="color: black; text-decoration: none">
-                        <li class="decriptif">
-                                <h4 style="margin: 0; padding: 0"> {$d1['titre']}  </h4>
-                                <img alt="" src="{$d1['img']}"></br>
-                                <p style="margin-top: 0; padding-top: 0">{$d1['descriptif']}</p>
-                        </li>
-                    </a>
-                END;
-        }
-        $html .= "</ul></div>";
+        $html .= "<h3>$operation</h3>";
+        $html .= '<div class="wrapper">';
 
+        $statement = $this->db->prepare($requete);
+        $statement->execute();
+
+        $nbrSlide = $statement->rowCount()/5;
+        $nbrSlide = ceil($nbrSlide);
+
+        $numeroSection = 1;
+        $idSectionSuivante = $nbrSlide;
+
+
+        $scriptNameExplode = explode('/', $this->getScriptName());
+        $chemin = '';
+        for ($k = 0; $k < count($scriptNameExplode) - 1; $k++) {
+            $chemin .= $scriptNameExplode[$k] . '/';
+        }
+
+        $nbrRow = 0;
+        for ($i = 1; $i <= $nbrSlide; $i++) {
+            $idPrecedent = ($i >1) ? $i-1 : $nbrSlide;
+            $idSuivant = ($i < $nbrSlide) ? $i+1 : 1;
+
+            $html .= '<section id="section' . $numeroSection . '">';
+            $html .= '<a href="?#section' . $idPrecedent .'" class="arrow__btn left-arrow">‹</a>';
+            for ($j = 0; $j < 5; $j++) {
+                if ($nbrRow === $statement->rowCount()) {
+                    break;
+                }
+
+                $data = $statement->fetch(PDO::FETCH_ASSOC);
+                $titre = $data['titre'];
+                $img = $data['img'];
+
+
+
+
+                $html .= <<<END
+                    <div class="item">
+                         <a href="?action=affichage-page-serie&titre-serie=$titre">
+                            <img alt="descritpion" src="$chemin/ressource/image/$img"></br>
+                            <h1 class="heading">$titre</h1>
+                         </a>
+                    </div>
+                    END;
+                $nbrRow++;
+            }
+            $html .= '<a href="?#section' . $idSuivant .'" class="arrow__btn right-arrow">›</a>';
+            $html .=  '</section>';
+            $idSectionSuivante++;
+            $numeroSection++;
+        }
+        $html .= '</div>';
         return $html;
     }
 }

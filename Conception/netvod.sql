@@ -64,6 +64,12 @@ INSERT INTO serie (id, titre, descriptif, img, annee, date_ajout) VALUES
 (5,	'Champion',	'La vie trépidante de deux champions de surf, passionnés dès leur plus jeune age. Ils consacrent leur vie à ce sport. ',	'',	2022,	'2022-11-03'),
 (6,	'Une ville la nuit',	'C\'est beau une ville la nuit, avec toutes ces voitures qui passent et qui repassent. La série suit un livreur, un chauffeur de taxi, et un insomniaque. Tous parcourent la grande ville une fois la nuit venue, au volant de leur véhicule.',	'',	2017,	'2022-10-31');
 
+update serie set img = 'lake.png' where id = 1;
+update serie set img = 'water.png' where id = 2;
+update serie set img = 'horses.png' where id = 3;
+update serie set img = 'beach.png' where id = 4;
+update serie set img = 'surf.png' where id = 5;
+update serie set img = 'cars.png' where id = 6;
 
 -- PROJET
 

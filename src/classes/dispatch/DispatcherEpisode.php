@@ -68,7 +68,11 @@ class DispatcherEpisode
         }catch(\PDOException $e){
             throw new AuthException($e->getMessage());
         }
-        $titre = "Le lac" /* GET(titreEpisode) */;
+        if(isset($_COOKIE['nomEpisode'])){
+            $titre = $_COOKIE['nomEpisode'];
+        }else {
+            $titre = "Le lac";
+        }
         $q1 = $db->query("SELECT file,numero,duree,resume,episode.titre,serie.titre AS serieTitre from episode,serie where episode.serie_id = serie.id AND episode.titre = '" . $titre . "'");
         $d1=$q1->fetch();
         $episode = '<h4>' . $d1['serieTitre'] . ". Episode " . $d1['numero'] . ": " . $d1['titre'] . "</h4>" . "<video>" . $d1['file'] . "</video>" . "<p> Durée: " . $d1['duree'] . " minute</p><p>Resume: " . $d1['resume'] . "</p>";
@@ -85,8 +89,8 @@ class DispatcherEpisode
                    $episode
                    $html
                    $comment
-                   <a href="?action=ajout-commentaire&titreEpisode={$titre}" style="color: darkorange; text-decoration: none">-Commenter!</a><br>
-                   <a href="?action=ajout-note&titreEpisode={$titre}" style="color: darkorange; text-decoration: none">-Noter!</a>
+                   <a href="?action=ajout-commentaire&titre={$titre}" style="color: darkorange; text-decoration: none">-Commenter!</a><br>
+                   <a href="?action=ajout-note&titre={$titre}" style="color: darkorange; text-decoration: none">-Noter!</a>
                    $footer
                 </body>
             </html>

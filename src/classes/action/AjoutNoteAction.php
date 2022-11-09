@@ -22,6 +22,9 @@ class AjoutNoteAction extends Action
             throw new AuthException($e->getMessage());
         }
         $q1 = $db->query("SELECT note from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "' AND note IS NOT NULL");
+        if($d1=$q1->fetch()){
+            $html = "Votre note actuelle : " . $d1['note'];
+        }
         if ($this->http_method === 'GET') {
             $html .= <<<END
                 <form method="post" action="?action=ajout-note">

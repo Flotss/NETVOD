@@ -22,6 +22,9 @@ class AjoutCommentaireAction extends Action
             throw new AuthException($e->getMessage());
         }
         $q1 = $db->query("SELECT commentaire from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "' AND commentaire IS NOT NULL");
+        if($d1=$q1->fetch()){
+            $html = "Votre commentaire actuelle : " . $d1['commentaire'];
+        }
         if ($this->http_method === 'GET') {
             $html .= <<<END
                 <form method="post" action="?action=ajout-commentaire">

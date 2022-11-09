@@ -70,6 +70,7 @@ class DispatcherEpisode
         }
         if(isset($_COOKIE['nomEpisode'])){
             $titre = $_COOKIE['nomEpisode'];
+            $titre = str_replace("'","\'",$titre);
         }else {
             $titre = "Le lac";
         }

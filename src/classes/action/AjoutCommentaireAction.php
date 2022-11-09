@@ -12,6 +12,7 @@ class AjoutCommentaireAction extends Action
         $html = '';
         if(isset($_COOKIE['nomEpisode'])){
             $titre = $_COOKIE['nomEpisode'];
+            $titre = str_replace("'","\'",$titre);
         }else {
             $titre = "Le lac";
         }
@@ -35,7 +36,7 @@ class AjoutCommentaireAction extends Action
                 if(!$d2 = $q2->fetch()){
                     $insert = $db->exec("INSERT INTO serieComNote(id_user,id_serie,commentaire) VALUES(" . $_SESSION['id'] . ", (SELECT serie_id from episode where titre = '" . $titre . "') ,'" . $com . "')");
                 }else{
-                    $insert = $db->exec("UPDATE serieComNote SET commentaire = " . $com . " where id_user =" . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
+                    $insert = $db->exec("UPDATE serieComNote SET commentaire = '" . $com . "' where id_user =" . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
                 }
                 $html = "commentaire ajoutée";
             }

@@ -12,6 +12,7 @@ class AjoutNoteAction extends Action
         $html = '';
         if(isset($_COOKIE['nomEpisode'])){
             $titre = $_COOKIE['nomEpisode'];
+            $titre = str_replace("'","\'",$titre);
         }else {
             $titre = "Le lac";
         }
@@ -45,7 +46,7 @@ class AjoutNoteAction extends Action
                 $html = "Note ajoutée";
             }
         }else{
-            $html = "vous avez deja noté cette episode";
+            $html = "vous avez deja noté cette serie";
         }
         return $html;
     }

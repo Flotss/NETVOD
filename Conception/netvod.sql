@@ -69,7 +69,7 @@ update serie set img = 'water.png' where id = 2;
 update serie set img = 'horses.png' where id = 3;
 update serie set img = 'beach.png' where id = 4;
 update serie set img = 'surf.png' where id = 5;
-update serie set img = 'cars.png' where id = 6;
+update serie set img = 'cars-by-night.png' where id = 6;
 
 -- PROJET
 

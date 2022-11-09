@@ -47,7 +47,7 @@ class InscriptionAction extends Action
                         <label> Prénom : <input type="text" name="prenom" placeholder="<prenom>"> </label>
                         <button type="submit"> S'enregistrer </button>
                      <div>
-                        <label>Vous avez un compte ?</label>
+                        <label>Vous avez déjà un compte ?</label>
                         <a href="?action=connexion">Se connecter</a>
                     </div>
                 </form>

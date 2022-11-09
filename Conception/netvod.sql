@@ -4,8 +4,6 @@ DROP TABLE serie;
 DROP TABLE seriecomnote;
 DROP TABLE userpref;
 DROP TABLE user;
-DROP TABLE genre;
-DROP TABLE public;
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -157,4 +155,12 @@ CREATE TABLE etatSerie (
     CONSTRAINT FOREIGN KEY (id_serie) REFERENCES serie(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+    DROP TABLE IF EXISTS episodeVisionnée;
+CREATE TABLE episodeVisionnée (
+    id_user int(11) NOT NULL,
+    id_episode int(11) NOT NULL,
+    etat boolean,
+    PRIMARY KEY (id_user, id_episode),
+    CONSTRAINT FOREIGN KEY (id_user) REFERENCES user(id),
+    CONSTRAINT FOREIGN KEY (id_episode) REFERENCES episode(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

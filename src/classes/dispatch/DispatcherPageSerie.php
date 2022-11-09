@@ -44,6 +44,10 @@ class DispatcherPageSerie
                 $act = new action\AjoutPreferenceAction();
                 $html .= $act->execute();
                 break;
+            case 'supr-preference':
+                $act = new action\SuprPreferenceAction();
+                $html .= $act->execute();
+                break;
             case 'affichage-episode':
                 setcookie('nomEpisode', $_GET['titre-episode'], time() + 3600, '/');
                 $act = new action\AffichageEpisodeAction();

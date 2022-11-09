@@ -116,6 +116,7 @@ CREATE TABLE user (
   password varchar(128) NOT NULL,
   nom varchar(128) NOT NULL,
   prenom varchar(128) NOT NULL,
+  genre varchar(256),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

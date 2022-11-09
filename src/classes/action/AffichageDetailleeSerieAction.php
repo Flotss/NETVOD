@@ -39,7 +39,7 @@ class AffichageDetailleeSerieAction extends Action
                 <p>Année de sortie : {$infoSerie['annee']}</p>
                 <p>Nombre d'épisode : {$infoSerie['nbEp']}</p>
                 <p>Note de la série : $note</p>
-                <form method="post" action="?action=ajout-preference">
+                <form method="post" action="?action=ajout-preference" class="action">
                         <button type="submit">Ajouter à mes préférences</button>
                 </form>
                 
@@ -50,7 +50,7 @@ class AffichageDetailleeSerieAction extends Action
              'Episodes de la série');
 
         $html .= <<<END
-                <form method="post" action="?action=affichage-commentaire">
+                <form method="post" action="?action=affichage-commentaire" class="action">
                         <button type="submit">Voir les commentaires</button>
                 </form>
                 END;
@@ -60,12 +60,12 @@ class AffichageDetailleeSerieAction extends Action
 
     private function generateDiv(string $requete, string $operation): string
     {
-        $html2 = "<div class='$operation'><h3>$operation</h3>";
+        $html2 = "<div class='episodeSerie'><h3>$operation</h3>";
         $html2 .= "<ul =presentation episode>";
         $q3 = $this->db->query($requete);
         while ($d1 = $q3->fetch()) {
             $html2 .= <<<END
-                    <a href="?action=affichage-episode&titre-episode={$d1['titre']}" style="color: black; text-decoration: none">
+                    <a href="?action=affichage-episode&titre-episode={$d1['titre']}">
                         <li class="decriptif">
                                 <h2>Episode {$d1['numero']}</h2>
                                 <p>Titre {$d1['titre']}</p>

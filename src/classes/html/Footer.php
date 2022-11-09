@@ -12,10 +12,10 @@ class Footer
             <div class = "nous">
                 <h3> A propos </h3>
                 <ul class="liengit">
-                    <li><a href="https://github.com/DIDIer5454">AKO OBONO Didier</a></li>
-                    <li><a href="https://github.com/Romain0A">AUBURTIN Romain</a></li>
-                    <li><a href="https://github.com/julienBernard3">BERNARD Julien</a></li>
-                    <li><a href="https://github.com/Flotss">MANGIN Florian</a></li>
+                    <li><a href="https://github.com/Flotss">Florian MANGIN</a></li>
+                    <li><a href="https://github.com/julienBernard3">Julien Bernard</a></li>
+                    <li><a href="https://github.com/DIDIer5454">Didier AKO OBONO</a></li>
+                    <li><a href="https://github.com/Romain0A">Romain AUBURTIN</a></li>
                 </ul>
             </div>
             <div class="projet">
@@ -27,6 +27,8 @@ class Footer
             </div> 
         </footer>
         END;
-        return $html;
+//        return $html;
+
+        return '';
     }
 }

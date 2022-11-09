@@ -51,12 +51,6 @@ class DispatcherAccueilUtilisateur
 
     private function renderPage($html)
     {
-        $scriptNameExplode = explode('/', $_SERVER['SCRIPT_NAME']);
-        $chemin = '';
-        for ($k = 0; $k < count($scriptNameExplode) - 1; $k++) {
-            $chemin .= $scriptNameExplode[$k] . '/';
-        }
-
         $act = new html\Header();
         $header = $act->execute();
 
@@ -67,15 +61,16 @@ class DispatcherAccueilUtilisateur
                 <head>
                     <meta charset="UTF-8">>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <link href="src/CSS/affichageSerie.css" rel="stylesheet">
                     <link href="src/CSS/cssDefault.css" rel="stylesheet">
-
+                    <link href="src/CSS/affichageSerie.css" rel="stylesheet">
                     <title>NetVOD</title>
                 </head>
                 <body>
-                    $header
-                    $html
-                    $footer
+                    <div class="container">
+                        $header
+                        $html
+                        $footer
+                    </div>
                 </body>
             </html>
         END;

@@ -73,13 +73,17 @@ class DispatcherPageSerie
                 <head>
                     <meta charset="UTF-8">>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <link rel=stylesheet href="src/CSS/cssDefault.css">
+                    <link rel=stylesheet href="src/CSS/cssPageSerie.css">
                     <title>NetVOD</title>
                 </head>
                 <body>
-                    $header
-                    $htmlBase
-                    $html
-                    $footer
+                    <div class="container">
+                        $header
+                        $htmlBase
+                        $html
+                        $footer
+                    </div>
                 </body>
             </html>
         END;

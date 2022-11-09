@@ -31,7 +31,7 @@ class AjoutNoteAction extends Action
             END;
         } else { // POST
             $note = filter_var($_POST['note'], FILTER_SANITIZE_NUMBER_INT);
-            if($note <= 5) {
+            if($note <= 5 && $note >= 0) {
                 try {
                     $db = ConnectionFactory::makeConnection();
                 } catch (DBExeption $e) {

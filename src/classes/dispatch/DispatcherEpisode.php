@@ -77,7 +77,10 @@ class DispatcherEpisode
         $q1 = $db->query("SELECT file,numero,duree,resume,episode.titre,serie.titre AS serieTitre from episode,serie where episode.serie_id = serie.id AND episode.titre = '" . $titre . "'");
         $d1=$q1->fetch();
         $episode = '<h4>' . $d1['serieTitre'] . ". Episode " . $d1['numero'] . ": " . $d1['titre'] . "</h4>" . "<video>" . $d1['file'] . "</video>" . "<p> Durée: " . $d1['duree'] . " minute</p><p>Resume: " . $d1['resume'] . "</p>";
-
+        $q2 = $db->query("SELECT etat from etatserie where id_user = " . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
+        if(!$d2=$q2->fetch()){
+            $insert = $db->exec("INSERT INTO etatserie(id_user,id_serie,etat) VALUES(" . $_SESSION['id'] . ",(SELECT serie_id from episode where titre = '" . $titre . "'),'en cours')");
+        }
         $comment = "<p>Vous aimez l'épisode " . $_SESSION['user'] . " ? n'ésitait pas a commenter et laisser une note!</p>";
         echo <<<END
             <html lang="fr">

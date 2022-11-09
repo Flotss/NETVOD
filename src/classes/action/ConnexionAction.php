@@ -19,8 +19,12 @@ class ConnexionAction extends Action
                 if (!(isset($_POST['email']) && isset($_POST['password']))) {
                     throw new AuthException("Erreur : email ou mot de passe non renseigné");
                 }
+                // Filtre les entrées
+                $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+                $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 
-                $res = Auth::authenticate($_POST['email'], $_POST['password']);
+
+                $res = Auth::authenticate($email, $password);
                 echo $res;
                 if ($res) {
                     Redirection::redirection('AccueilUtilisateur');
@@ -46,9 +50,9 @@ class ConnexionAction extends Action
                         
                         <button type="submit"> Connexion </button>
                         <div>
-                    <label>Pas de compte ?</label>
-                    <a href="?action=inscription">Créer Un Compte</a>
-                </div>
+                            <label>Pas de compte ?</label>
+                            <a href="?action=inscription">Créer Un Compte</a>
+                        </div>
                 </form>
                 </div>
 

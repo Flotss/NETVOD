@@ -24,8 +24,13 @@ commentaires
 
 Fonctionnalités étendues :
 - 12. Recherche dans le catalogue par mots clés
+- 13. Tri dans le catalogue
+- 14. filtrage du catalogue par genre, par public
 - 15. gestion de la liste de préférence : retrait 
 - 16. Gestion de la liste « déjà visionnées »
 - 17. gestion du profil de l’utilisateur : ajouter des informations (nom, prénom, genre
 préféré ...)
+- 18. accès direct à l’épisode à visionner lorsque l’on visualise une série qui est dans la
+liste « en cours » 
+- 19. Tri dans le catalogue selon la note moyenne
 

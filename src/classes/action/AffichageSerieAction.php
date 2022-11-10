@@ -230,12 +230,13 @@ $this->tri = $_GET['Trier'] ;
             if ($_GET['Trier'] == 'NombreEpisode') {
                 $ajout = ' GROUP by 
             s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout 
-            order by (select count(ep.id) group by s.id)';
+            order by (select count(ep.id) group by s.id) DESC';
             }
             if($_GET['Trier']=='Note'){
                 $ajout=' GROUP by s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout order by (
-SELECT ROUND(AVG(note),1) as moyenne FROM serieComNote  GROUP BY id_serie)';
+SELECT ROUND(AVG(note),1) as moyenne FROM serieComNote scm where scm.id_serie=s.id  GROUP BY id_serie) DESC';
             }
+            echo $requete.$ajout;
         return $requete.$ajout;
     }
     /*

@@ -80,6 +80,7 @@ $stm=$this->db->prepare("SELECT * FROM GENRE");
             from serie s inner join episode ep 
             on ep.serie_id=s.id';
 
+
         $html = $this->generateDiv($this->Filtre($rq),
                                     $html, 'Catalogue', 1);
 
@@ -244,7 +245,7 @@ SELECT ROUND(AVG(note),1) as moyenne FROM serieComNote  GROUP BY id_serie)';
  * le bon where
  */
     private function Filtre(string $re):string{
-        $requete='';
+        $requete=$re;
         if(isset($_POST['FiltreGenre'])){
             //On verifie que la requete ne contienne pas de where deja
             if(str_contains($re,'where')){
@@ -258,7 +259,6 @@ SELECT ROUND(AVG(note),1) as moyenne FROM serieComNote  GROUP BY id_serie)';
                 }
             }
         }
-        echo $requete;
         return $requete;
     }
 }

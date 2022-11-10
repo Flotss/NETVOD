@@ -10,21 +10,25 @@ class AjoutNoteAction extends Action
     public function execute(): string
     {
         $html = '';
+        //Verification que le cookies exentielle nomEpisode existe sinon redirection a PageSerie
         if(isset($_COOKIE['nomEpisode'])){
             $titre = $_COOKIE['nomEpisode'];
             $titre = str_replace("'","\'",$titre);
         }else {
             Redirection::redirection('PageSerie.php');
         }
+        //Connection a la bd
         try {
             $db = ConnectionFactory::makeConnection();
         } catch (DBExeption $e) {
             throw new AuthException($e->getMessage());
         }
+        //Affichage de la note actuelle si existe
         $q1 = $db->query("SELECT note from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "' AND note IS NOT NULL");
         if($d1=$q1->fetch()){
             $html = "Votre note actuelle : " . $d1['note'];
         }
+        //Formulaire ou entrer la note
         if ($this->http_method === 'GET') {
             $html .= <<<END
                 <form method="post" action="?action=ajout-note">
@@ -33,6 +37,7 @@ class AjoutNoteAction extends Action
                 </form>
             END;
         } else { // POST
+            //Sanetisation puis ajout de la note
             $note = filter_var($_POST['note'], FILTER_SANITIZE_NUMBER_INT);
             if($note <= 5 && $note >= 0) {
                 try {

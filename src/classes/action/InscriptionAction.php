@@ -7,9 +7,14 @@ use iutnc\NetVOD\Redirect\Redirection;
 
 class InscriptionAction extends Action
 {
+    /**
+     * methode qui enregistre un nouveau utilisateur une fois qu'il a rempli un formulaire
+     * @return string
+     */
     public function execute() : string
     {
         if ($this->http_method === 'GET') {
+            //recupere le formulaire
             return $this->getForm();
         } else { // POST
             try {
@@ -20,7 +25,7 @@ class InscriptionAction extends Action
                 $nom = filter_input(INPUT_POST, 'nom', FILTER_SANITIZE_STRING);
                 $prenom = filter_input(INPUT_POST, 'prenom', FILTER_SANITIZE_STRING);
 
-
+                //envoy les données a AUth pour enregistement puis redirige ou donne un erreur
                 Auth::register($email, $password, $password2, $nom, $prenom);
                 Redirection::redirection('AccueilUtilisateur.php');
             } catch (\iutnc\NetVOD\AuthException\AuthException $e) {
@@ -33,7 +38,10 @@ class InscriptionAction extends Action
     }
 
 
-
+    /**
+     * methode qui donne un formulaire pour s'inscrire
+     * @return string
+     */
     private function getForm(): string
     {
         return <<<END

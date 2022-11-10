@@ -4,9 +4,16 @@ namespace iutnc\NetVOD\action;
 
 use iutnc\NetVOD\db\ConnectionFactory;
 
+/**
+ * Class GestionCompteAction
+ * Cette classe permet de gérer le compte de l'utilisateur
+ */
 class GestionCompteAction extends Action
 {
-
+    /**
+     * Methode qui permet de gérer le compte de l'utilisateur
+     * @return string Le html a rendre pour la page de gestion de compte
+     */
     public function execute(): string
     {
 

@@ -43,6 +43,10 @@ class DispatcherAccueilUtilisateur
                 $act = new action\ResearchAction();
                 $html .= $act->execute();
                 break;
+            case  'trie-catalogue':
+                $act=new action\AffichageTriCatalogueAction();
+                $html.=$act->execute();
+                break;
             default:
                 $act = new action\AffichageSerieAction();
                 $html .= $act->execute();

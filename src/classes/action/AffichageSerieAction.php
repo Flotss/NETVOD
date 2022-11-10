@@ -25,17 +25,31 @@ class AffichageSerieAction extends Action
         $html .= '<h2>Bonjour ' . $_SESSION['user'] . '</h2>';
 
 
+        $html .= "
+                <form action='?action=AccueilUtilisateurAction.php' method='get'>
+                    <legend >trier par :</legend>
+                    <select name=Trier >
+                        <option value='' ></option>
+                        <option value=date_ajout >Date</option>
+                        <option value=titre >Titre</option>
+                        <option value=NombreEpisode >Nombre depisode</option>
+                    </select>
+                    <button type='submit'>Trier</button>
+                </form>
+                ";
+
+
 
 //        On gere l'ensemble des series de la BD
         $html = $this->generateDiv("SELECT * from serie",
                                     $html, 'Catalogue', 1);
 
         //On gere l'ensemble des series en cours de l'utilisateur
-        $html = $this->generateDiv("SELECT * from serie s inner join userpref u on u.id_serie = s.id  where id_user = {$_SESSION['id']}",
+        $html = $this->generateDiv("SELECT * from serie s inner join userPref u on u.id_serie = s.id  where id_user = {$_SESSION['id']}",
                                     $html, 'Series préférées', 2);
 
         //On gere les series en cours de l'utilisateur
-        $html = $this->generateDiv("select * from serie s inner join etatserie e on e.id_serie = s.id where etat like 'en cours' and id_user = {$_SESSION['id']}",
+        $html = $this->generateDiv("select * from serie s inner join etatSerie e on e.id_serie = s.id where etat like 'en cours' and id_user = {$_SESSION['id']}",
                                     $html, 'Series en cours', 3);
         return $html;
     }
@@ -44,8 +58,15 @@ class AffichageSerieAction extends Action
     /*
      * fonction generant une partie de html
      */
-    private function generateDiv(string $requete, string $html, string $operation, $numero): string
+    private function generateDiv(string $requete, string $html, string $operation, int $numero): string
     {
+        //////////////////////////////////////
+        if(isset($_GET['ordre'])){
+            $requete=$this->Trie($requete);
+        }
+        ///////////////////////////////////////
+
+
         $statement = $this->db->prepare($requete);
         $statement->execute();
 
@@ -123,5 +144,23 @@ class AffichageSerieAction extends Action
         }
         $html .= '</div>';
         return $html;
+    }
+
+
+
+    private function Trie(string $requete):string{
+        if(isset($_GET['Trier'])) {
+            if ($_GET['Trier'] != '') {
+                $requete .= " order by " . $_GET['Trier'];
+            }
+            if ($_GET['Trier'] == 'NombreEpisode') {
+                $requete = 'select s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout 
+            from serie s inner join episode e 
+            on e.serie_id=s.id GROUP by 
+            s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout 
+            order by (select count(e.id) group by s.id)';
+            }
+        }
+        return $requete;
     }
 }

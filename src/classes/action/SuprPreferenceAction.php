@@ -24,14 +24,14 @@ class SuprPreferenceAction extends Action
             return "<p>Erreur dans la suppression: pb dans le nom de la serie(absente)</p>";
         }
 
-        $requete="SELECT * from userpref where id_user = {$_SESSION['id']} AND id_serie = {$serie['id']} GROUP BY id_user";
+        $requete="SELECT * from userPref where id_user = {$_SESSION['id']} AND id_serie = {$serie['id']} GROUP BY id_user";
 
 
         $statement = $db->prepare($requete);
         $statement->execute();
 
         if ($statement->rowCount() == 1) {
-            $supr = $db->exec("DELETE FROM userpref WHERE id_user ={$_SESSION['id']} AND id_serie= {$serie['id']}");
+            $supr = $db->exec("DELETE FROM userPref WHERE id_user ={$_SESSION['id']} AND id_serie= {$serie['id']}");
             $html="<p>Série supprimée des series préférés";
         }else{
             $html="<p>La série n'est pas dans les series préférés";

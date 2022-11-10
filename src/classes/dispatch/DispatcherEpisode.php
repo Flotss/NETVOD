@@ -96,21 +96,21 @@ class DispatcherEpisode
             <p> Résumé : {$resEpisode['resume']} </p>
         END;
 
-        $q2 = $db->query("SELECT * from episodevisionnée where id_user = " . $_SESSION['id'] . " AND id_episode = ANY(SELECT id from episode where serie_id = (SELECT serie_id from episode where titre = '" . $titre . "'))");
+        $q2 = $db->query("SELECT * from episodeVisionnee where id_user = " . $_SESSION['id'] . " AND id_episode = ANY(SELECT id from episode where serie_id = (SELECT serie_id from episode where titre = '" . $titre . "'))");
         if(!$d2=$q2->fetch()){
             $q5 = $db->query("SELECT id FROM episode where serie_id = (SELECT serie_id from episode where titre = '" . $titre . "')");
             while ($d5=$q5->fetch()) {
-                $db->exec("INSERT INTO episodevisionnée(id_user,id_episode,etat) VALUE(" . $_SESSION['id'] . "," . $d5['id'] . ",0)");
+                $db->exec("INSERT INTO episodeVisionnee(id_user,id_episode,etat) VALUE(" . $_SESSION['id'] . "," . $d5['id'] . ",0)");
             }
         }
-        $db->exec("UPDATE episodevisionnée SET etat = 1 WHERE id_user = " . $_SESSION['id'] . " AND id_episode = (SELECT id from episode where titre = '" . $titre ."')");
-        $q3 = $db->query("SELECT etat from etatserie where id_user = " . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
+        $db->exec("UPDATE episodeVisionnee SET etat = 1 WHERE id_user = " . $_SESSION['id'] . " AND id_episode = (SELECT id from episode where titre = '" . $titre ."')");
+        $q3 = $db->query("SELECT etat from etatSerie where id_user = " . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
         if(!$d3=$q3->fetch()){
-            $db->exec("INSERT INTO etatserie(id_user,id_serie,etat) VALUES(" . $_SESSION['id'] . ",(SELECT serie_id from episode where titre = '" . $titre . "'),'en cours')");
+            $db->exec("INSERT INTO etatSerie(id_user,id_serie,etat) VALUES(" . $_SESSION['id'] . ",(SELECT serie_id from episode where titre = '" . $titre . "'),'en cours')");
         }
-        $q4 = $db->query("SELECT * from episodevisionnée where id_user = " . $_SESSION['id'] . " AND id_episode = ANY(SELECT id from episode where serie_id = (SELECT serie_id from episode where titre = '" . $titre . "')) AND etat != 1");
+        $q4 = $db->query("SELECT * from episodeVisionnee where id_user = " . $_SESSION['id'] . " AND id_episode = ANY(SELECT id from episode where serie_id = (SELECT serie_id from episode where titre = '" . $titre . "')) AND etat != 1");
         if(!$d4=$q4->fetch()){
-            $db->exec("Update etatserie SET etat = 'visionnee' where id_user = " . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
+            $db->exec("Update etatSerie SET etat = 'visionnee' where id_user = " . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
         }
 
         $comment = "<p>Vous aimez l'épisode " . $_SESSION['user'] . " ? n'ésitait pas a commenter et laisser une note!</p>";

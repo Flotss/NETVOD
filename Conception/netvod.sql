@@ -156,8 +156,8 @@ CREATE TABLE etatSerie (
     CONSTRAINT FOREIGN KEY (id_serie) REFERENCES serie(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-    DROP TABLE IF EXISTS episodeVisionnée;
-CREATE TABLE episodeVisionnée (
+DROP TABLE IF EXISTS episodeVisionnee;
+CREATE TABLE episodeVisionnee (
     id_user int(11) NOT NULL,
     id_episode int(11) NOT NULL,
     etat boolean,

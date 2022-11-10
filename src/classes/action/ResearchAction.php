@@ -11,11 +11,14 @@ class ResearchAction extends Action
     public function execute(): string
     {
         if (isset($_POST['research'])) {
-            $research = $_POST['research'];
-            $research = str_replace(' ', '%', $research);
-            $research = '%' . $research . '%';
-            $requete = "SELECT titre, img FROM serie WHERE titre LIKE '$research' or descriptif LIKE '$research'";
-            $html = $this->generateDiv($requete, '', 'Résultat recherche', 1);
+            $research = filter_input(INPUT_POST, 'research', FILTER_SANITIZE_STRING);
+
+            // Using REGEPX to find the series that match the research
+            // With title and description
+            $research = str_replace(' ', '|', $research);
+
+            $requete = "SELECT titre, img FROM serie WHERE titre REGEXP '$research' or descriptif REGEXP '$research'";
+            $html = $this->generateDiv($requete, '', 'Résultat recherche : ', 1);
 
         } else {
             $html = <<<END

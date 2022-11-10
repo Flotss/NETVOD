@@ -23,8 +23,7 @@ class AffichageCommentaireAction extends Action
 
         $html .= '<h4>Commentaire </h4>';
         $temp = str_replace("'","\'",$_COOKIE['nomSerie']);
-        $requete ="SELECT commentaire FROM seriecomnote sc INNER JOIN serie s ON s.id = sc.id_serie WHERE s.titre = '$temp'";
-        $statement = $this->db->prepare($requete);
+        $requete ="SELECT commentaire FROM serieComNote sc INNER JOIN serie s ON s.id = sc.id_serie WHERE s.titre = '$temp'";        $statement = $this->db->prepare($requete);
         $statement->execute();
         if ($statement->rowCount() == 0) {
             $html = "La série n'a pas encore reçu de commentaire";

@@ -49,7 +49,7 @@ class GestionCompteAction extends Action
         if ($this->http_method == 'GET'){ // GET : Affichage du formulaire
             return $this->getForm($infoUser, $listbuttonGenre, $listbuttonPublic);
         }else { // POST : Traitement du formulaire
-            // Verification que le bouton information utlisateur est appuyé
+            // Vérification si le bouton visant à modifié les information de l'utlisateur est appuyé
             if (isset($_POST['valider'])) {
 
                 // Filtre les entrées
@@ -58,7 +58,7 @@ class GestionCompteAction extends Action
                 $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
                 $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 
-                // Verification du mot de passe
+                // Vérification du mot de passe
                 if (password_verify($password, $infoUser['password'])) {
                     // Mise à jour des données de l'utilisateur
                     $db->query("UPDATE user SET nom = '$nom', prenom = '$prenom', email = '$email' WHERE id = " . $_SESSION['id']);
@@ -78,25 +78,31 @@ class GestionCompteAction extends Action
                     $html .= 'Mot de passe incorrect';
                     return $html;
                 }
-                // Bouton genre cliqué
+                // Vérification si le bouton visant à modifié les genres de l'utlisateur est appuyé
             } else if (isset($_POST['genre'])){
                 // Recuperation du genre selectionné
                 $genre = $_POST["selectgenre"];
 
-                // Verification si un genre est bien selectionné
+                // Vérification si un genre est bien sélectionné
                 if($genre != '') {
-                    // Verification que le genre est dans la liste de genre de la base de données
+                    // Vérification si le genre est dans les genres du compte
                     if (strpos("{$infoUser['genreUser']}", $genre) === false) {
+                        //S'il ne l'est pas on l'ajoute
                         $db->query("UPDATE user SET genreUser = '{$infoUser['genreUser']} $genre' WHERE id = " . $_SESSION['id']);
                     } else {
+                        //s'il l'est, on le supprime
+                        //On supprime le genre de la chaine
                         $nGenre = explode($genre, "{$infoUser['genreUser']}");
+                        //On récupère la partie avant et la partie après le genre
                         $val = "{$nGenre[0]} {$nGenre[1]}";
-                        if ("{$nGenre[0]}" === " " || "{$nGenre[0]}" === "  ") {
-                            $val = "{$nGenre[1]}";
-                        } else if ("{$nGenre[1]}" === " " || "{$nGenre[1]}" === "  ") {
-                            $val = "{$nGenre[0]}";
-                        }
+//                        if ("{$nGenre[0]}" === " " || "{$nGenre[0]}" === "  ") {
+//                            $val = "{$nGenre[1]}";
+//                        } else if ("{$nGenre[1]}" === " " || "{$nGenre[1]}" === "  ") {
+//                            $val = "{$nGenre[0]}";
+//                        }
+                        //On supprime les espaces en double
                         $val = str_replace("  ", " ", $val);
+                        //On execute l'update
                         $db->query("UPDATE user SET genreUser = '$val' WHERE id = " . $_SESSION['id']);
                     }
 
@@ -110,9 +116,9 @@ class GestionCompteAction extends Action
                 $html .= $this->getForm($infoUser,$listbuttonGenre, $listbuttonPublic);
                 return $html;
 
-                // Bouton public cliqué
+                // cas ou si le bouton visant à modifié les type de public de l'utlisateur est appuyé
             }else{
-
+                //Meme principe que pour le genre
                 $public = $_POST["selectpublic"];
                 if($public != '') {
                     if (strpos("{$infoUser['publicUser']}", $public) === false) {

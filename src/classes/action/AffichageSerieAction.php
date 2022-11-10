@@ -46,6 +46,7 @@ class AffichageSerieAction extends Action
                         <option value=date_ajout >Date</option>
                         <option value=titre >Titre</option>
                         <option value=NombreEpisode >Nombre depisode</option>
+                        <option value='Note'>Note</option>
                     </select>
                     <button type='submit'>Trier</button>
                 </form>
@@ -210,6 +211,10 @@ $this->tri = $_GET['Trier'] ;
                 $ajout = ' GROUP by 
             s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout 
             order by (select count(ep.id) group by s.id)';
+            }
+            if($_GET['Trier']=='Note'){
+                $ajout=' GROUP by s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout order by (
+SELECT ROUND(AVG(note),1) as moyenne FROM serieComNote  GROUP BY id_serie)';
             }
         return $requete.$ajout;
     }

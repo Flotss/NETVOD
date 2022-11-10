@@ -126,7 +126,7 @@ class DispatcherEpisode
             $db->exec("Update etatSerie SET etat = 'visionnee' where id_user = " . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
         }
 
-        $comment = "<p>Vous aimez l'épisode " . $_SESSION['user'] . " ? n'ésitait pas a commenter et laisser une note!</p>";
+        $comment = "<p>Vous aimez l'épisode " . $_SESSION['user'] . " ? n'hésitez pas a commenter et laisser une note!</p>";
         //HTML de la page
         echo <<<END
             <html lang="fr">

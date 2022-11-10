@@ -32,8 +32,7 @@ class DispatcherAccueilUtilisateur
                 $html .= $act->execute();
             break;
             case 'gestionCompte':
-                $act = new action\GestionCompteAction();
-                $html .= $act->execute();
+                Redirection::redirection('GestionCompte.php');
                 break;
             case 'affichage-page-serie':
                 setcookie('nomSerie', $_GET['titre-serie'], time() + 3600, '/');

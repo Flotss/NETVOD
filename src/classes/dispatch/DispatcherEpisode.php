@@ -44,8 +44,7 @@ class DispatcherEpisode
                 $html .= $act->execute();
                 break;
             case 'gestionCompte':
-                $act = new action\GestionCompteAction();
-                $html .= $act->execute();
+                Redirection::redirection('GestionCompte.php');
                 break;
             case 'research':
                 Redirection::redirection('AccueilUtilisateur.php?action=research');

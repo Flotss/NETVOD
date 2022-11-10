@@ -6,7 +6,7 @@ use iutnc\NetVOD\Redirect\Redirection;
 use iutnc\NetVOD\html;
 
 
-class DispatcherPageSerie
+class DispatcherGestionCompte
 {
     protected ?string $action = null;
 
@@ -21,53 +21,31 @@ class DispatcherPageSerie
         // SECURITE
         if (! (isset($_SESSION['id']))) Redirection::redirection('index.php');
 
-
         $html = '';
         switch ($this->action) {
             case 'accueil':
                 $act = new action\AccueilUtilisateurAction();
                 $html .= $act->execute();
                 break;
-            case 'gestionCompte':
-                Redirection::redirection('GestionCompte.php');
-                break;
             case 'deconnexion':
                 $act = new action\DeconnexionAction();
                 $html .= $act->execute();
-                break;
-            case 'affichage-commentaire':
-                $act = new action\AffichageCommentaireAction();
-                $html .= $act->execute();
-                break;
-            case 'ajout-preference':
-                $act = new action\AjoutPreferenceAction();
-                $html .= $act->execute();
-                break;
-            case 'supr-preference':
-                $act = new action\SuprPreferenceAction();
-                $html .= $act->execute();
-                break;
-            case 'affichage-episode':
-                setcookie('nomEpisode', $_GET['titre-episode'], time() + 3600, '/');
-                $act = new action\AffichageEpisodeAction();
-                $html .= $act->execute();
-                break;
+            break;
             case 'research':
-                Redirection::redirection('AccueilUtilisateur.php?action=research');
+                $act = new action\ResearchAction();
+                $html .= $act->execute();
                 break;
             default:
-
+                $act = new action\GestionCompteAction();
+                $html .= $act->execute();
                 break;
-
         }
-        $act = new action\AffichageDetailleeSerieAction();
-        $htmlBase = $act->execute();
 
-        $this->renderPage($html, $htmlBase);
+        $this->renderPage($html);
     }
 
 
-    private function renderPage($html, $htmlBase)
+    private function renderPage($html)
     {
         $act = new html\Header();
         $header = $act->execute();
@@ -79,14 +57,13 @@ class DispatcherPageSerie
                 <head>
                     <meta charset="UTF-8">>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <link rel=stylesheet href="src/CSS/cssDefault.css">
-                    <link rel=stylesheet href="src/CSS/cssPageSerie.css">
+                    <link href="src/CSS/cssDefault.css" rel="stylesheet">
+                    <link href="src/CSS/affichageSerie.css" rel="stylesheet">
                     <title>NetVOD</title>
                 </head>
                 <body>
                     <div class="container">
                         $header
-                        $htmlBase
                         $html
                         $footer
                     </div>

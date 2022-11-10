@@ -51,6 +51,7 @@ class AffichageSerieAction extends Action
         //On gere les series en cours de l'utilisateur
         $html = $this->generateDiv("select * from serie s inner join etatSerie e on e.id_serie = s.id where etat like 'en cours' and id_user = {$_SESSION['id']}",
                                     $html, 'Series en cours', 3);
+
         //On gere les series daja visionée de l'utilisateur
         $html = $this->generateDiv("select * from serie s inner join etatSerie e on e.id_serie = s.id where etat like 'visionnee' and id_user = {$_SESSION['id']}",
             $html, 'Series deja visionnée', 4);
@@ -129,8 +130,21 @@ class AffichageSerieAction extends Action
 
 
 
+                if($numero == 3){
+                    $titreR = str_replace("'","\'",$titre);
+                    $r = $this->db->query("SELECT episode.titre from episode,episodevisionnee,serie where episodevisionnee.id_episode = episode.id AND serie.id = episode.serie_id AND serie.titre = '{$titreR}' AND episodevisionnee.id_user = {$_SESSION['id']} AND episodevisionnee.etat = 0 AND episode.numero <= ALL(select episode.numero from episode,episodevisionnee,serie where episode.id = episodevisionnee.id_episode AND episode.serie_id = serie.id AND id_user = {$_SESSION['id']} AND serie.titre = '{$titreR}' AND etat = 0)");
+                    $episode = $r->fetch();
 
-                $html .= <<<END
+                    $html .= <<<END
+                    <div class="item">
+                         <a href="?action=affichage-episode&titre-episode={$episode['titre']}">
+                            <img alt="descritpion" src="$chemin/ressource/image/$img"></br>
+                            <h1 class="heading">$titre</h1>
+                         </a>
+                    </div>
+                    END;
+                }else {
+                    $html .= <<<END
                     <div class="item">
                          <a href="?action=affichage-page-serie&titre-serie=$titre">
                             <img alt="descritpion" src="$chemin/ressource/image/$img"></br>
@@ -138,6 +152,7 @@ class AffichageSerieAction extends Action
                          </a>
                     </div>
                     END;
+                }
                 $nbrRow++;
             }
             $html .= '<a href="#'.'section' . $operation . $idSuivant .'" class="arrow__btn right-arrow">›</a>';

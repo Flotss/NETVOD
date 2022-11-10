@@ -34,6 +34,10 @@ class DispatcherAccueilUtilisateur
             case 'gestionCompte':
                 Redirection::redirection('GestionCompte.php');
                 break;
+            case 'affichage-episode':
+                setcookie('nomEpisode', $_GET['titre-episode'], time() + 3600, '/');
+                Redirection::redirection('Episode.php');
+                break;
             case 'affichage-page-serie':
                 setcookie('nomSerie', $_GET['titre-serie'], time() + 3600, '/');
                 Redirection::redirection('PageSerie.php');

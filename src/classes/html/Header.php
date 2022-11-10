@@ -27,10 +27,10 @@ class Header
                 <a href="?action=accueil" style="text-decoration: none;
                                     font-size: 5em">NetVOD</a>
             </div>
-            $accueil
-            $gestion   
-            $research
-            $deconnexion
+            $accueil &nbsp
+            $gestion &nbsp
+            $research &nbsp
+            $deconnexion &nbsp
         </header>
         END;
         return $html;

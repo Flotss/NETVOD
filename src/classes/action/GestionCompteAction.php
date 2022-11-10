@@ -62,10 +62,10 @@ END;
             } else if (isset($_POST['genre'])){
                 $genre = $_POST["selectgenre"];
                 if($genre != '') {
-                    if (strpos("{$infoUser['genre']}", $genre) === false) {
-                        $db->query("UPDATE user SET genre = '{$infoUser['genre']} $genre' WHERE id = " . $_SESSION['id']);
+                    if (strpos("{$infoUser['genreUser']}", $genre) === false) {
+                        $db->query("UPDATE user SET genreUser = '{$infoUser['genreUser']} $genre' WHERE id = " . $_SESSION['id']);
                     } else {
-                        $nGenre = explode($genre, "{$infoUser['genre']}");
+                        $nGenre = explode($genre, "{$infoUser['genreUser']}");
                         $val = "{$nGenre[0]} {$nGenre[1]}";
                         if ("{$nGenre[0]}" === " " || "{$nGenre[0]}" === "  ") {
                             $val = "{$nGenre[1]}";
@@ -73,7 +73,7 @@ END;
                             $val = "{$nGenre[0]}";
                         }
                         $val = str_replace("  ", " ", $val);
-                        $db->query("UPDATE user SET genre = '$val' WHERE id = " . $_SESSION['id']);
+                        $db->query("UPDATE user SET genreUser = '$val' WHERE id = " . $_SESSION['id']);
                     }
                     $infoUser = $db->query("SELECT * from user where id = " . $_SESSION['id']);
                     $infoUser = $infoUser->fetch();
@@ -86,20 +86,23 @@ END;
             }else{
 
                 $public = $_POST["selectpublic"];
-                $public = str_replace("'", "\'", $public);
                 if($public != '') {
-                    if (strpos("{$infoUser['public']}", $public) === false) {
-                        $db->query("UPDATE user SET public = '{$infoUser['public']} $public' WHERE id = " . $_SESSION['id']);
+                    if (strpos("{$infoUser['publicUser']}", $public) === false) {
+                        $temp = str_replace("'","\'", "{$infoUser['publicUser']}");
+                        $public = str_replace("'", "\'", $public);
+                        $db->query("UPDATE user SET publicUser = '$temp $public' WHERE id = " . $_SESSION['id']);
                     } else {
-                        $nPublic = explode($public, "{$infoUser['public']}");
+
+                        $nPublic = explode($public, "{$infoUser['publicUser']}");
                         $val = "{$nPublic[0]} {$nPublic[1]}";
                         if ("{$nPublic[0]}" === " " || "{$nPublic[0]}" === "  ") {
                             $val = "{$nPublic[1]}";
                         } else if ("{$nPublic[1]}" === " " || "{$nPublic[1]}" === "  ") {
                             $val = "{$nPublic[0]}";
                         }
-                        $val = str_replace("  ", " ", $val);
-                        $db->query("UPDATE user SET public = '$val' WHERE id = " . $_SESSION['id']);
+                        $temp = str_replace("'","\'", $val);
+                        $temp = str_replace("  ", " ", $temp);
+                        $db->query("UPDATE user SET publicUser = '$temp' WHERE id = " . $_SESSION['id']);
                     }
                     $infoUser = $db->query("SELECT * from user where id = " . $_SESSION['id']);
                     $infoUser = $infoUser->fetch();
@@ -124,7 +127,7 @@ END;
                 
                 <label for="mdp">Mot de passe</label><input type="password" name="password" id="password">
                 <input type="submit" value="Valider" name="valider">
-                <label for="genre">Vos genres préféré: {$infoUser['genre']}</label>
+                <label for="genre">Vos genres préféré: {$infoUser['genreUser']}</label>
                 <label for="genre">Ajouter/ supprimer un genre:</label>
                 
                     <select name="selectgenre" >
@@ -133,7 +136,7 @@ END;
                     </select>
                     <button type='submit' name="genre">Ajouter / Supprimer</button>
                 
-                <label for="genre">Vos public: {$infoUser['public']}</label>
+                <label for="genre">Vos public: {$infoUser['publicUser']}</label>
                 <label for="genre">Ajouter/ supprimer un public:</label>
                     <select name=selectpublic >
                         <option value='' ></option>

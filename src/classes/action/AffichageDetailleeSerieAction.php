@@ -18,7 +18,7 @@ class AffichageDetailleeSerieAction extends Action
             throw new AuthException($e->getMessage());
         }
         $temp = str_replace("'","\'",$_COOKIE['nomSerie']);
-        $infoSerie = $this->db->query("SELECT s.titre as titre, s.descriptif, date_ajout, annee, img, s.id as id, COUNT(e.numero) as nbEp, genre, public from serie s INNER JOIN episode e ON s.id = e.serie_id where s.titre = '$temp' GROUP BY (s.titre)  ");
+        $infoSerie = $this->db->query("SELECT s.titre as titre, s.descriptif, date_ajout, annee, img, s.id as id, COUNT(e.numero) as nbEp, genreSerie, publicSerie from serie s INNER JOIN episode e ON s.id = e.serie_id where s.titre = '$temp' GROUP BY (s.titre)  ");
         $infoSerie = $infoSerie->fetch();
         $requete ="SELECT ROUND(AVG(note),1) as moyenne FROM serieComNote WHERE id_serie = {$infoSerie['id']} GROUP BY id_serie";        $statement = $this->db->prepare($requete);
         $statement->execute();
@@ -32,8 +32,8 @@ class AffichageDetailleeSerieAction extends Action
                 <h2>  {$infoSerie['titre']}  </h2>
                 <img alt="" src="{$infoSerie['img']}">
                 <p>{$infoSerie['descriptif']}</p>
-                <p>genre: {$infoSerie['genre']}</p>
-                <p>public visée: {$infoSerie['public']}</p>
+                <p>genre: {$infoSerie['genreSerie']}</p>
+                <p>public visée: {$infoSerie['publicSerie']}</p>
                 <p>Date d'ajout : {$infoSerie['date_ajout']}</p>
                 <p>Année de sortie : {$infoSerie['annee']}</p>
                 <p>Nombre d'épisode : {$infoSerie['nbEp']}</p>

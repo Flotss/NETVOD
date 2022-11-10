@@ -100,7 +100,7 @@ class Auth
 
         // Insertion de l'utilisateur dans la base de données
         try {
-            $query = "insert into user (email, password, nom, prenom, genre, public) values (?, ?, ?, ?, '', '')";
+            $query = "insert into user (email, password, nom, prenom, genreUser, publicUser) values (?, ?, ?, ?, '', '')";
             $stmt = $db->prepare($query);
             $stmt->execute([$email, $hash, $nom, $prenom]);
 

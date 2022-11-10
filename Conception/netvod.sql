@@ -81,11 +81,11 @@ CREATE TABLE serie (
   img varchar(256) NOT NULL,
   annee int(11) NOT NULL,
   date_ajout date NOT NULL,
-  genre varchar(128),
-  public varchar(128),
+  genreSerie varchar(128),
+  publicSerie varchar(128),
   PRIMARY KEY (id),
-  constraint FOREIGN KEY (genre) references genre(libele),
-  constraint FOREIGN KEY (public) references public(libele)
+  constraint FOREIGN KEY (genreSerie) references genre(libele),
+  constraint FOREIGN KEY (publicSerie) references public(libele)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO serie (id, titre, descriptif, img, annee, date_ajout) VALUES
@@ -96,12 +96,12 @@ INSERT INTO serie (id, titre, descriptif, img, annee, date_ajout) VALUES
 (5,	'Champion',	'La vie trépidante de deux champions de surf, passionnés dès leur plus jeune age. Ils consacrent leur vie à ce sport. ',	'',	2022,	'2022-11-03'),
 (6,	'Une ville la nuit',	'C\'est beau une ville la nuit, avec toutes ces voitures qui passent et qui repassent. La série suit un livreur, un chauffeur de taxi, et un insomniaque. Tous parcourent la grande ville une fois la nuit venue, au volant de leur véhicule.',	'',	2017,	'2022-10-31');
 
-update serie set img = 'lake.png', genre = 'nature-eau', public = 'amoureux de paysage' where id = 1;
-update serie set img = 'water.png', genre = 'nature-eau', public = 'amoureux de paysage' where id = 2;
-update serie set img = 'horses.png', genre = 'nature-animaux', public = 'amoureux d\'animaux' where id = 3;
-update serie set img = 'beach.png', genre = 'plage-eau', public = 'amoureux de paysage' where id = 4;
-update serie set img = 'surf.png', genre = 'sport-eau-plage', public = 'surfeur'  where id = 5;
-update serie set img = 'cars-by-night.png', genre = 'ville-voiture', public = 'paysage urbain' where id = 6;
+update serie set img = 'lake.png', genreSerie = 'nature-eau', publicSerie = 'amoureux de paysage' where id = 1;
+update serie set img = 'water.png', genreSerie = 'nature-eau', publicSerie = 'amoureux de paysage' where id = 2;
+update serie set img = 'horses.png', genreSerie = 'nature-animaux', publicSerie = 'amoureux d\'animaux' where id = 3;
+update serie set img = 'beach.png', genreSerie = 'plage-eau', publicSerie = 'amoureux de paysage' where id = 4;
+update serie set img = 'surf.png', genreSerie = 'sport-eau-plage', publicSerie = 'surfeur'  where id = 5;
+update serie set img = 'cars-by-night.png', genreSerie = 'ville-voiture', publicSerie = 'paysage urbain' where id = 6;
 
 
 
@@ -116,8 +116,8 @@ CREATE TABLE user (
   password varchar(128) NOT NULL,
   nom varchar(128) NOT NULL,
   prenom varchar(128) NOT NULL,
-  genre varchar(128),
-  public varchar(128),
+  genreUser varchar(128),
+  publicUser varchar(128),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

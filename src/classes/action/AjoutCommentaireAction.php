@@ -40,6 +40,7 @@ class AjoutCommentaireAction extends Action
             $html = "Votre commentaire actuelle : " . $d1['commentaire'];
         }
 
+        //Formulaire ou entrer le commentaire
         if ($this->http_method === 'GET') { // GET Affichage du formulaire
             $html .= <<<END
                 <form method="post" action="?action=ajout-commentaire">
@@ -47,8 +48,8 @@ class AjoutCommentaireAction extends Action
                     <button type="submit">Commenter</button>
                 </form>
             END;
-        } else { // POST Traitement du formulaire
-            // Filtrage des données
+        } else { // POST
+            //Sanetisation puis ajout du commentaire
             $com = filter_var($_POST['commentaire'], FILTER_SANITIZE_STRING);
 
             // Verification que l'utilisateur a déjà commenté

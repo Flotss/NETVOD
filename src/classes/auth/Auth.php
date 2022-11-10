@@ -64,7 +64,7 @@ class Auth
         if ($stmt->fetch()) throw new AuthException("compte deja existant");
 
         try {
-            $query = "insert into user (email, password, nom, prenom, genre, public) values (?, ?, ?, ?, '', '')";
+            $query = "insert into user (email, password, nom, prenom, genreUser, publicUser) values (?, ?, ?, ?, '', '')";
             $stmt = $db->prepare($query);
             $stmt->execute([$email, $hash, $nom, $prenom]);
 

@@ -20,11 +20,18 @@ form{
 
 form#accueil{
     display: block;
-    text-align: center;
     padding: 1px;
     grid-row-gap: 2px;
+    text-align: left;
+    inline-size: fit-content;
 }
-
+ul.Menu {
+    display: flex;
+    list-style-type: none;
+    background: blue;
+    font-size: 2em;
+    column-gap: 1em;
+}
 .enteteAccueil{
     display: grid;
     justify-content: center;
@@ -40,7 +47,11 @@ button{
 header{
     text-align: center;
 }
-
+.logo{
+    text-align: right;
+    font-size: xx-small;
+    font-family: fantasy;
+}
 
 a{
     text-decoration: none; ;
@@ -57,7 +68,9 @@ a:hover{
 h3{
     text-decoration: underline;
 }
-
+li#m:hover {
+    background: red;
+}
 .container > * {
     margin-left: 2em;
     margin-right: 2em;

@@ -11,31 +11,38 @@ class GestionCompteAction extends Action
     {
 
         $html = '';
-        // Recuperation des donnees de l'utilisateur
+        // Connexion à la base de données
         $db = ConnectionFactory::makeConnection();
+
+        // Recuperation des données de l'utilisateur
         $infoUser = $db->query("SELECT * from user where id = " . $_SESSION['id']);
         $infoUser = $infoUser->fetch();
+
+        // Recuperation des genre et le public de l'utilisateur
         $listGenre = $db->query("SELECT * from genre");
         $listPublic = $db->query("SELECT * from public");
+
+        // Affichage des options pour selection les genres
         $listbuttonGenre ='';
         while ($g = $listGenre->fetch()){
             $listbuttonGenre .= <<<END
- <option value="{$g['libele']}" >{$g['libele']}</option> 
-END;
+             <option value="{$g['libele']}" >{$g['libele']}</option> 
+            END;
         }
 
+        // Affichage des options pour selection les publics
         $listbuttonPublic ='';
         while ($g = $listPublic->fetch()){
             $listbuttonPublic .= <<<END
- <option value="{$g['libele']}" name="{$g['libele']}" >{$g['libele']}</option> 
-END;
+             <option value="{$g['libele']}" name="{$g['libele']}" >{$g['libele']}</option> 
+            END;
 
         }
 
-        if ($this->http_method == 'GET'){
+        if ($this->http_method == 'GET'){ // GET : Affichage du formulaire
             return $this->getForm($infoUser, $listbuttonGenre, $listbuttonPublic);
-        }else { // POST
-
+        }else { // POST : Traitement du formulaire
+            // Verification que le bouton information utlisateur est appuyé
             if (isset($_POST['valider'])) {
 
                 // Filtre les entrées
@@ -44,24 +51,34 @@ END;
                 $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
                 $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 
-                // affiche toute les entrees
-
+                // Verification du mot de passe
                 if (password_verify($password, $infoUser['password'])) {
+                    // Mise à jour des données de l'utilisateur
                     $db->query("UPDATE user SET nom = '$nom', prenom = '$prenom', email = '$email' WHERE id = " . $_SESSION['id']);
                     $infoUser = $db->query("SELECT * from user where id = " . $_SESSION['id']);
                     $infoUser = $infoUser->fetch();
+
+                    // Ajout de l'affichage des genres et publics
                     $html = $this->getForm($infoUser,$listbuttonGenre, $listbuttonPublic);
+
+                    // Affichage d'un message de confirmation
                     $html .= '<p>Vos informations ont bien été modifiées</p>';
                     $_SESSION['user'] = $infoUser['prenom'];
                     return $html;
                 } else {
+                    // Affichage d'un message d'erreur
                     $html .= $this->getForm($infoUser,$listbuttonGenre, $listbuttonPublic);
                     $html .= 'Mot de passe incorrect';
                     return $html;
                 }
+                // Bouton genre cliqué
             } else if (isset($_POST['genre'])){
+                // Recuperation du genre selectionné
                 $genre = $_POST["selectgenre"];
+
+                // Verification si un genre est bien selectionné
                 if($genre != '') {
+                    // Verification que le genre est dans la liste de genre de la base de données
                     if (strpos("{$infoUser['genreUser']}", $genre) === false) {
                         $db->query("UPDATE user SET genreUser = '{$infoUser['genreUser']} $genre' WHERE id = " . $_SESSION['id']);
                     } else {
@@ -75,14 +92,18 @@ END;
                         $val = str_replace("  ", " ", $val);
                         $db->query("UPDATE user SET genreUser = '$val' WHERE id = " . $_SESSION['id']);
                     }
+
+                    // Recuperation des nouvelles données de l'utilisateur
                     $infoUser = $db->query("SELECT * from user where id = " . $_SESSION['id']);
                     $infoUser = $infoUser->fetch();
                 }
 
 
-
+                // Ajout de l'affichage
                 $html .= $this->getForm($infoUser,$listbuttonGenre, $listbuttonPublic);
                 return $html;
+
+                // Bouton public cliqué
             }else{
 
                 $public = $_POST["selectpublic"];
@@ -95,11 +116,11 @@ END;
 
                         $nPublic = explode($public, "{$infoUser['publicUser']}");
                         $val = "{$nPublic[0]} {$nPublic[1]}";
-                        if ("{$nPublic[0]}" === " " || "{$nPublic[0]}" === "  ") {
-                            $val = "{$nPublic[1]}";
-                        } else if ("{$nPublic[1]}" === " " || "{$nPublic[1]}" === "  ") {
-                            $val = "{$nPublic[0]}";
-                        }
+//                        if ("{$nPublic[0]}" === " " || "{$nPublic[0]}" === "  ") {
+//                            $val = "{$nPublic[1]}";
+//                        } else if ("{$nPublic[1]}" === " " || "{$nPublic[1]}" === "  ") {
+//                            $val = "{$nPublic[0]}";
+//                        }
                         $temp = str_replace("'","\'", $val);
                         $temp = str_replace("  ", " ", $temp);
                         $db->query("UPDATE user SET publicUser = '$temp' WHERE id = " . $_SESSION['id']);
@@ -108,6 +129,7 @@ END;
                     $infoUser = $infoUser->fetch();
                 }
 
+                // Ajout de l'affichage
                 $html .= $this->getForm($infoUser,$listbuttonGenre, $listbuttonPublic);
                 return $html;
             }

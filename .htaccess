@@ -14,9 +14,18 @@ allow from all
 <Files PageSerie.php>
 allow from all
 </Files>
-<Files affichageSerie.css>
-allow from all
-</Files>
-<Files cssDefault.css>
-allow from all
-</Files>
+
+# Autorise accès aux videos
+<FilesMatch "\.(mp4|ogg|webm)$">
+Allow from all
+</FilesMatch>
+
+# Autorise accès aux images
+<FilesMatch "\.(jpg|jpeg|png|gif)$">
+Allow from all
+</FilesMatch>
+
+#Autorise accès aux fichiers css
+<FilesMatch "\.(css)$">
+Allow from all
+</FilesMatch>

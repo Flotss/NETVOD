@@ -26,8 +26,8 @@ class Header
             </div>
             $accueil
             $gestion   
-            $deconnexion
             $research
+            $deconnexion
         </header>
         END;
         return $html;

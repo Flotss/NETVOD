@@ -32,8 +32,7 @@ class DispatcherGestionCompte
                 $html .= $act->execute();
             break;
             case 'research':
-                $act = new action\ResearchAction();
-                $html .= $act->execute();
+                Redirection::redirection('AccueilUtilisateur.php?action=research');
                 break;
             default:
                 $act = new action\GestionCompteAction();

@@ -3,7 +3,7 @@
 AKOO OBONO Didier AUBURTIN Romain BERNARD Julien MANGIN Florian
 
 # Lien pour acceder a NETVOD
-Pour accéder à NETVOD cliquer sur le lien [webetu](https://webetu.iutnc.univ-lorraine.fr/www/mangin215u/Deuxi%c3%a8me%20ann%c3%a9e/S3.1-SAE-DEV-WEB/)
+Pour accéder à NETVOD cliquer sur [webetu](https://webetu.iutnc.univ-lorraine.fr/www/mangin215u/Deuxi%c3%a8me%20ann%c3%a9e/S3.1-SAE-DEV-WEB/)
 
 # [URL GIT](https://github.com/Flotss/S3.1-SAE-DEV-WEB)
 
@@ -34,3 +34,5 @@ préféré ...)
 liste « en cours » 
 - 19. Tri dans le catalogue selon la note moyenne
 
+# Pour tester l'application 
+Vous avez juste à vous inscrire sur [NETVOD](https://webetu.iutnc.univ-lorraine.fr/www/mangin215u/Deuxi%c3%a8me%20ann%c3%a9e/S3.1-SAE-DEV-WEB/) et tester par vous même.

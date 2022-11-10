@@ -157,7 +157,7 @@ class AffichageSerieAction extends Action
 
                 if($numero == 3){
                     $titreR = str_replace("'","\'",$titre);
-                    $r = $this->db->query("SELECT episode.titre from episode,episodevisionnee,serie where episodevisionnee.id_episode = episode.id AND serie.id = episode.serie_id AND serie.titre = '{$titreR}' AND episodevisionnee.id_user = {$_SESSION['id']} AND episodevisionnee.etat = 0 AND episode.numero <= ALL(select episode.numero from episode,episodevisionnee,serie where episode.id = episodevisionnee.id_episode AND episode.serie_id = serie.id AND id_user = {$_SESSION['id']} AND serie.titre = '{$titreR}' AND etat = 0)");
+                    $r = $this->db->query("SELECT episode.titre from episode,episodeVisionnee,serie where episodeVisionnee.id_episode = episode.id AND serie.id = episode.serie_id AND serie.titre = '{$titreR}' AND episodeVisionnee.id_user = {$_SESSION['id']} AND episodeVisionnee.etat = 0 AND episode.numero <= ALL(select episode.numero from episode,episodeVisionnee,serie where episode.id = episodeVisionnee.id_episode AND episode.serie_id = serie.id AND id_user = {$_SESSION['id']} AND serie.titre = '{$titreR}' AND etat = 0)");
                     $episode = $r->fetch();
 
                     $html .= <<<END

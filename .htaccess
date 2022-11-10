@@ -5,7 +5,7 @@ allow from all
 <Files AccueilUtilisateur.php>
 allow from all
 </Files>
-<Files Episode.php.php>
+<Files Episode.php>
 allow from all
 </Files>
 <Files GestionCompte.php>

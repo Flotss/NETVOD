@@ -37,6 +37,23 @@ class AffichageSerieAction extends Action
             $this->tri = str_replace("_", " ", $_GET["Trier"]);
         }
 
+        /**
+         * On recupere les donnees des tables public et genre pour les gerer en checkbox
+         * On recupera les case coché à l'aide de la table post ,
+         * puis apliquera la fonction Filtre
+         */
+        $checkPublic='';
+        $checkGenre='';
+$stm=$this->db->prepare("SELECT * FROM GENRE");
+        $stm->execute();
+        while($data=$stm->fetch()){
+            $checkGenre.="<label>".$data['libele']."</label><input type=checkbox name='FiltreGenre[]' value=$data[libele]>";
+        }
+        $stm=$this->db->prepare("SELECT * FROM Public");
+        $stm->execute();
+        while($data=$stm->fetch()){
+            $checkPublic.="<input type=checkbox name='FiltrePublic[]' value=$data[libele]>".$data['libele'];
+        }
         // Option pour trier les séries
         $html .= "
                 <form action='?action=AccueilUtilisateurAction.php' method='get'>
@@ -50,7 +67,11 @@ class AffichageSerieAction extends Action
                     </select>
                     <button type='submit'>Trier</button>
                 </form>
-                ";
+                 <form action='?action=AccueilUtilisateurAction.php' method='post'>
+                 <legend>Filtrer par :</legend>
+                 <span>Genre :</span>".$checkGenre."<span>Public visé :</span>".$checkPublic."
+                 <button type='submit'>Filtrer</button></form>";
+
 
 
 
@@ -59,7 +80,7 @@ class AffichageSerieAction extends Action
             from serie s inner join episode ep 
             on ep.serie_id=s.id';
 
-        $html = $this->generateDiv("$rq",
+        $html = $this->generateDiv($this->Filtre($rq),
                                     $html, 'Catalogue', 1);
 
         //On gere l'ensemble des series en cours de l'utilisateur
@@ -217,5 +238,27 @@ $this->tri = $_GET['Trier'] ;
 SELECT ROUND(AVG(note),1) as moyenne FROM serieComNote  GROUP BY id_serie)';
             }
         return $requete.$ajout;
+    }
+    /*
+ * Fonction de Filtre modifiant la requete pour avoir
+ * le bon where
+ */
+    private function Filtre(string $re):string{
+        $requete='';
+        if(isset($_POST['FiltreGenre'])){
+            //On verifie que la requete ne contienne pas de where deja
+            if(str_contains($re,'where')){
+                foreach ($_POST['FiltreGenre'] as $k){
+                    $requete=$re." and genreSerie like '%".$k."%'";
+                }
+            }
+            else{
+                foreach ($_POST['FiltreGenre'] as $k){
+                    $requete=$re." where genreSerie like '%".$k."%'";
+                }
+            }
+        }
+        echo $requete;
+        return $requete;
     }
 }

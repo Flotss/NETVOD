@@ -10,12 +10,18 @@ class Dispatcher
 {
     protected ?string $action = null;
 
+    /**
+     * construit le dispacher
+     */
     public function __construct()
     {
         $this->action = isset($_GET['action']) ? $_GET['action'] : null;
     }
 
-
+    /**
+     * @return void
+     * lance le dispacher qui verifie l'action et agis en consequence
+     */
     public function run(): void
     {
         if (isset($_SESSION['id'])) Redirection::redirection('AccueilUtilisateur.php');
@@ -39,7 +45,11 @@ class Dispatcher
         $this->renderPage($html);
     }
 
-
+    /**
+     * @param $html
+     * @return void
+     * Affiche la page contenant le resultat de l'action executait
+     */
     private function renderPage($html)
     {
         $act = new html\Header();

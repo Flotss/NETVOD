@@ -62,8 +62,6 @@ class DispatcherEpisode
         $act = new html\Header();
         $header = $act->execute();
 
-        $act = new html\Footer();
-        $footer = $act->execute();
 
         try{
             $db = ConnectionFactory::makeConnection();
@@ -132,7 +130,6 @@ class DispatcherEpisode
                            $comment
                            <a href="?action=ajout-commentaire&titre={$titre}" style="color: darkorange; text-decoration: none">-Commenter!</a><br>
                            <a href="?action=ajout-note&titre={$titre}" style="color: darkorange; text-decoration: none">-Noter!</a>
-                           $footer
                         </div>
                      </div>
                    

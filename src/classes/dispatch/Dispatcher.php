@@ -55,8 +55,6 @@ class Dispatcher
         $act = new html\Header();
         $header = $act->execute();
 
-        $act = new html\Footer();
-        $footer = $act->execute();
         echo <<<END
         <!DOCTYPE html>
             <html lang="fr">
@@ -69,7 +67,6 @@ class Dispatcher
                 <body>
                     $header
                     $html
-                    $footer
                 </body>
             </html>
         END;

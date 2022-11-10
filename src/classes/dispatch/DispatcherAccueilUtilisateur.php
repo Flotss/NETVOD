@@ -62,8 +62,6 @@ class DispatcherAccueilUtilisateur
         $act = new html\Header();
         $header = $act->execute();
 
-        $act = new html\Footer();
-        $footer = $act->execute();
         echo <<<END
             <html lang="fr">
                 <head>
@@ -77,7 +75,6 @@ class DispatcherAccueilUtilisateur
                     <div class="container">
                         $header
                         $html
-                        $footer
                     </div>
                 </body>
             </html>

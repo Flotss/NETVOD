@@ -20,14 +20,16 @@ class ResearchAction extends Action
         if (isset($_POST['research'])) {
             $research = filter_input(INPUT_POST, 'research', FILTER_SANITIZE_STRING);
 
-            // Using REGEPX to find the series that match the research
-            // With title and description
+            // Utilisation REGEPX pour trouver les séries qui contiennent les mots clés
+            // avec le titre et la description
             $research = str_replace(' ', '|', $research);
 
+            // Affichage des séries qui contiennent les mots clés
             $requete = "SELECT titre, img FROM serie WHERE titre REGEXP '$research' or descriptif REGEXP '$research'";
             $html = $this->generateDiv($requete, '', 'Résultat recherche : ', 1);
 
         } else {
+            // Affichage du formulaire
             $html = <<<END
                 <form action="?action=research" method="post">
                     <input type="text" name="research" placeholder="Recherche">

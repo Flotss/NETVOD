@@ -4,11 +4,15 @@ namespace iutnc\NetVOD\action;
 use iutnc\NetVOD\db\ConnectionFactory;
 use PDO;
 
+/**
+ * Class SuprPreferenceAction
+ * Cette classe permet de supprimer une préférence
+ */
 class SuprPreferenceAction extends Action
 {
 
     /**
-     * methode qui supprime un preference si elle existe et retourne un string html
+     * Methode qui supprime un preference si elle existe et retourne un string html
      * @return string
      */
     public function execute(): string
@@ -20,7 +24,7 @@ class SuprPreferenceAction extends Action
         } catch (DBExeption $e) {
             throw new AuthException($e->getMessage());
         }
-        //Verifie que le cookies essentielle existe puis recupere l'id de la serie
+        //Verifie que le cookie essentiel existe puis récupère l'id de la série
         if(isset($_COOKIE['nomSerie'])){
             $serie = "{$_COOKIE['nomSerie']}";
             $serie = str_replace("'","\'",$serie);

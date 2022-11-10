@@ -5,6 +5,10 @@ namespace iutnc\NetVOD\action;
 use iutnc\NetVOD\auth\Auth;
 use iutnc\NetVOD\Redirect\Redirection;
 
+/**
+ * Class InscriptionAction
+ * Cette classe permet de gérer l'inscription d'un utilisateur
+ */
 class InscriptionAction extends Action
 {
     /**

@@ -61,7 +61,7 @@ class AffichageSerieAction extends Action
     private function generateDiv(string $requete, string $html, string $operation, int $numero): string
     {
         //////////////////////////////////////
-        if(isset($_GET['ordre'])){
+        if(isset($_GET['Trier'])){
             $requete=$this->Trie($requete);
         }
         ///////////////////////////////////////
@@ -149,7 +149,7 @@ class AffichageSerieAction extends Action
 
 
     private function Trie(string $requete):string{
-        if(isset($_GET['Trier'])) {
+
             if ($_GET['Trier'] != '') {
                 $requete .= " order by " . $_GET['Trier'];
             }
@@ -160,7 +160,6 @@ class AffichageSerieAction extends Action
             s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout 
             order by (select count(e.id) group by s.id)';
             }
-        }
         return $requete;
     }
 }

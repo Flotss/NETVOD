@@ -24,8 +24,9 @@ class AffichageSerieAction extends Action
 
         // Saluer l'utilisateur
         $html .= '<h2>Bonjour ' . $_SESSION['user'] . '</h2>';
-
-$this->tri=str_replace("_"," ",$_GET["Trier"]);
+        if(isset($_GET["Trier"])) {
+            $this->tri = str_replace("_", " ", $_GET["Trier"]);
+        }
         $html .= "
                 <form action='?action=AccueilUtilisateurAction.php' method='get'>
                     <legend >trier par : ".$this->tri."</legend>

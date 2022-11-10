@@ -12,7 +12,6 @@ class DeconnexionAction extends Action
         session_destroy();
         unset($_SESSION['id']);
         Redirection::redirection('index.php');
-
         return '';
     }
 }

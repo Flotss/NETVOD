@@ -1,0 +1,16 @@
+deny from all
+<Files index.php>
+allow from all
+</Files>
+<Files AccueilUtilisateur.php>
+allow from all
+</Files>
+<Files Episode.php.php>
+allow from all
+</Files>
+<Files GestionCompte.php>
+allow from all
+</Files>
+<Files PageSerie.php>
+allow from all
+</Files>

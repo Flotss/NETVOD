@@ -8,7 +8,7 @@ use iutnc\NetVOD\dispatch\DispatcherAccueilUtilisateur;
 session_start();
 
 require 'vendor/autoload.php';
-\iutnc\NetVOD\db\ConnectionFactory::setConfig('config.ini');
+\iutnc\NetVOD\db\ConnectionFactory::setConfig('config/config.ini');
 
 // DISPATCHER
 $d = new DispatcherAccueilUtilisateur();

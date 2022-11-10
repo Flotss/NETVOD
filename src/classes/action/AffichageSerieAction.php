@@ -7,14 +7,21 @@ use iutnc\NetVOD\AuthException\AuthException;
 use PDOException;
 use PDO;
 
+/**
+ * Class AffichageSerieAction
+ */
 class AffichageSerieAction extends Action
 {
-
-    private $db;
+    /**
+     * @var PDO $db
+     */
+    private PDO $db;
 
     public function execute(): string
     {
         $html = '';
+
+        // Connexion à la base de données
         try {
             $this->db = ConnectionFactory::makeConnection();
         } catch (PDOException $e) {
@@ -25,6 +32,7 @@ class AffichageSerieAction extends Action
         $html .= '<h2>Bonjour ' . $_SESSION['user'] . '</h2>';
 
 
+        // Option pour trier les séries
         $html .= "
                 <form action='?action=AccueilUtilisateurAction.php' method='get'>
                     <legend >trier par :</legend>
@@ -63,19 +71,21 @@ class AffichageSerieAction extends Action
      */
     private function generateDiv(string $requete, string $html, string $operation, int $numero): string
     {
+        // Si l'on tri alors les series sont triées
         //////////////////////////////////////
         if(isset($_GET['Trier'])){
             $requete=$this->Trie($requete);
         }
         ///////////////////////////////////////
 
-
+        // Récupération des séries en foncion de la requête
         $statement = $this->db->prepare($requete);
         $statement->execute();
 
-
+        // Affichage de l'intitulé
         $html .= "<h3>$operation</h3>";
 
+        // si il n'y a pas de série
         if ($statement->rowCount() == 0) {
 
             $html .= <<<END
@@ -86,26 +96,29 @@ class AffichageSerieAction extends Action
             return $html;
         }
 
-
-
+        // Savoir le nombre section pour le wrapper
         $nbrSlide = $statement->rowCount()/3;
         $nbrSlide = ceil($nbrSlide);
 
+        // id pour les section du wrapper
         $numeroSection = 1;
         $idSectionSuivante = $nbrSlide;
 
-
+        // Recherche du chemin pour trouver les images
         $scriptNameExplode = explode('/', $this->getScriptName());
         $chemin = '';
         for ($k = 0; $k < count($scriptNameExplode) - 1; $k++) {
             $chemin .= $scriptNameExplode[$k] . '/';
         }
 
+        // Indice itération pour le nombre de séries affichées
         $nbrRow = 0;
 
-
+        // Affichage des séries avec un wrapper
         $html .= '<div class="wrapper">';
+        // Pour chaque section
         for ($i = 1; $i <= $nbrSlide; $i++) {
+            // Mettre un id pour chaque section
             if ($nbrSlide == 2){
                 $idPrecedent = 1;
                 $idSuivant = 2;
@@ -115,21 +128,22 @@ class AffichageSerieAction extends Action
             }
 
 
-
+            // Affichage de la section
             $html .= '<section id="'. 'section' . $operation . $numeroSection . '">';
             $html .= '<a href="#'.'section' . $operation . $idPrecedent .'" class="arrow__btn left-arrow">‹</a>';
+
+            // Pour 3 serie par section
             for ($j = 0; $j < 3; $j++) {
                 if ($nbrRow === $statement->rowCount()) {
                     break;
                 }
 
+                // Récupération des données de la série
                 $data = $statement->fetch(PDO::FETCH_ASSOC);
                 $titre = $data['titre'];
                 $img = $data['img'];
 
-
-
-
+                // Affichage de la série
                 $html .= <<<END
                     <div class="item">
                          <a href="?action=affichage-page-serie&titre-serie=$titre">
@@ -138,10 +152,15 @@ class AffichageSerieAction extends Action
                          </a>
                     </div>
                     END;
+
+                // Incrémentation de l'indice d'itération des séries affichées
                 $nbrRow++;
             }
+            // Fin de section
             $html .= '<a href="#'.'section' . $operation . $idSuivant .'" class="arrow__btn right-arrow">›</a>';
             $html .=  '</section>';
+
+            // Incrémentation de l'indice d'itération des id de section
             $idSectionSuivante++;
             $numeroSection++;
         }
@@ -150,7 +169,10 @@ class AffichageSerieAction extends Action
     }
 
 
-
+    /** Méthode qui trie les series
+     * @param string $requete : la requete a trier
+     * @return string : la requete triée
+     */
     private function Trie(string $requete):string{
 
             if ($_GET['Trier'] != '') {

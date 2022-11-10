@@ -1,10 +1,3 @@
-DROP TABLE episode;
-DROP TABLE etatserie;
-DROP TABLE serie;
-DROP TABLE seriecomnote;
-DROP TABLE userpref;
-DROP TABLE user;
-
 SET NAMES utf8;
 SET time_zone = '+00:00';
 SET foreign_key_checks = 0;

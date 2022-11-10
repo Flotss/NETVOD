@@ -41,8 +41,9 @@ class AffichageSerieAction extends Action
 
 
 //        On gere l'ensemble des series de la BD
-        $html = $this->generateDiv("SELECT * from serie",
-                                    $html, 'Catalogue', 1);
+        $rq="SELECT s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout from serie s inner join episode ep on s.id=ep.serie_id";
+        $html = $this->generateDiv($rq,
+            $html, 'Catalogue', 1);
 
         //On gere l'ensemble des series en cours de l'utilisateur
         $html = $this->generateDiv("SELECT * from serie s inner join userPref u on u.id_serie = s.id  where id_user = {$_SESSION['id']}",
@@ -152,7 +153,6 @@ class AffichageSerieAction extends Action
                          </a>
                     </div>
                     END;
-                }
                 $nbrRow++;
             }
             $html .= '<a href="#'.'section' . $operation . $idSuivant .'" class="arrow__btn right-arrow">›</a>';

@@ -4,17 +4,39 @@ namespace iutnc\NetVOD\db;
 
 use PDO;
 
+/**
+ * Class ConnectionFactory
+ * Cette classe permet de créer une connexion à la base de données
+ */
 class ConnectionFactory
 {
+    /**
+     * @var array $config tableau de configuration
+     */
     public static $config = [];
+
+    /**
+     * @var PDO $db La connexion à la base de données
+     */
     public static $db = null;
 
+
+    /**
+     * Methode de configuration de la connexion à la base de données
+     * @param $file string chemin du fichier de configuration
+     * @return void
+     */
     public static function setConfig($file)
     {
         self::$config = parse_ini_file($file);
     }
 
-    public static function makeConnection()
+
+    /**
+     * Methode de création de la connexion à la base de données
+     * @return PDO La connexion à la base de données
+     */
+    public static function makeConnection() : PDO
     {
         if (is_null(self::$db)) {
             $dsn = self::$config['driver'] . ':host=' . self::$config['host'] . ';dbname=' . self::$config['database'];
@@ -33,6 +55,10 @@ class ConnectionFactory
         return self::$db;
     }
 
+    /**
+     * Methode de fermeture de la connexion à la base de données
+     * @return void
+     */
     public static function close()
     {
         self::$db = null;

@@ -14,3 +14,9 @@ allow from all
 <Files PageSerie.php>
 allow from all
 </Files>
+<Files affichageSerie.css>
+allow from all
+</Files>
+<Files cssDefault.css>
+allow from all
+</Files>

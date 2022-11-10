@@ -11,6 +11,7 @@ class AffichageSerieAction extends Action
 {
 
     private $db;
+    private  $tri ="";
 
     public function execute(): string
     {
@@ -24,10 +25,10 @@ class AffichageSerieAction extends Action
         // Saluer l'utilisateur
         $html .= '<h2>Bonjour ' . $_SESSION['user'] . '</h2>';
 
-
+$this->tri=str_replace("_"," ",$_GET["Trier"]);
         $html .= "
                 <form action='?action=AccueilUtilisateurAction.php' method='get'>
-                    <legend >trier par :</legend>
+                    <legend >trier par : ".$this->tri."</legend>
                     <select name=Trier >
                         <option value='' ></option>
                         <option value=date_ajout >Date</option>
@@ -41,19 +42,23 @@ class AffichageSerieAction extends Action
 
 
 //        On gere l'ensemble des series de la BD
-        $html = $this->generateDiv("SELECT * from serie",
+        $rq='SELECT DISTINCT s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout 
+            from serie s inner join episode ep 
+            on ep.serie_id=s.id';
+
+        $html = $this->generateDiv("$rq",
                                     $html, 'Catalogue', 1);
 
         //On gere l'ensemble des series en cours de l'utilisateur
-        $html = $this->generateDiv("SELECT * from serie s inner join userPref u on u.id_serie = s.id  where id_user = {$_SESSION['id']}",
+        $html = $this->generateDiv("$rq inner join userPref u on u.id_serie = s.id   where id_user = {$_SESSION['id']}",
                                     $html, 'Series préférées', 2);
 
         //On gere les series en cours de l'utilisateur
-        $html = $this->generateDiv("select * from serie s inner join etatSerie e on e.id_serie = s.id where etat like 'en cours' and id_user = {$_SESSION['id']}",
+        $html = $this->generateDiv("$rq inner join etatSerie e on e.id_serie = s.id  where etat like 'en cours' and id_user = {$_SESSION['id']}",
                                     $html, 'Series en cours', 3);
 
         //On gere les series daja visionée de l'utilisateur
-        $html = $this->generateDiv("select * from serie s inner join etatSerie e on e.id_serie = s.id where etat like 'visionnee' and id_user = {$_SESSION['id']}",
+        $html = $this->generateDiv("$rq inner join etatSerie e on e.id_serie = s.id where etat like 'visionnee' and id_user = {$_SESSION['id']}",
             $html, 'Series deja visionnée', 4);
         return $html;
     }
@@ -167,17 +172,17 @@ class AffichageSerieAction extends Action
 
 
     private function Trie(string $requete):string{
-
+$ajout='';
+$this->tri = $_GET['Trier'] ;
             if ($_GET['Trier'] != '') {
-                $requete .= " order by " . $_GET['Trier'];
+
+                $ajout = " order by " . $_GET['Trier'];
             }
             if ($_GET['Trier'] == 'NombreEpisode') {
-                $requete = 'select s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout 
-            from serie s inner join episode e 
-            on e.serie_id=s.id GROUP by 
+                $ajout = ' GROUP by 
             s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout 
-            order by (select count(e.id) group by s.id)';
+            order by (select count(ep.id) group by s.id)';
             }
-        return $requete;
+        return $requete.$ajout;
     }
 }

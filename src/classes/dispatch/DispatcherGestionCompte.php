@@ -23,17 +23,21 @@ class DispatcherGestionCompte
 
         $html = '';
         switch ($this->action) {
+            //Cas ou l'utilisateur clique sur le bouton de retour à l'accueil
             case 'accueil':
                 $act = new action\AccueilUtilisateurAction();
                 $html .= $act->execute();
                 break;
+            //Cas ou l'utilisateur clique sur le bouton de deconnexion
             case 'deconnexion':
                 $act = new action\DeconnexionAction();
                 $html .= $act->execute();
             break;
+            //Cas ou l'utilisateur clique sur le bouton de recherche
             case 'research':
                 Redirection::redirection('AccueilUtilisateur.php?action=research');
                 break;
+            //Affichage de la page de gestion de compte
             default:
                 $act = new action\GestionCompteAction();
                 $html .= $act->execute();

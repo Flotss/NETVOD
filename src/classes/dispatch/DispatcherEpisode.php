@@ -34,25 +34,32 @@ class DispatcherEpisode
 
         $html = '';
         switch ($this->action) {
+            //Cas ou l'utilisateur clique sur le bouton de retour à l'accueil
+
             case 'accueil':
                 $act = new action\AccueilUtilisateurAction();
                 $html .= $act->execute();
                 break;
+            //Cas ou l'utilisateur clique sur le bouton de deconnexion
             case 'deconnexion':
                 $act = new action\DeconnexionAction();
                 $html .= $act->execute();
                 break;
+            //Cas ou l'utilisateur clique sur le bouton d'ajout de commentaire
             case 'ajout-commentaire':
                 $act = new action\AjoutCommentaireAction();
                 $html .= $act->execute();
                 break;
+            //Cas ou l'utilisateur clique sur le bouton d'ajout de note
             case 'ajout-note':
                 $act = new action\AjoutNoteAction();
                 $html .= $act->execute();
                 break;
+            //Cas ou l'utilisateur clique sur le bouton de gestion de compte
             case 'gestionCompte':
                 Redirection::redirection('GestionCompte.php');
                 break;
+            //Cas ou l'utilisateur clique sur le bouton de recherche
             case 'research':
                 Redirection::redirection('AccueilUtilisateur.php?action=research');
                 break;

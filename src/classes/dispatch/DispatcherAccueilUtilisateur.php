@@ -23,30 +23,36 @@ class DispatcherAccueilUtilisateur
 
         $html = '';
         switch ($this->action) {
+            //Cas ou l'utilisateur clique sur le bouton de retour à l'accueil
             case 'accueil':
                 $act = new action\AccueilUtilisateurAction();
                 $html .= $act->execute();
                 break;
+            //Cas ou l'utilisateur clique sur le bouton de deconnexion
             case 'deconnexion':
                 $act = new action\DeconnexionAction();
                 $html .= $act->execute();
             break;
+            //Cas ou l'utilisateur clique sur le bouton de gestion de compte
             case 'gestionCompte':
                 Redirection::redirection('GestionCompte.php');
                 break;
+            //Cas ou l'utilisateur clique sur une série en cours (affichage de l'épisode à voir)
             case 'affichage-episode':
                 setcookie('nomEpisode', $_GET['titre-episode'], time() + 3600, '/');
                 Redirection::redirection('Episode.php');
                 break;
+            //Cas ou l'utilisateur clique sur une série (affichage de la série)
             case 'affichage-page-serie':
                 setcookie('nomSerie', $_GET['titre-serie'], time() + 3600, '/');
                 Redirection::redirection('PageSerie.php');
                 break;
+            //Cas ou l'utilisateur clique sur le bouton de recherche
             case 'research':
                 $act = new action\ResearchAction();
                 $html .= $act->execute();
                 break;
-
+            //Affichage de la page d'accueil
             default:
                 $act = new action\AffichageSerieAction();
                 $html .= $act->execute();

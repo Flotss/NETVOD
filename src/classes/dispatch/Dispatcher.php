@@ -28,14 +28,12 @@ class Dispatcher
 
         $html = '';
         switch ($this->action) {
+            //cas ou l'utilisateur clique sur le bouton pour s'inscrire
             case 'inscription':
                 $act = new action\InscriptionAction();
                 $html .= $act->execute();
-                break; //tous les cas d'inscription sont géré dans InscritpionAction
-            case 'deconnexion':
-                $act = new action\DeconnexionAction();
-                $html .= $act->execute();
                 break;
+                //Cas ou l'utilisateur se connecte
             default:
                 $act = new action\ConnexionAction();
                 $html .= $act->execute();

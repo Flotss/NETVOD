@@ -1,31 +1,3 @@
-deny from all
-<Files index.php>
-allow from all
+<Files config.ini>
+    deny from all
 </Files>
-<Files AccueilUtilisateur.php>
-allow from all
-</Files>
-<Files Episode.php>
-allow from all
-</Files>
-<Files GestionCompte.php>
-allow from all
-</Files>
-<Files PageSerie.php>
-allow from all
-</Files>
-
-# Autorise accès aux videos
-<FilesMatch "\.(mp4|ogg|webm)$">
-Allow from all
-</FilesMatch>
-
-# Autorise accès aux images
-<FilesMatch "\.(jpg|jpeg|png|gif)$">
-Allow from all
-</FilesMatch>
-
-#Autorise accès aux fichiers css
-<FilesMatch "\.(css)$">
-Allow from all
-</FilesMatch>

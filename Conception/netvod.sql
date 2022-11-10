@@ -81,8 +81,8 @@ CREATE TABLE serie (
   img varchar(256) NOT NULL,
   annee int(11) NOT NULL,
   date_ajout date NOT NULL,
-  genre varchar(256),
-  public varchar(256),
+  genre varchar(128),
+  public varchar(128),
   PRIMARY KEY (id),
   constraint FOREIGN KEY (genre) references genre(libele),
   constraint FOREIGN KEY (public) references public(libele)
@@ -116,7 +116,8 @@ CREATE TABLE user (
   password varchar(128) NOT NULL,
   nom varchar(128) NOT NULL,
   prenom varchar(128) NOT NULL,
-  genre varchar(256),
+  genre varchar(128),
+  public varchar(128),
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

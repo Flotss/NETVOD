@@ -51,6 +51,9 @@ class AffichageSerieAction extends Action
         //On gere les series en cours de l'utilisateur
         $html = $this->generateDiv("select * from serie s inner join etatSerie e on e.id_serie = s.id where etat like 'en cours' and id_user = {$_SESSION['id']}",
                                     $html, 'Series en cours', 3);
+        //On gere les series daja visionée de l'utilisateur
+        $html = $this->generateDiv("select * from serie s inner join etatSerie e on e.id_serie = s.id where etat like 'visionnee' and id_user = {$_SESSION['id']}",
+            $html, 'Series deja visionnée', 4);
         return $html;
     }
 

@@ -10,21 +10,25 @@ class AjoutCommentaireAction extends Action
     public function execute(): string
     {
         $html = '';
+        //Verification que le cookies exentielle nomEpisode existe sinon redirection a PageSerie
         if(isset($_COOKIE['nomEpisode'])){
             $titre = $_COOKIE['nomEpisode'];
             $titre = str_replace("'","\'",$titre);
         }else {
             Redirection::redirection('PageSerie.php');
         }
+        //Connection a la bd
         try {
             $db = ConnectionFactory::makeConnection();
         } catch (DBExeption $e) {
             throw new AuthException($e->getMessage());
         }
+        //Affichage du commentaire actuelle si existe
         $q1 = $db->query("SELECT commentaire from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "' AND commentaire IS NOT NULL");
         if($d1=$q1->fetch()){
             $html = "Votre commentaire actuelle : " . $d1['commentaire'];
         }
+        //Formulaire ou entrer le commentaire
         if ($this->http_method === 'GET') {
             $html .= <<<END
                 <form method="post" action="?action=ajout-commentaire">
@@ -33,6 +37,7 @@ class AjoutCommentaireAction extends Action
                 </form>
             END;
         } else { // POST
+            //Sanetisation puis ajout du commentaire
             $com = filter_var($_POST['commentaire'], FILTER_SANITIZE_STRING);
             $q2 = $db->query("SELECT * from serieComNote, episode where serieComNote.id_serie = episode.serie_id AND id_user = " . $_SESSION['id'] . " AND titre = '" . $titre . "'");
             if(!$d2 = $q2->fetch()){

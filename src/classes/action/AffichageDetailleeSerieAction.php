@@ -65,12 +65,12 @@ class AffichageDetailleeSerieAction extends Action
         // Affichage de l'épisode en cours
         $etat = $this->db->query("select * from etatSerie where etat = 'en cours' AND id_serie = {$infoSerie['id']}");
         if($f = $etat->fetch()){
-            $html .= $this->generateDiv("SELECT * from episode,episodeVisionnee where episodeVisionnee.id_episode = episode.id AND episodeVisionnee.id_user = {$_SESSION['id']} AND episodeVisionnee.etat = 0 AND episode.numero <= ALL(select episode.numero from episode,episodeVisionnee where episode.id = episodeVisionnee.id_episode AND id_user = {$_SESSION['id']} AND episode.serie_id = {$infoSerie['id']} AND etat = 0) AND episode.serie_id = {$infoSerie['id']}",
+            $html .= $this->generateDiv("SELECT * from episode,episodeVisionnee, serie where episodeVisionnee.id_episode = episode.id AND episode.serie_id = serie.id AND episodeVisionnee.id_user = {$_SESSION['id']} AND episodeVisionnee.etat = 0 AND episode.numero <= ALL(select episode.numero from episode,episodeVisionnee where episode.id = episodeVisionnee.id_episode AND id_user = {$_SESSION['id']} AND episode.serie_id = {$infoSerie['id']} AND etat = 0) AND episode.serie_id = {$infoSerie['id']}",
                 'Prochain Episode');
         }
 
         // Affichage de tous les épisodes
-        $html .= $this->generateDiv("SELECT * from episode where serie_id = {$infoSerie['id']}",
+        $html .= $this->generateDiv("SELECT numero, episode.titre as titre, img, numero, duree from episode inner join serie on serie.id = episode.serie_id where serie_id = {$infoSerie['id']}",
              'Episodes de la série');
 
         // Boutton pour l'affichage de commentaire
@@ -85,6 +85,14 @@ class AffichageDetailleeSerieAction extends Action
 
     private function generateDiv(string $requete, string $operation): string
     {
+        // Recherche du chemin pour trouver les images
+        $scriptNameExplode = explode('/', $this->getScriptName());
+        $chemin = '';
+        for ($k = 0; $k < count($scriptNameExplode) - 1; $k++) {
+            $chemin .= $scriptNameExplode[$k] . '/';
+        }
+
+
         // Creation d'une liste d'episode
         $html2 = "<div class='episodeSerie'><h3>$operation</h3>";
         $html2 .= "<ul =presentation episode>";
@@ -99,6 +107,7 @@ class AffichageDetailleeSerieAction extends Action
                                 <h2>Episode {$d1['numero']}</h2>
                                 <p>Titre: {$d1['titre']}</p>
                                 <p>Durée:  {$d1['duree']}</p>
+                                <img alt="" src="$chemin/ressource/image/{$d1['img']}">
                         </li>
                     </a>
                 END;

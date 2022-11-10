@@ -44,12 +44,12 @@ class AffichageSerieAction extends Action
          */
         $checkPublic='';
         $checkGenre='';
-$stm=$this->db->prepare("SELECT * FROM GENRE");
+        $stm=$this->db->prepare("SELECT * FROM genre");
         $stm->execute();
         while($data=$stm->fetch()){
             $checkGenre.="<label>".$data['libele'].":<input type=checkbox name='FiltreGenre[]' value=$data[libele]></label>&nbsp&nbsp";
         }
-        $stm=$this->db->prepare("SELECT * FROM Public");
+        $stm=$this->db->prepare("SELECT * FROM public");
         $stm->execute();
         while($data=$stm->fetch()){
             $checkPublic.="<label>".$data['libele'].":<input type=checkbox name='FiltrePublic[]' value=$data[libele]></label>&nbsp&nbsp";
@@ -77,12 +77,12 @@ $stm=$this->db->prepare("SELECT * FROM GENRE");
 
 //        On gere l'ensemble des series de la BD
         $rq='SELECT DISTINCT s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout 
-            from serie s inner join episode ep 
-            on ep.serie_id=s.id';
+                    from serie s 
+                    inner join episode ep on ep.serie_id=s.id';
 
-$requete='';
-$requete=$this->Filtre($rq,);
-if(isset($_GET['Trier'])){
+        $requete='';
+        $requete=$this->Filtre($rq,);
+        if(isset($_GET['Trier'])){
         $requete=$this->Trie($rq);
     }
         $html = $this->generateDiv($requete,
@@ -236,7 +236,6 @@ $this->tri = $_GET['Trier'] ;
                 $ajout=' GROUP by s.id,s.titre,s.descriptif,s.img,s.annee,s.date_ajout order by (
 SELECT ROUND(AVG(note),1) as moyenne FROM serieComNote scm where scm.id_serie=s.id  GROUP BY id_serie) DESC';
             }
-            echo $requete.$ajout;
         return $requete.$ajout;
     }
     /*

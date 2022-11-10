@@ -29,7 +29,7 @@ class DispatcherEpisode
     public function run(): void
     {
         // SECURITE
-        if (! (isset($_SESSION['id']))) Redirection::redirection('index');
+        if (! (isset($_SESSION['id']))) Redirection::redirection('index.php');
 
 
         $html = '';
@@ -94,7 +94,10 @@ class DispatcherEpisode
             Redirection::redirection('PageSerie.php');
         }
 
-        $statementEpisode = $db->query("SELECT file,numero,duree,resume,episode.titre,serie.titre AS serieTitre from episode,serie where episode.serie_id = serie.id AND episode.titre = '" . $titre . "'");
+        $statementEpisode = $db->query("SELECT file,numero,duree,resume, episode.titre as episodeTitre ,serie.titre AS serieTitre 
+                                                        from episode
+                                                        INNER JOIN serie ON serie.id = episode.serie_id
+                                                        where  episode.titre = '" . $titre . "'");
         $resEpisode = $statementEpisode->fetch();
 
         // Chemin pour trouver le fichier
@@ -103,6 +106,8 @@ class DispatcherEpisode
         for ($k = 0; $k < count($scriptNameExplode) - 1; $k++) {
             $chemin .= $scriptNameExplode[$k] . '/';
         }
+
+
         $episode = <<<END
             <h4> {$resEpisode['serieTitre']} - Episode {$resEpisode['numero']} </h4>
             <video controls width="1080">
@@ -120,14 +125,24 @@ class DispatcherEpisode
                 $db->exec("INSERT INTO episodeVisionnee(id_user,id_episode,etat) VALUE(" . $_SESSION['id'] . "," . $d5['id'] . ",0)");
             }
         }
+
         //marque l'épisode comme vu par l'utilisateur
         $db->exec("UPDATE episodeVisionnee SET etat = 1 WHERE id_user = " . $_SESSION['id'] . " AND id_episode = (SELECT id from episode where titre = '" . $titre ."')");
+
+
         //si la serie n'a pas d'état pour l'utilisateur elle est mis en cours
         $q3 = $db->query("SELECT etat from etatSerie where id_user = " . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
+
+        // Ajout de la série en cours
         if(!$d3=$q3->fetch()){
-            $db->exec("INSERT INTO etatSerie(id_user,id_serie,etat) VALUES(" . $_SESSION['id'] . ",(SELECT serie_id from episode where titre = '" . $titre . "'),'en cours')");
+            $statementSerieID = $db->query("SELECT serie_id from episode where titre = '" . $titre . "'");
+            $resSerieID = $statementSerieID->fetch();
+            $idUser = $_SESSION['id'];
+            $db->query("INSERT INTO etatSerie(id_user,id_serie,etat) VALUES({$idUser},{$resSerieID['serie_id']},'en cours')");
         }
-        //si tout les épisode ont été vu la série est marqué comme visionné
+
+
+        //si tous les épisodes ont été vus la série est marqué comme visionné
         $q4 = $db->query("SELECT * from episodeVisionnee where id_user = " . $_SESSION['id'] . " AND id_episode = ANY(SELECT id from episode where serie_id = (SELECT serie_id from episode where titre = '" . $titre . "')) AND etat != 1");
         if(!$d4=$q4->fetch()){
             $db->exec("Update etatSerie SET etat = 'visionnee' where id_user = " . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");

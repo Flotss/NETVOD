@@ -72,8 +72,6 @@ class DispatcherPageSerie
         $act = new html\Header();
         $header = $act->execute();
 
-        $act = new html\Footer();
-        $footer = $act->execute();
         echo <<<END
             <html lang="fr">
                 <head>
@@ -88,7 +86,6 @@ class DispatcherPageSerie
                         $header
                         $htmlBase
                         $html
-                        $footer
                     </div>
                 </body>
             </html>

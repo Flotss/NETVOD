@@ -47,6 +47,11 @@ class AffichageDetailleeSerieAction extends Action
                 
                 END;
 
+        $etat = $this->db->query("select * from etatserie where etat = 'en cours' AND id_serie = {$infoSerie['id']}");
+        if($f = $etat->fetch()){
+            $html .= $this->generateDiv("SELECT * from episode,episodevisionnee where episodevisionnee.id_episode = episode.id AND episodevisionnee.id_user = {$_SESSION['id']} AND episodevisionnee.etat = 0 AND episode.numero <= ALL(select episode.numero from episode,episodevisionnee where episode.id = episodevisionnee.id_episode AND id_user = {$_SESSION['id']} AND episode.serie_id = {$infoSerie['id']} AND etat = 0) AND episode.serie_id = {$infoSerie['id']}",
+                'Prochain Episode');
+        }
 
         $html .= $this->generateDiv("SELECT * from episode where serie_id = {$infoSerie['id']}",
              'Episodes de la série');

@@ -47,16 +47,16 @@ class AffichageSerieAction extends Action
 $stm=$this->db->prepare("SELECT * FROM GENRE");
         $stm->execute();
         while($data=$stm->fetch()){
-            $checkGenre.="<label>".$data['libele']."</label><input type=checkbox name='FiltreGenre[]' value=$data[libele]>";
+            $checkGenre.="<label>".$data['libele'].":<input type=checkbox name='FiltreGenre[]' value=$data[libele]></label>&nbsp&nbsp";
         }
         $stm=$this->db->prepare("SELECT * FROM Public");
         $stm->execute();
         while($data=$stm->fetch()){
-            $checkPublic.="<input type=checkbox name='FiltrePublic[]' value=$data[libele]>".$data['libele'];
+            $checkPublic.="<label>".$data['libele'].":<input type=checkbox name='FiltrePublic[]' value=$data[libele]></label>&nbsp&nbsp";
         }
         // Option pour trier les séries
         $html .= "
-                <form action='?action=AccueilUtilisateurAction.php' method='get'>
+                <form action='?action=AccueilUtilisateurAction.php' method='get' id='accueil'>
                     <legend >trier par : ".$this->tri."</legend>
                     <select name=Trier >
                         <option value='' ></option>
@@ -67,10 +67,10 @@ $stm=$this->db->prepare("SELECT * FROM GENRE");
                     </select>
                     <button type='submit'>Trier</button>
                 </form>
-                 <form action='?action=AccueilUtilisateurAction.php' method='post'>
+                 <form action='?action=AccueilUtilisateurAction.php' method='post' id='accueil'>
                  <legend>Filtrer par :</legend>
-                 <span>Genre :</span>".$checkGenre."<span>Public visé :</span>".$checkPublic."
-                 <button type='submit'>Filtrer</button></form>";
+                 <span>Genre :&nbsp&nbsp</span>".$checkGenre."<span><br>Public visé :&nbsp&nbsp</span>".$checkPublic."
+                 <br><button type='submit'>Filtrer</button></form>";
 
 
 
@@ -80,8 +80,12 @@ $stm=$this->db->prepare("SELECT * FROM GENRE");
             from serie s inner join episode ep 
             on ep.serie_id=s.id';
 
-
-        $html = $this->generateDiv($this->Filtre($rq),
+$requete='';
+$requete=$this->Filtre($rq,);
+if(isset($_GET['Trier'])){
+        $requete=$this->Trie($rq);
+    }
+        $html = $this->generateDiv($requete,
                                     $html, 'Catalogue', 1);
 
         //On gere l'ensemble des series en cours de l'utilisateur
@@ -104,12 +108,6 @@ $stm=$this->db->prepare("SELECT * FROM GENRE");
      */
     private function generateDiv(string $requete, string $html, string $operation, int $numero): string
     {
-        // Si l'on tri alors les series sont triées
-        //////////////////////////////////////
-        if(isset($_GET['Trier'])){
-            $requete=$this->Trie($requete);
-        }
-        ///////////////////////////////////////
 
         // Récupération des séries en foncion de la requête
         $statement = $this->db->prepare($requete);
@@ -246,19 +244,34 @@ SELECT ROUND(AVG(note),1) as moyenne FROM serieComNote  GROUP BY id_serie)';
  */
     private function Filtre(string $re):string{
         $requete=$re;
-        if(isset($_POST['FiltreGenre'])){
-            //On verifie que la requete ne contienne pas de where deja
-            if(str_contains($re,'where')){
-                foreach ($_POST['FiltreGenre'] as $k){
-                    $requete=$re." and genreSerie like '%".$k."%'";
+        $n =true;
+        // $i="{$_POST['FiltreGenre']}";
+        if(isset($_POST['FiltreGenre'])) {
+
+            foreach($_POST['FiltreGenre'] as $k){
+                if($n){
+                    $requete.=" where genreSerie like '%".$k."%'";
+                    $n =false;
+                }else{
+                    $requete.=" and genreSerie like '%".$k."%'";
                 }
-            }
-            else{
-                foreach ($_POST['FiltreGenre'] as $k){
-                    $requete=$re." where genreSerie like '%".$k."%'";
-                }
+
             }
         }
+        if(isset($_POST['FiltrePublic'])) {
+
+            foreach($_POST['FiltrePublic'] as $k){
+                $k = str_replace("'","\'", $k);
+                if($n){
+                    $requete.=" where publicSerie like '%".$k."%'";
+                    $n =false;
+                }else{
+                    $requete.=" and publicSerie like '%".$k."%'";
+                }
+
+            }
+        }
+
         return $requete;
     }
 }

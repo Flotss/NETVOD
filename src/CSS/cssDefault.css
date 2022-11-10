@@ -18,6 +18,13 @@ form{
     border: solid;
 }
 
+form#accueil{
+    display: block;
+    text-align: center;
+    padding: 1px;
+    grid-row-gap: 2px;
+}
+
 .enteteAccueil{
     display: grid;
     justify-content: center;

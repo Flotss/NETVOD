@@ -33,8 +33,9 @@ class AffichageSerieAction extends Action
 
         // Saluer l'utilisateur
         $html .= '<h2>Bonjour ' . $_SESSION['user'] . '</h2>';
-
-$this->tri=str_replace("_"," ",$_GET["Trier"]);
+        if(isset($_GET["Trier"])) {
+            $this->tri = str_replace("_", " ", $_GET["Trier"]);
+        }
 
         // Option pour trier les séries
         $html .= "

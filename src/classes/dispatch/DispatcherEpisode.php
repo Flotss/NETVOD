@@ -105,7 +105,7 @@ class DispatcherEpisode
             <p> Résumé : {$resEpisode['resume']} </p>
         END;
 
-        //verifie si l'utilisateur est dans la table des episode visionnée avec cette serie si non il est ajoutée
+        //vérifie si l'utilisateur est dans la table des épisode visionnée avec cette série si non il est ajoutée
         $q2 = $db->query("SELECT * from episodeVisionnee where id_user = " . $_SESSION['id'] . " AND id_episode = ANY(SELECT id from episode where serie_id = (SELECT serie_id from episode where titre = '" . $titre . "'))");
         if(!$d2=$q2->fetch()){
             $q5 = $db->query("SELECT id FROM episode where serie_id = (SELECT serie_id from episode where titre = '" . $titre . "')");
@@ -113,14 +113,14 @@ class DispatcherEpisode
                 $db->exec("INSERT INTO episodeVisionnee(id_user,id_episode,etat) VALUE(" . $_SESSION['id'] . "," . $d5['id'] . ",0)");
             }
         }
-        //marque l'episode comme vu par l'utilisateur
+        //marque l'épisode comme vu par l'utilisateur
         $db->exec("UPDATE episodeVisionnee SET etat = 1 WHERE id_user = " . $_SESSION['id'] . " AND id_episode = (SELECT id from episode where titre = '" . $titre ."')");
-        //si la serie na pas d'etat pour l'utilisateur elle est mis en cours
+        //si la serie n'a pas d'état pour l'utilisateur elle est mis en cours
         $q3 = $db->query("SELECT etat from etatSerie where id_user = " . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");
         if(!$d3=$q3->fetch()){
             $db->exec("INSERT INTO etatSerie(id_user,id_serie,etat) VALUES(" . $_SESSION['id'] . ",(SELECT serie_id from episode where titre = '" . $titre . "'),'en cours')");
         }
-        //si tout les episode ont ete vu la serie est marqué comme visionné
+        //si tout les épisode ont été vu la série est marqué comme visionné
         $q4 = $db->query("SELECT * from episodeVisionnee where id_user = " . $_SESSION['id'] . " AND id_episode = ANY(SELECT id from episode where serie_id = (SELECT serie_id from episode where titre = '" . $titre . "')) AND etat != 1");
         if(!$d4=$q4->fetch()){
             $db->exec("Update etatSerie SET etat = 'visionnee' where id_user = " . $_SESSION['id'] . " AND id_serie = (SELECT serie_id from episode where titre = '" . $titre . "')");

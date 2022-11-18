@@ -95,24 +95,9 @@ you can put a rate between 0 and 5 or can write a comment
 depending on the link you clicked.
 
 
-
-
-
-
-
-
-(plan: a supprimer a la fin:
-0) Introduction --
-1) Inscription sur la plateforme
-2) Identification/Authentification
-3) Description affichage
-a) catalogue de séries
-b) serie prefere + comment les ajouté / supprimer
-c) serie en cours + comment les ajouté + clique dessus (renvoie sur l'épisode à voir)
-d) Serie finis
-4) Recherche dans catalogue + Tri + Filtre
-5) Affichage detaillé serie
-a) detail serie (+ moyenne serie + bouton pour voir commentaire)
-b) liste episode
-6) Affichage/ visionnage episode
-7) Ajout note / commentaire
+## How to update your profile
+Press the "Gestion du compte" on the menu bar.
+You can put a new name, firstName or email and enter your password.
+To update your genre or your audience types you just have to select a 
+genre or a audience in the choice-box and press "Ajouter/supprimer"
+to add or delete it.

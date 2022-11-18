@@ -43,12 +43,15 @@ You can see:
 
 ## How to sort the series
 To sort the series, you can select a sorter in 
-the choice-box and click on the "Trier" button.
+the choice-box and click on the "Trier" button .
+We can sort by date ,title,number of episodes or rates
+<img src="TrieImgur.png">
 
 ## How to filter the series
 To filter the series, you can select 
 one or more filter and click on the "Filtrer" button.
-
+We can filter by genre and by public 
+<img src="filtre.png">
 ## How to search some series
 You can search some serie with some keyword. 
 You had to click on the button "Recherche",

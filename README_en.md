@@ -44,12 +44,12 @@ You can see:
 ## How to sort the series
 To sort the series, you can select a sorter in 
 the choice-box and click on the "Trier" button .
-We can sort by date ,title,number of episodes or rates
+You can sort by date ,title,number of episodes or rates
 <img src="TrieImgur.png">
 
 ## How to filter the series
 Underneath we can see the filter box.
-We can filter by genre by checking the water,by nature etc. 
+You can filter by genre by checking the water,by nature etc. 
 and by target audience:animal lovers,landscape lovers etc.
 To filter the series, you select 
 one or more filter and click on the "Filtrer" button.

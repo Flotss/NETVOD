@@ -1,4 +1,5 @@
 # S3.1-SAE-DEV-WEB NETVOD
+[Readme in french](https://github.com/Flotss/S3.1-SAE-DEV-WEB/blob/main/README_fr.md)
 ## Project collaborators
 [AKOO OBONO Didier](https://github.com/DIDIer5454) 
 
